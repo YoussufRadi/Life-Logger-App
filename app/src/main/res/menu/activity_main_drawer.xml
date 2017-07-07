@@ -5,17 +5,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_calender"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@android:drawable/ic_menu_week"
             android:checked="true"
-            android:title="Calender" />
+            android:title="Calender Review" />
         <item
-            android:id="@+id/nav_music"
+        android:id="@+id/nav_log"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:checked="true"
+        android:title="Life Logs" />
+        <item
+            android:id="@+id/nav_photo"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Photos" />
+        <item
+            android:id="@+id/nav_voice"
             android:icon="@android:drawable/stat_sys_headset"
-            android:title="Music" />
-        <item
-            android:id="@+id/nav_monitor"
-            android:icon="@android:drawable/stat_notify_chat"
-            android:title="Home Monitor" />
+            android:title="Voice Notes" />
     </group>
 
     <item android:title="Settings">
@@ -27,9 +32,9 @@
                 android:title="User Info" />
             <item
                 android:checkable="true"
-                android:id="@+id/nav_setup"
-                android:icon="@android:drawable/stat_sys_data_bluetooth"
-                android:title="Pair with Home" />
+                android:id="@+id/nav_review"
+                android:icon="@android:drawable/ic_menu_slideshow"
+                android:title="Photos Review" />
         </menu>
     </item>
 

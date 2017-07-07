@@ -15,17 +15,6 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String address = null;
-
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Used Later to add voice recognition", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Used Later to quickly record voice notes", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -83,7 +72,9 @@ public class MainActivity extends AppCompatActivity
 //
 //        //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
-//            startActivity(new Intent(MainActivity.this, Setting.class));
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.window_main, new SettingFragment())
+//            .commit();
 //        }
 //
 //        return super.onOptionsItemSelected(item);
@@ -99,21 +90,25 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new CalenderFragment())
                     .commit();
-        } else if (id == R.id.nav_monitor) {
+        } else if (id == R.id.nav_log) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new MonitorFragment())
+                    .replace(R.id.window_main, new LogFragment())
                     .commit();
-        } else if (id == R.id.nav_music) {
+        } else if (id == R.id.nav_photo) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new MusicFragment())
+                    .replace(R.id.window_main, new PhotoFragment())
+                    .commit();
+        } else if (id == R.id.nav_voice) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.window_main, new VoiceFragment())
                     .commit();
         } else if (id == R.id.nav_info) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new SettingFragment())
                     .commit();
-        } else if (id == R.id.nav_setup) {
+        } else if (id == R.id.nav_review) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new PairFragment())
+                    .replace(R.id.window_main, new ReviewFragment())
                     .commit();
         }
 
