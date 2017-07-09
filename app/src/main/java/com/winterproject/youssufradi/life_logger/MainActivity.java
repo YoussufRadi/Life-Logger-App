@@ -128,9 +128,6 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted and now can proceed
-                    Log.e("main ","hamada");
-                    Toast.makeText(this, "arza3", Toast.LENGTH_SHORT).show();
-
                     GalleryFragment.getAllShownImagesPath(this);
 
                 } else {

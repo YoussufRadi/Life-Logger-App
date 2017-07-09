@@ -42,10 +42,7 @@ public class SlideshowDialogFragment extends DialogFragment {
 
         images = (ArrayList<String>) getArguments().getSerializable("images");
         selectedPosition = getArguments().getInt("position");
-
-        Log.e(TAG, "position: " + selectedPosition);
-        Log.e(TAG, "images size: " + images.size());
-
+        
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
