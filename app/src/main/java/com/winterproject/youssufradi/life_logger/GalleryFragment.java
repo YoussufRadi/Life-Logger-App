@@ -3,7 +3,6 @@ package com.winterproject.youssufradi.life_logger;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,18 +14,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class GalleryFragment extends Fragment {
 
-    private String TAG = GalleryFragment.class.getSimpleName();
     private static ArrayList<String> photos;
     private ProgressDialog pDialog;
     private static GalleryAdapter mAdapter;
@@ -106,6 +102,7 @@ public class GalleryFragment extends Fragment {
         //column_index_folder_name =
         cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
         while (cursor.moveToNext()) {
+            absolutePathOfImage = cursor.getString(column_index_data);
             photos.add(absolutePathOfImage);
         }
         mAdapter.notifyDataSetChanged();

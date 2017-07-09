@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_photo) {
             getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.window_main, new PhotoFragment())
+                    .commit();
+        } else if (id == R.id.nav_gallery) {
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new GalleryFragment())
                     .commit();
         } else if (id == R.id.nav_voice) {
