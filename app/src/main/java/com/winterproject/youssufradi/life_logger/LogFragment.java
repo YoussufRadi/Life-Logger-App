@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.jarvis_smartui;
+package com.winterproject.youssufradi.life_logger;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

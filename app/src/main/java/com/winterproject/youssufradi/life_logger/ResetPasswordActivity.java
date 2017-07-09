@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.jarvis_smartui;
+package com.winterproject.youssufradi.life_logger;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

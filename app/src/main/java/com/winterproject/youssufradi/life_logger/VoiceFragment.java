@@ -1,7 +1,5 @@
-package com.winterproject.youssufradi.jarvis_smartui;
+package com.winterproject.youssufradi.life_logger;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.winterproject.youssufradi.jarvis_smartui.SettingFragment">
+    tools:context="com.winterproject.youssufradi.life_logger.SettingFragment">
 
 <EditText
             android:id="@+id/old_email"
