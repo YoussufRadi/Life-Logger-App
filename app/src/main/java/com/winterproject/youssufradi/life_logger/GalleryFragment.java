@@ -50,7 +50,7 @@ public class GalleryFragment extends Fragment {
         photos = new ArrayList<>();
         mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 4);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
