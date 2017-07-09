@@ -6,11 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 public class PhotoFragment extends Fragment {
+
+    View rootView;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photo, container, false);
+        rootView = inflater.inflate(R.layout.fragment_photo, container, false);
+        return rootView;
     }
 }

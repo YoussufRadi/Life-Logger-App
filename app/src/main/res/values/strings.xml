@@ -35,6 +35,16 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
 
+    <string name="translation_label">Translation:</string>
+    <string name="translate">translate</string>
+    <string name="input_hint">enter text</string>
+    <string name="target_language">Target Language</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="italian">Italian</string>
+    <string name="microphone">Microphone</string>
+    <string name="play">Play</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
