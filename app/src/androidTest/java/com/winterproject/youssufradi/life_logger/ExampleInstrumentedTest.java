@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.winterproject.youssufradi.jarvis_smartui", appContext.getPackageName());
+        assertEquals("com.winterproject.youssufradi.life_logger", appContext.getPackageName());
     }
 }

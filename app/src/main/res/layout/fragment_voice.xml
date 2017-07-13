@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
@@ -12,6 +13,7 @@ android:orientation="vertical"
 tools:context="com.winterproject.youssufradi.life_logger.VoiceFragment">
 
 <LinearLayout
+    android:id="@+id/voice_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -22,13 +24,15 @@ tools:context="com.winterproject.youssufradi.life_logger.VoiceFragment">
         android:layout_weight="1"
         android:hint="@string/input_hint" />
 
-    <ImageButton
+
+</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/mic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_mic"
-        android:contentDescription="@string/microphone" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
-</LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

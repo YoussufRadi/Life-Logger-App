@@ -1,12 +1,13 @@
 package com.winterproject.youssufradi.life_logger;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ibm.watson.developer_cloud.android.library.audio.MicrophoneInputStream;
@@ -19,7 +20,7 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallb
 
 public class VoiceFragment extends Fragment {
 
-    private ImageButton mic;
+    private FloatingActionButton mic;
     private SpeechToText speechService;
     private EditText input;
     private MicrophoneInputStream capture;
@@ -36,33 +37,38 @@ public class VoiceFragment extends Fragment {
 
         speechService = initSpeechToTextService();
         input = (EditText) rootView.findViewById(R.id.input);
-        mic = (ImageButton) rootView.findViewById(R.id.mic);
+
+
+        mic = (FloatingActionButton) rootView.findViewById(R.id.mic);
 
         mic.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 //mic.setEnabled(false);
-
-                if(listening != true) {
-                    capture = new MicrophoneInputStream(true);
-                    new Thread(new Runnable() {
-                        @Override public void run() {
-                            try {
-                                speechService.recognizeUsingWebSocket(capture, getRecognizeOptions(), new MicrophoneRecognizeDelegate());
-                            } catch (Exception e) {
-                                showError(e);
-                            }
-                        }
-                    }).start();
-                    listening = true;
-                } else {
-                    try {
-                        capture.close();
-                        listening = false;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
+//                if(getString(R.string.speech_text_username)  == "")
+                    Snackbar.make(v, "Used Later to quickly record voice notes", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+//                else if(listening != true) {
+//                    capture = new MicrophoneInputStream(true);
+//                    new Thread(new Runnable() {
+//                        @Override public void run() {
+//                            try {
+//                                speechService.recognizeUsingWebSocket(capture, getRecognizeOptions(), new MicrophoneRecognizeDelegate());
+//                            } catch (Exception e) {
+//                                showError(e);
+//                            }
+//                        }
+//                    }).start();
+//                    listening = true;
+//                } else {
+//                    try {
+//                        capture.close();
+//                        listening = false;
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
             }
         });
 
