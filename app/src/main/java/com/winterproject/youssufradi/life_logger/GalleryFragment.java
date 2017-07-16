@@ -28,6 +28,7 @@ public class GalleryFragment extends DialogFragment {
     private static ArrayList<String> photos;
     public static Boolean checkBox = false;
     public static Boolean phArray = false;
+    public static int imagesPerRow = 4;
     private ProgressDialog pDialog;
     private static GalleryAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -57,7 +58,7 @@ public class GalleryFragment extends DialogFragment {
         photos = new ArrayList<>();
         mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos, checkBox);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), imagesPerRow);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);

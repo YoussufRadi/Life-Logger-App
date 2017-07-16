@@ -59,6 +59,7 @@ public class NewLogFragment extends DialogFragment {
             galleryFragment = new GalleryFragment();
             GalleryFragment.checkBox = false;
             GalleryFragment.phArray = true;
+            GalleryFragment.imagesPerRow = 2;
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
             ft.commit();
@@ -72,6 +73,7 @@ public class NewLogFragment extends DialogFragment {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 GalleryFragment newFragment = GalleryFragment.newInstance();
                 GalleryFragment.checkBox = true;
+                GalleryFragment.imagesPerRow = 2;
                 GalleryFragment.phArray = false;
                 newFragment.show(ft, "gallery Selector");
             }
