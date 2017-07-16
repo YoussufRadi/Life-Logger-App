@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,8 @@ public class GalleryFragment extends DialogFragment {
             selectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_LONG).show();
+                    Log.e("hEnasdsada", "batdaaasaass");
                 }
             });
 

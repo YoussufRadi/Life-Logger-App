@@ -40,12 +40,9 @@ public class NewLogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (rootView != null) {
-            ViewGroup parent = (ViewGroup) rootView.getParent();
-            if (parent != null)
-                parent.removeView(rootView);
-        }
         rootView = inflater.inflate(R.layout.fragment_new_log, container, false);
+        super.onViewCreated(rootView, savedInstanceState);
+
         editText = (Button) rootView.findViewById(R.id.date_picker);
         imageSelect = (Button) rootView.findViewById(R.id.image_select_fragment_opener);
         day = (EditText) rootView.findViewById(R.id.day_picked);
@@ -55,6 +52,18 @@ public class NewLogFragment extends DialogFragment {
         day.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
         month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
         year.setText(Integer.toString(c.get(Calendar.YEAR)));
+
+
+        FragmentManager fm = getChildFragmentManager();
+        GalleryFragment galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
+        if (galleryFragment == null) {
+            galleryFragment = new GalleryFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+            ft.commit();
+            fm.executePendingTransactions();
+        }
+
 
         imageSelect.setOnClickListener(new View.OnClickListener() {
             @Override
