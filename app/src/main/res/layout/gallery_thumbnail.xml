@@ -11,4 +11,9 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
+    <CheckBox android:id="@+id/image_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
 </com.winterproject.youssufradi.life_logger.SquareLayout>

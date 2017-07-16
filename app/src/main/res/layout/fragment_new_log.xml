@@ -12,6 +12,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.winterproject.youssufradi.life_logger.NewLogFragment"
     android:weightSum="1">
+
+    <!--Date Selection-->
     <TextView
         android:paddingLeft="20dp"
         android:layout_marginBottom="10dp"
@@ -113,5 +115,39 @@
             android:background="@drawable/ic_date_picker"
             />
     </LinearLayout>
+
+    <!--Images Selection-->
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <TextView
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Choose images to add"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+        <Button
+            android:id="@+id/image_select"
+            android:layout_marginLeft="125dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="41dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_menu_gallery" />
+
+    </LinearLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.winterproject.youssufradi.life_logger.GalleryFragment"
+        android:id="@+id/fragment"
+        android:layout_weight="1"
+        tools:layout="@layout/fragment_gallery" />
+
 
 </LinearLayout>

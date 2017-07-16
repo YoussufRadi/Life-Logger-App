@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_gallery) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new GalleryFragment())
+                    .replace(R.id.window_main, new GalleryFragment(false))
                     .commit();
         } else if (id == R.id.nav_voice) {
             getSupportFragmentManager().beginTransaction()

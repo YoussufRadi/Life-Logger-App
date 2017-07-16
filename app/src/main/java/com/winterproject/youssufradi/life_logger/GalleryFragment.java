@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,15 +21,31 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends DialogFragment {
 
     private static ArrayList<String> photos;
+    public static Boolean checkBox = false;
+    public static Boolean phArray = false;
     private ProgressDialog pDialog;
     private static GalleryAdapter mAdapter;
     private RecyclerView recyclerView;
 
     View rootView;
 
+    public GalleryFragment(){
+        this.phArray = true;
+
+    }
+
+    public GalleryFragment(Boolean checkBox){
+        this.checkBox = checkBox;
+    }
+
+    static GalleryFragment newInstance() {
+        GalleryFragment f = new GalleryFragment();
+        f.checkBox = true;
+        return f;
+    }
 
 
     @Override
@@ -44,7 +60,7 @@ public class GalleryFragment extends Fragment {
 
         pDialog = new ProgressDialog(getActivity());
         photos = new ArrayList<>();
-        mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos);
+        mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos, checkBox);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 4);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -57,12 +73,6 @@ public class GalleryFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("images", photos);
                 bundle.putInt("position", position);
-
-//                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
-//                newFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.gallery, newFragment)
-//                        .commit();
 
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
@@ -86,26 +96,28 @@ public class GalleryFragment extends Fragment {
 
 
     public static void getAllShownImagesPath(Activity activity) {
-        Uri uri;
-        Cursor cursor;
-        int column_index_data;//, column_index_folder_name;
-        String absolutePathOfImage = null;
-        uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        if(!phArray){
+            Uri uri;
+            Cursor cursor;
+            int column_index_data;//, column_index_folder_name;
+            String absolutePathOfImage = null;
+            uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String[] projection = { MediaColumns.DATA,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+            String[] projection = { MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
 
-        cursor = activity.getContentResolver().query(uri, projection, null,
-                null, null);
+            cursor = activity.getContentResolver().query(uri, projection, null,
+                    null, null);
 
-        column_index_data = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
-        //column_index_folder_name =
-        cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-        while (cursor.moveToNext()) {
-            absolutePathOfImage = cursor.getString(column_index_data);
-            photos.add(absolutePathOfImage);
+            column_index_data = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
+            //column_index_folder_name =
+            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+            while (cursor.moveToNext()) {
+                absolutePathOfImage = cursor.getString(column_index_data);
+                photos.add(absolutePathOfImage);
+            }
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.notifyDataSetChanged();
     }
 
 }

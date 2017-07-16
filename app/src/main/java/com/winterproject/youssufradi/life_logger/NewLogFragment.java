@@ -7,12 +7,15 @@ import android.app.Dialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
+
 
 
 public class NewLogFragment extends DialogFragment {
@@ -22,6 +25,7 @@ public class NewLogFragment extends DialogFragment {
     private EditText day;
     private EditText month;
     private EditText year;
+    private Button imageSelect;
 
 
     static NewLogFragment newInstance() {
@@ -36,9 +40,26 @@ public class NewLogFragment extends DialogFragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_new_log, container, false);
         editText = (Button) rootView.findViewById(R.id.date_picker);
+        imageSelect = (Button) rootView.findViewById(R.id.image_select);
         day = (EditText) rootView.findViewById(R.id.day_picked);
         month = (EditText) rootView.findViewById(R.id.month_picked);
         year = (EditText) rootView.findViewById(R.id.year_picked);
+        Calendar c = Calendar.getInstance();
+        day.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
+        month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
+        year.setText(Integer.toString(c.get(Calendar.YEAR)));
+
+        imageSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"Clickable",Toast.LENGTH_LONG).show();
+
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                GalleryFragment newFragment = GalleryFragment.newInstance();
+                newFragment.show(ft, "gallery Selector");
+            }
+        });
+
         return rootView;
     }
 

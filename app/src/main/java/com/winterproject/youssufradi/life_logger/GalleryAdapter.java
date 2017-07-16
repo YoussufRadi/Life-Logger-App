@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
 
+    private final boolean checkBoxVisible;
     private ArrayList<String> photos;
     private Context mContext;
 
@@ -33,16 +34,18 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
 
-    public GalleryAdapter(Context context, ArrayList<String> photos) {
+    public GalleryAdapter(Context context, ArrayList<String> photos, boolean checkBoxVisible) {
         mContext = context;
         this.photos = photos;
+        this.checkBoxVisible = checkBoxVisible;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gallery_thumbnail, parent, false);
-
+        if(!checkBoxVisible)
+            itemView.findViewById(R.id.image_checkbox).setVisibility(View.INVISIBLE);
         return new MyViewHolder(itemView);
     }
 
@@ -102,6 +105,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
         @Override
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
         }
 
         @Override
