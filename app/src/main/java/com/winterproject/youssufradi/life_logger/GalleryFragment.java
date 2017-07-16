@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,19 +35,9 @@ public class GalleryFragment extends DialogFragment {
 
     View rootView;
 
-    public GalleryFragment(){
-        this.phArray = true;
-        this.checkBox = false;
-
-    }
-
-    public GalleryFragment(Boolean checkBox){
-        this.checkBox = checkBox;
-    }
 
     static GalleryFragment newInstance() {
         GalleryFragment f = new GalleryFragment();
-        f.checkBox = true;
         return f;
     }
 
@@ -78,8 +67,7 @@ public class GalleryFragment extends DialogFragment {
             selectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_LONG).show();
-                    Log.e("hEnasdsada", "batdaaasaass");
+                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -110,7 +98,13 @@ public class GalleryFragment extends DialogFragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+//        Toast.makeText(getActivity(),getParentFragment().getClass().toString(),Toast.LENGTH_SHORT);
+//        checkBox = false;
+//        phArray = false;
+    }
 
     public static void getAllShownImagesPath(Activity activity) {
         if(!phArray){

@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.window_main, new PhotoFragment())
                     .commit();
         } else if (id == R.id.nav_gallery) {
+            GalleryFragment.checkBox = false;
+            GalleryFragment.phArray = false;
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new GalleryFragment(false))
+                    .replace(R.id.window_main, new GalleryFragment())
                     .commit();
         } else if (id == R.id.nav_voice) {
             getSupportFragmentManager().beginTransaction()

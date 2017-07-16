@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 
@@ -58,6 +57,8 @@ public class NewLogFragment extends DialogFragment {
         GalleryFragment galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
         if (galleryFragment == null) {
             galleryFragment = new GalleryFragment();
+            GalleryFragment.checkBox = false;
+            GalleryFragment.phArray = true;
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
             ft.commit();
@@ -68,10 +69,10 @@ public class NewLogFragment extends DialogFragment {
         imageSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"Clickable",Toast.LENGTH_LONG).show();
-
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 GalleryFragment newFragment = GalleryFragment.newInstance();
+                GalleryFragment.checkBox = true;
+                GalleryFragment.phArray = false;
                 newFragment.show(ft, "gallery Selector");
             }
         });
@@ -80,7 +81,13 @@ public class NewLogFragment extends DialogFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onDestroyView() {
+        super.onDestroyView();
         Fragment parentFragment = getParentFragment();
         FragmentManager manager;
         if (parentFragment != null) {
