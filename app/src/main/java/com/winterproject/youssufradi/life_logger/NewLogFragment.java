@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,9 +40,14 @@ public class NewLogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (rootView != null) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null)
+                parent.removeView(rootView);
+        }
         rootView = inflater.inflate(R.layout.fragment_new_log, container, false);
         editText = (Button) rootView.findViewById(R.id.date_picker);
-        imageSelect = (Button) rootView.findViewById(R.id.image_select);
+        imageSelect = (Button) rootView.findViewById(R.id.image_select_fragment_opener);
         day = (EditText) rootView.findViewById(R.id.day_picked);
         month = (EditText) rootView.findViewById(R.id.month_picked);
         year = (EditText) rootView.findViewById(R.id.year_picked);
@@ -61,6 +68,21 @@ public class NewLogFragment extends DialogFragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        Fragment parentFragment = getParentFragment();
+        FragmentManager manager;
+        if (parentFragment != null) {
+            // If parent is another fragment, then this fragment is nested
+            manager = parentFragment.getChildFragmentManager();
+        } else {
+            // This fragment is placed into activity
+            manager = getActivity().getSupportFragmentManager();
+        }
+        manager.beginTransaction().remove(this).commitAllowingStateLoss();
+        super.onDestroyView();
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {

@@ -17,6 +17,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,11 +31,13 @@ public class GalleryFragment extends DialogFragment {
     private ProgressDialog pDialog;
     private static GalleryAdapter mAdapter;
     private RecyclerView recyclerView;
+    private Button selectButton;
 
     View rootView;
 
     public GalleryFragment(){
         this.phArray = true;
+        this.checkBox = false;
 
     }
 
@@ -57,6 +61,7 @@ public class GalleryFragment extends DialogFragment {
         rootView = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        selectButton = (Button) rootView.findViewById(R.id.image_select_button);
 
         pDialog = new ProgressDialog(getActivity());
         photos = new ArrayList<>();
@@ -67,6 +72,16 @@ public class GalleryFragment extends DialogFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+        if(checkBox) {
+            selectButton.setVisibility(View.VISIBLE);
+            selectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_LONG);
+                }
+            });
+
+        }
         recyclerView.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getActivity().getApplicationContext(), recyclerView, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
