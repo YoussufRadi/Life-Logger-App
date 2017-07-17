@@ -13,8 +13,55 @@
     tools:context="com.winterproject.youssufradi.life_logger.NewLogFragment"
     android:weightSum="1">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/input_register_hint"
+        android:text="Add your newest Highlights"
+        android:textSize="14dp"
+        android:textAlignment="center"
+        android:padding="14dp"
+        android:textColor="@color/btn_login_bg"/>
+
+    <!--Highlight Insertion-->
+    <TextView
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+        android:text="Enter Your Day Highlights"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Highlight Details :D"
+        android:inputType="textMultiLine" />
+
+    <!--Location Selection-->
+    <TextView
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+        android:text="Where did this happen ?"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter City" />
+
     <!--Date Selection-->
     <TextView
+        android:paddingTop="20dp"
         android:paddingLeft="20dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
@@ -22,7 +69,7 @@
         android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
         android:text="Please Choose a Day"
         android:textStyle="bold"
-        android:textSize="16dp"/>
+        android:textSize="18dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,45 +164,41 @@
     </LinearLayout>
 
     <!--Images Selection-->
-    <LinearLayout
-        android:paddingTop="20dp"
+    <RelativeLayout
+        android:paddingTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:weightSum="1">
         <TextView
             android:paddingLeft="20dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
             android:text="Choose images to add"
             android:textStyle="bold"
-            android:textSize="16dp"/>
+            android:textSize="18dp"/>
         <Button
             android:id="@+id/image_select_fragment_opener"
-            android:layout_marginLeft="125dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="41dp"
-            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/ic_menu_gallery" />
 
-    </LinearLayout>
-
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:name="com.winterproject.youssufradi.life_logger.GalleryFragment"-->
-        <!--android:id="@+id/fragment"-->
-        <!--android:layout_weight="1"-->
-        <!--tools:layout="@layout/fragment_gallery" />-->
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    </RelativeLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gallery_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/add_new_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_main"
+        android:text="Add"
+        android:textColor="@color/btn_login_bg"/>
 </LinearLayout>
