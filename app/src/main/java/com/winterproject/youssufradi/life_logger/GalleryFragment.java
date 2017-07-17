@@ -14,27 +14,30 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
 
 public class GalleryFragment extends DialogFragment {
 
-    private static ArrayList<String> photos;
+    public static ArrayList<String> photos = new ArrayList<>();
+    public static ArrayList<String> selectedPhotos = new ArrayList<>();
     public static Boolean checkBox = false;
     public static Boolean phArray = false;
     public static int imagesPerRow = 4;
     private ProgressDialog pDialog;
-    private static GalleryAdapter mAdapter;
-    private RecyclerView recyclerView;
+    public static GalleryAdapter mAdapter;
+    public RecyclerView recyclerView;
     private Button selectButton;
 
     View rootView;
+    private CheckBox imageCheckBox;
 
 
     static GalleryFragment newInstance() {
@@ -55,7 +58,6 @@ public class GalleryFragment extends DialogFragment {
         selectButton = (Button) rootView.findViewById(R.id.image_select_button);
 
         pDialog = new ProgressDialog(getActivity());
-        photos = new ArrayList<>();
         mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos, checkBox);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), imagesPerRow);
@@ -68,7 +70,21 @@ public class GalleryFragment extends DialogFragment {
             selectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getActivity(),"Visisblasdsdasd", Toast.LENGTH_SHORT).show();
+                    photos.clear();
+                    for(int i = 0; i < selectedPhotos.size(); i++)
+                        photos.add(selectedPhotos.get(i)+"");
+
+                    for(int i = 0; i < selectedPhotos.size(); i++)
+                        Log.e("Selected Photos: ", photos.get(i));
+
+                    GalleryFragment fragment = (GalleryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("gallerySelector");
+                    if (fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    NewLogFragment galleryFragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newLog");
+                    galleryFragment.reset();
+
                 }
             });
 
@@ -76,14 +92,28 @@ public class GalleryFragment extends DialogFragment {
         recyclerView.addOnItemTouchListener(new GalleryAdapter.RecyclerTouchListener(getActivity().getApplicationContext(), recyclerView, new GalleryAdapter.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("images", photos);
-                bundle.putInt("position", position);
+                if(checkBox){
+                    imageCheckBox = (CheckBox) view.findViewById(R.id.image_checkbox);
 
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
-                newFragment.setArguments(bundle);
-                newFragment.show(ft, "slideshow");
+                    if(imageCheckBox.isChecked()) {
+                        imageCheckBox.setChecked(false);
+                        selectedPhotos.remove(photos.get(position));
+                    }
+                    else {
+                        imageCheckBox.setChecked(true);
+                        selectedPhotos.add(photos.get(position));
+                    }
+                }
+                else{
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("images", photos);
+                    bundle.putInt("position", position);
+
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+                    newFragment.setArguments(bundle);
+                    newFragment.show(ft, "slideshow");
+                }
             }
 
             @Override
@@ -99,16 +129,9 @@ public class GalleryFragment extends DialogFragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        Toast.makeText(getActivity(),getParentFragment().getClass().toString(),Toast.LENGTH_SHORT);
-//        checkBox = false;
-//        phArray = false;
-    }
-
     public static void getAllShownImagesPath(Activity activity) {
         if(!phArray){
+            photos.clear();
             Uri uri;
             Cursor cursor;
             int column_index_data;//, column_index_folder_name;
@@ -128,8 +151,8 @@ public class GalleryFragment extends DialogFragment {
                 absolutePathOfImage = cursor.getString(column_index_data);
                 photos.add(absolutePathOfImage);
             }
-            mAdapter.notifyDataSetChanged();
         }
+        mAdapter.notifyDataSetChanged();
     }
 
 }

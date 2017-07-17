@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 
-
 public class NewLogFragment extends DialogFragment {
 
     View rootView;
@@ -27,7 +25,7 @@ public class NewLogFragment extends DialogFragment {
     private EditText month;
     private EditText year;
     private Button imageSelect;
-
+    public GalleryFragment galleryFragment;
 
     static NewLogFragment newInstance() {
         NewLogFragment f = new NewLogFragment();
@@ -54,17 +52,18 @@ public class NewLogFragment extends DialogFragment {
 
 
         FragmentManager fm = getChildFragmentManager();
-        GalleryFragment galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
+        galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
         if (galleryFragment == null) {
             galleryFragment = new GalleryFragment();
-            GalleryFragment.checkBox = false;
-            GalleryFragment.phArray = true;
-            GalleryFragment.imagesPerRow = 2;
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
             ft.commit();
             fm.executePendingTransactions();
         }
+        GalleryFragment.checkBox = false;
+        GalleryFragment.phArray = true;
+        GalleryFragment.imagesPerRow = 2;
+        GalleryFragment.photos.clear();
 
 
         imageSelect.setOnClickListener(new View.OnClickListener() {
@@ -72,36 +71,41 @@ public class NewLogFragment extends DialogFragment {
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 GalleryFragment newFragment = GalleryFragment.newInstance();
+                GalleryFragment.selectedPhotos.clear();
+                GalleryFragment.getAllShownImagesPath(getActivity());
                 GalleryFragment.checkBox = true;
                 GalleryFragment.imagesPerRow = 2;
                 GalleryFragment.phArray = false;
-                newFragment.show(ft, "gallery Selector");
+                GalleryFragment.selectedPhotos.clear();
+                GalleryFragment.photos.clear();
+                newFragment.show(ft, "gallerySelector");
             }
         });
 
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void reset() {
+
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.remove(galleryFragment);
+        galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
+        galleryFragment.checkBox = false;
+        galleryFragment.phArray = true;
+        galleryFragment.imagesPerRow = 2;
+        galleryFragment = new GalleryFragment();
+        ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+        ft.commit();
+        fm.executePendingTransactions();
+
+        galleryFragment.mAdapter.notifyDataSetChanged();
+        galleryFragment.recyclerView.invalidate();
+
+
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Fragment parentFragment = getParentFragment();
-        FragmentManager manager;
-        if (parentFragment != null) {
-            // If parent is another fragment, then this fragment is nested
-            manager = parentFragment.getChildFragmentManager();
-        } else {
-            // This fragment is placed into activity
-            manager = getActivity().getSupportFragmentManager();
-        }
-        manager.beginTransaction().remove(this).commitAllowingStateLoss();
-        super.onDestroyView();
-    }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

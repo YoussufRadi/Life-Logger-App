@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity
             GalleryFragment.checkBox = false;
             GalleryFragment.imagesPerRow = 4;
             GalleryFragment.phArray = false;
+            GalleryFragment.photos.clear();
+            GalleryFragment.selectedPhotos.clear();
+            if(GalleryFragment.mAdapter != null)
+                GalleryFragment.getAllShownImagesPath(this);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new GalleryFragment())
                     .commit();

@@ -32,7 +32,7 @@ public class LoggerFragment extends Fragment {
 
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 NewLogFragment newFragment = NewLogFragment.newInstance();
-                newFragment.show(ft, "new_log");
+                newFragment.show(ft, "newLog");
             }
         });
 
