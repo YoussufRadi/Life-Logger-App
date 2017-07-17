@@ -138,13 +138,12 @@ public class NewLogFragment extends DialogFragment {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                 }
 
-                LogEntryObject newEntry = new LogEntryObject(highlightText.getText().toString(),locationField.getText().toString(),
+                LogEntryObject newEntry = new LogEntryObject(0,highlightText.getText().toString(),locationField.getText().toString(),
                         Integer.parseInt(day.getText().toString()), Integer.parseInt(month.getText().toString())
                        ,Integer.parseInt(year.getText().toString()), GalleryFragment.photos);
-
-                LogEntryObject.printLog(newEntry);
+                newEntry.setId(insertInDB(newEntry));
                 LoggerFragment.logEntries.add(newEntry);
-                insertInDB(newEntry);
+                LoggerFragment.logAdapter.notifyDataSetChanged();
 
             }
         });
@@ -173,7 +172,7 @@ public class NewLogFragment extends DialogFragment {
 
     }
 
-    public void insertInDB(LogEntryObject newEntry){
+    public long insertInDB(LogEntryObject newEntry){
         SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
         ContentValues movie = createMovieValues(newEntry.getHighlights(), newEntry.getLocation(),
                 newEntry.getDay(), newEntry.getMonth(), newEntry.getYear(), newEntry.getPhotos());
@@ -183,6 +182,7 @@ public class NewLogFragment extends DialogFragment {
         else
             Toast.makeText(getActivity(),"Error adding Log", Toast.LENGTH_SHORT).show();
         db.close();
+        return movieID;
     }
 
     static ContentValues createMovieValues(String highlights, String location, int day,
@@ -191,10 +191,6 @@ public class NewLogFragment extends DialogFragment {
 
         Gson gson = new Gson();
         String inputString= gson.toJson(photos);
-
-//        Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-//        ArrayList<String>  finalOutputString = gson.fromJson(inputString,  listType);
-
         ContentValues logValues = new ContentValues();
         logValues.put(LoggerContract.LogEntry.COLUMN_HIGHLIGHT, highlights);
         logValues.put(LoggerContract.LogEntry.COLUMN_LOCATION, location);

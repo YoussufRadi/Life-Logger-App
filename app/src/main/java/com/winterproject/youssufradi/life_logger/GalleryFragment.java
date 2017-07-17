@@ -8,17 +8,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class GalleryFragment extends DialogFragment {
     private ProgressDialog pDialog;
     public static GalleryAdapter mAdapter;
     public RecyclerView recyclerView;
-    private Button selectButton;
+    private FloatingActionButton selectButton;
 
     View rootView;
     private CheckBox imageCheckBox;
@@ -55,7 +54,7 @@ public class GalleryFragment extends DialogFragment {
         rootView = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        selectButton = (Button) rootView.findViewById(R.id.image_select_button);
+        selectButton = (FloatingActionButton) rootView.findViewById(R.id.image_select_button);
 
         pDialog = new ProgressDialog(getActivity());
         mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos, checkBox);

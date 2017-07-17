@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:id="@+id/gallery"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/gallery"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.winterproject.youssufradi.life_logger.GalleryFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.winterproject.youssufradi.life_logger.GalleryFragment">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"/>
 
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/image_select_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_main"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/recycler_view"
+        app:srcCompat="@android:drawable/ic_menu_agenda"
         android:text="Select"
         android:textColor="@color/btn_login_bg"
-        android:visibility="invisible"/>
-
-</LinearLayout>
+        android:visibility="gone"/>
+</RelativeLayout>
