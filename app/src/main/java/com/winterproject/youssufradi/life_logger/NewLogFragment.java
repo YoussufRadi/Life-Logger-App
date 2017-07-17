@@ -4,13 +4,14 @@ package com.winterproject.youssufradi.life_logger;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.gson.Gson;
+import com.winterproject.youssufradi.life_logger.data.LoggerContract;
+import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+
+import java.util.ArrayList;
 
 
 public class NewLogFragment extends DialogFragment {
@@ -132,20 +138,14 @@ public class NewLogFragment extends DialogFragment {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                 }
 
-                Log.e("highlights : ", highlightText.getText().toString());
-                Log.e("day : ", day.getText().toString());
-                Log.e("month : ", month.getText().toString());
-                Log.e("year : ", year.getText().toString());
-                Log.e("location : ", locationField.getText().toString());
-                String k = "";
-                for(int i = 0; i < GalleryFragment.photos.size(); i++) {
-                    Log.e("Selected Photos: ", GalleryFragment.photos.get(i));
-                    k = k + "   " + GalleryFragment.photos.get(i);
-                }
+                LogEntryObject newEntry = new LogEntryObject(highlightText.getText().toString(),locationField.getText().toString(),
+                        Integer.parseInt(day.getText().toString()), Integer.parseInt(month.getText().toString())
+                       ,Integer.parseInt(year.getText().toString()), GalleryFragment.photos);
 
+                LogEntryObject.printLog(newEntry);
+                LoggerFragment.logEntries.add(newEntry);
+                insertInDB(newEntry);
 
-                LoggerFragment.getData(highlightText.getText().toString() + "    " + day.getText().toString() + month.getText().toString()
-                        + "    "  + year.getText().toString() + "    "  + locationField.getText().toString() + "    "  + k);
             }
         });
 
@@ -171,6 +171,40 @@ public class NewLogFragment extends DialogFragment {
         galleryFragment.recyclerView.invalidate();
 
 
+    }
+
+    public void insertInDB(LogEntryObject newEntry){
+        SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
+        ContentValues movie = createMovieValues(newEntry.getHighlights(), newEntry.getLocation(),
+                newEntry.getDay(), newEntry.getMonth(), newEntry.getYear(), newEntry.getPhotos());
+        long movieID = db.insert(LoggerContract.LogEntry.TABLE_NAME, null, movie);
+        if(movieID != -1)
+            Toast.makeText(getActivity(),"Congrats on your new Log!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getActivity(),"Error adding Log", Toast.LENGTH_SHORT).show();
+        db.close();
+    }
+
+    static ContentValues createMovieValues(String highlights, String location, int day,
+    int month, int year, ArrayList<String> photos) {
+
+
+        Gson gson = new Gson();
+        String inputString= gson.toJson(photos);
+
+//        Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+//        ArrayList<String>  finalOutputString = gson.fromJson(inputString,  listType);
+
+        ContentValues logValues = new ContentValues();
+        logValues.put(LoggerContract.LogEntry.COLUMN_HIGHLIGHT, highlights);
+        logValues.put(LoggerContract.LogEntry.COLUMN_LOCATION, location);
+        logValues.put(LoggerContract.LogEntry.COLUMN_DAY, day);
+        logValues.put(LoggerContract.LogEntry.COLUMN_MONTH, month);
+        logValues.put(LoggerContract.LogEntry.COLUMN_YEAR, year);
+        logValues.put(LoggerContract.LogEntry.COLUMN_PHOTOS, inputString);
+
+
+        return logValues;
     }
 
 
