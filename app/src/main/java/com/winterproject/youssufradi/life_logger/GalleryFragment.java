@@ -74,8 +74,7 @@ public class GalleryFragment extends DialogFragment {
                     for(int i = 0; i < selectedPhotos.size(); i++)
                         photos.add(selectedPhotos.get(i)+"");
 
-                    for(int i = 0; i < selectedPhotos.size(); i++)
-                        Log.e("Selected Photos: ", photos.get(i));
+
 
                     GalleryFragment fragment = (GalleryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("gallerySelector");
                     if (fragment != null) {

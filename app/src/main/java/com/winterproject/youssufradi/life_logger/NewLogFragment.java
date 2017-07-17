@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class NewLogFragment extends DialogFragment {
     private EditText highlightText;
     private Button locationPickerButton;
     public static EditText locationField;
+    private Button submit;
 
     static NewLogFragment newInstance() {
         NewLogFragment f = new NewLogFragment();
@@ -59,6 +61,7 @@ public class NewLogFragment extends DialogFragment {
         highlightText = (EditText) rootView.findViewById(R.id.highlight_details);
         locationPickerButton = (Button) rootView.findViewById(R.id.location_select_intent_opener);
         locationField = (EditText) rootView.findViewById(R.id.location_auto_complete_field);
+        submit = (Button) rootView.findViewById(R.id.add_new_log);
 
 
         Calendar c = Calendar.getInstance();
@@ -117,6 +120,19 @@ public class NewLogFragment extends DialogFragment {
                     Toast.makeText(getActivity(),"Following Error in launching intent Not Available: "+ e.getMessage().toString(),Toast.LENGTH_SHORT).show();
 
                 }
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("highlights : ", highlightText.getText().toString());
+                Log.e("day : ", day.getText().toString());
+                Log.e("month : ", month.getText().toString());
+                Log.e("year : ", year.getText().toString());
+                Log.e("location : ", locationField.getText().toString());
+                for(int i = 0; i < GalleryFragment.photos.size(); i++)
+                    Log.e("Selected Photos: ", GalleryFragment.photos.get(i));
             }
         });
 
