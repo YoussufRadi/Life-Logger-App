@@ -8,12 +8,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class LoggerFragment extends Fragment {
 
 
     View rootView;
     private FloatingActionButton add;
+    private static TextView textField;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -21,6 +23,8 @@ public class LoggerFragment extends Fragment {
         // Inflate the layout for this fragment
 
         rootView = inflater.inflate(R.layout.fragment_logger, container, false);
+
+        textField = (TextView) rootView.findViewById(R.id.log_text_view);
 
         add = (FloatingActionButton) rootView.findViewById(R.id.add_new);
 
@@ -38,5 +42,11 @@ public class LoggerFragment extends Fragment {
 
         return rootView;
     }
+
+    public static void getData(String x){
+        textField.setText(x);
+    }
+
+
 
 }

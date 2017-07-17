@@ -126,13 +126,26 @@ public class NewLogFragment extends DialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                NewLogFragment fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newLog");
+                if (fragment != null) {
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                }
+
                 Log.e("highlights : ", highlightText.getText().toString());
                 Log.e("day : ", day.getText().toString());
                 Log.e("month : ", month.getText().toString());
                 Log.e("year : ", year.getText().toString());
                 Log.e("location : ", locationField.getText().toString());
-                for(int i = 0; i < GalleryFragment.photos.size(); i++)
+                String k = "";
+                for(int i = 0; i < GalleryFragment.photos.size(); i++) {
                     Log.e("Selected Photos: ", GalleryFragment.photos.get(i));
+                    k = k + "   " + GalleryFragment.photos.get(i);
+                }
+
+
+                LoggerFragment.getData(highlightText.getText().toString() + "    " + day.getText().toString() + month.getText().toString()
+                        + "    "  + year.getText().toString() + "    "  + locationField.getText().toString() + "    "  + k);
             }
         });
 
