@@ -4,6 +4,7 @@ package com.winterproject.youssufradi.life_logger;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,17 +16,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 
 public class NewLogFragment extends DialogFragment {
 
     View rootView;
-    private Button editText;
+    private Button datePickerButton;
     private EditText day;
     private EditText month;
     private EditText year;
-    private Button imageSelect;
+    private Button imageSelectButton;
     public GalleryFragment galleryFragment;
+    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 26123;
+    private EditText highlightText;
+    private Button locationPickerButton;
+    public static EditText locationField;
 
     static NewLogFragment newInstance() {
         NewLogFragment f = new NewLogFragment();
@@ -40,17 +50,25 @@ public class NewLogFragment extends DialogFragment {
         rootView = inflater.inflate(R.layout.fragment_new_log, container, false);
         super.onViewCreated(rootView, savedInstanceState);
 
-        editText = (Button) rootView.findViewById(R.id.date_picker);
-        imageSelect = (Button) rootView.findViewById(R.id.image_select_fragment_opener);
+        datePickerButton = (Button) rootView.findViewById(R.id.date_picker);
+        imageSelectButton = (Button) rootView.findViewById(R.id.image_select_fragment_opener);
         day = (EditText) rootView.findViewById(R.id.day_picked);
         month = (EditText) rootView.findViewById(R.id.month_picked);
         year = (EditText) rootView.findViewById(R.id.year_picked);
+
+        highlightText = (EditText) rootView.findViewById(R.id.highlight_details);
+        locationPickerButton = (Button) rootView.findViewById(R.id.location_select_intent_opener);
+        locationField = (EditText) rootView.findViewById(R.id.location_auto_complete_field);
+
+
         Calendar c = Calendar.getInstance();
         day.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
         month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
         year.setText(Integer.toString(c.get(Calendar.YEAR)));
 
 
+
+        //Loading Gallarey Fragment for selected Images
         FragmentManager fm = getChildFragmentManager();
         galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
         if (galleryFragment == null) {
@@ -66,7 +84,7 @@ public class NewLogFragment extends DialogFragment {
         GalleryFragment.photos.clear();
 
 
-        imageSelect.setOnClickListener(new View.OnClickListener() {
+        imageSelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -79,6 +97,26 @@ public class NewLogFragment extends DialogFragment {
                 GalleryFragment.selectedPhotos.clear();
                 GalleryFragment.photos.clear();
                 newFragment.show(ft, "gallerySelector");
+            }
+        });
+
+        locationPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                                    .build(getActivity());
+                    getActivity().startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                    Toast.makeText(getActivity(),"Following Error in launching intent Repairable: "+ e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                    Toast.makeText(getActivity(),"Following Error in launching intent Not Available: "+ e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -109,7 +147,7 @@ public class NewLogFragment extends DialogFragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        editText.setOnClickListener(new View.OnClickListener() {
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub

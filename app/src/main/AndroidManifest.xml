@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,6 +31,12 @@
         </activity>
         <activity android:name="com.winterproject.youssufradi.life_logger.SignupActivity" />
         <activity android:name="com.winterproject.youssufradi.life_logger.ResetPasswordActivity" />
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBvpGAJMcloQtTZdk1QhP3upFhs2Ln7MrA"/>
+
     </application>
 
 </manifest>

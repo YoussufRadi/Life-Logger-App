@@ -10,8 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.winterproject.youssufradi.life_logger.NewLogFragment"
-    android:weightSum="1">
+    tools:context="com.winterproject.youssufradi.life_logger.NewLogFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -35,7 +34,7 @@
         android:textStyle="bold"
         android:textSize="18dp"/>
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/highlight_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -43,132 +42,146 @@
         android:inputType="textMultiLine" />
 
     <!--Location Selection-->
-    <TextView
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp"
-        android:layout_marginBottom="10dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Please Specify Location"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <Button
+            android:id="@+id/location_select_intent_opener"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:shadowColor="@color/btn_login"
+            android:background="@drawable/common_google_signin_btn_icon_dark_pressed" />
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/location_auto_complete_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-        android:text="Where did this happen ?"
-        android:textStyle="bold"
-        android:textSize="18dp"/>
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter City" />
+        android:focusable="false"
+        android:visibility="gone" />
 
     <!--Date Selection-->
-    <TextView
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp"
-        android:layout_marginBottom="10dp"
+   <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-        android:text="Please Choose a Day"
-        android:textStyle="bold"
-        android:textSize="18dp"/>
+        android:layout_height="wrap_content">
+
+       <TextView
+           android:id="@+id/place_autocomplete_fragment"
+           android:paddingTop="20dp"
+           android:paddingLeft="20dp"
+           android:layout_marginBottom="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+           android:text="Please Choose a Day"
+           android:textStyle="bold"
+           android:textSize="18dp"/>
+
+       <Button
+           android:layout_alignParentRight="true"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:id="@+id/date_picker"
+           android:background="@drawable/ic_date_picker"/>
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/date_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="7">
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:text="DD"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:textAlignment="center"
+                android:text="MM"
+                android:layout_weight="1"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="textEnd"
-                    android:text="DD"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="MM"
-                    android:layout_weight="1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="YY"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:paddingStart="50dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAlignment="textEnd"
-                    android:id="@+id/day_picked"
-                    android:text="DD"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:focusable="false"
-                    />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:id="@+id/month_picked"
-                    android:text="MM"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:focusable="false"
-                    />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/year_picked"
-                    android:text="YY"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:focusable="false"
-                    />
-            </LinearLayout>
+                android:text="YY"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
-        <Button
-            android:layout_width="49dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date_picker"
-            android:background="@drawable/ic_date_picker"
-            />
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:paddingStart="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="textEnd"
+                android:id="@+id/day_picked"
+                android:text="DD"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:focusable="false"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/month_picked"
+                android:text="MM"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:focusable="false"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/year_picked"
+                android:text="YY"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:focusable="false"
+                />
+        </LinearLayout>
     </LinearLayout>
+
 
     <!--Images Selection-->
     <RelativeLayout
         android:paddingTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:layout_height="wrap_content">
         <TextView
             android:paddingLeft="20dp"
             android:paddingTop="15dp"
@@ -195,6 +208,7 @@
     </LinearLayout>
 
     <Button
+        android:layout_marginTop="10dp"
         android:id="@+id/add_new_log"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

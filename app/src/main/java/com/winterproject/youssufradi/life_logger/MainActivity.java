@@ -1,5 +1,6 @@
 package com.winterproject.youssufradi.life_logger;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,7 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -142,6 +148,25 @@ public class MainActivity extends AppCompatActivity
             }
             // add other cases for more permissions
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == NewLogFragment.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                NewLogFragment.locationField.setText(place.getName());
+                NewLogFragment.locationField.setVisibility(View.VISIBLE);
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                // TODO: Handle the error.
+                Toast.makeText(this,"Following Error: "+ status.getStatusMessage(),Toast.LENGTH_SHORT).show();
+
+
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this,"You Cancelled Location Selection",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
 }

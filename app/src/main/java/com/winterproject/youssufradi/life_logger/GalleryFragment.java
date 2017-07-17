@@ -151,8 +151,8 @@ public class GalleryFragment extends DialogFragment {
                 absolutePathOfImage = cursor.getString(column_index_data);
                 photos.add(absolutePathOfImage);
             }
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.notifyDataSetChanged();
     }
 
 }
