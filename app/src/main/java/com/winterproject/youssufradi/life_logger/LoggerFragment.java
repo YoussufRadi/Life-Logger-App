@@ -3,6 +3,7 @@ package com.winterproject.youssufradi.life_logger;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +23,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LoggerFragment extends Fragment {
 
@@ -29,8 +32,8 @@ public class LoggerFragment extends Fragment {
     public static ArrayList<LogEntryObject> logEntries = new ArrayList<>();
     private FloatingActionButton add;
     public static EntryAdapter logAdapter;
+    public static LogEntryObject logDisplay;
     private ListView listView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +45,9 @@ public class LoggerFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.log_list_view);
 
         getDataFromDB();
+
+        Collections.sort(logEntries);
+
         logAdapter = new EntryAdapter(getActivity(), logEntries);
         listView.setAdapter(logAdapter);
 
@@ -63,7 +69,12 @@ public class LoggerFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                logDisplay = logEntries.get(position);
+                GalleryFragment.selectedPhotos = logDisplay.getPhotos();
+                Toast.makeText(getActivity(),"Item Clicked", Toast.LENGTH_SHORT).show();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                LogDetails newFragment = LogDetails.newInstance();
+                newFragment.show(ft, "logDetails");
             }
         });
 
@@ -110,11 +121,13 @@ public class LoggerFragment extends Fragment {
         }
         logCursor.close();
         db.close();
+
+
     }
 
 }
 
-class LogEntryObject {
+class LogEntryObject implements Comparable<LogEntryObject>{
     private long id;
     private String highlights;
     private String location;
@@ -177,6 +190,25 @@ class LogEntryObject {
 
     public ArrayList<String> getPhotos() {
         return photos;
+    }
+
+    @Override
+    public int compareTo(@NonNull LogEntryObject a2) {
+        this.printLog();
+        a2.printLog();
+        if (this.getYear() < a2.getYear())
+            return -1;
+        else if (this.getYear() > a2.getYear())
+            return 1;
+        else if (this.getMonth() < a2.getMonth())
+            return -1;
+        else if (this.getMonth() > a2.getMonth())
+            return 1;
+        else if (this.getDay() < a2.getDay())
+            return -1;
+        else if (this.getDay() > a2.getDay())
+            return 1;
+        else return 0;
     }
 }
 

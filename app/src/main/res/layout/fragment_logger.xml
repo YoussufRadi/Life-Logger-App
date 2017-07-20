@@ -10,24 +10,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.winterproject.youssufradi.life_logger.LoggerFragment">
 
-    <ScrollView
+    <ListView
+        android:id="@+id/log_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/log_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@color/bg_main"
-                android:dividerHeight="2px"/>
-
-        </LinearLayout>
-    </ScrollView>
+        android:divider="@color/bg_main"
+        android:dividerHeight="2px"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_new"

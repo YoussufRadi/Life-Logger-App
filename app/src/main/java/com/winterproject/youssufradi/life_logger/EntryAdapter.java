@@ -57,6 +57,8 @@ public class EntryAdapter extends BaseAdapter {
         View rootView = inflater.inflate(R.layout.log_entry, viewGroup, false);
 
         final LogEntryObject log = logs.get(i);
+
+
         ImageView thumbnailView = (ImageView) rootView.findViewById(R.id.log_image_view);
         TextView date = (TextView) rootView.findViewById(R.id.log_date_text_view);
         TextView location = (TextView) rootView.findViewById(R.id.log_location_text_view);
