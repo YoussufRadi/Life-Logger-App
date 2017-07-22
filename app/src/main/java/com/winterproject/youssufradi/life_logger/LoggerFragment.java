@@ -1,11 +1,11 @@
 package com.winterproject.youssufradi.life_logger;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -44,9 +44,7 @@ public class LoggerFragment extends Fragment {
 
         listView = (ListView) rootView.findViewById(R.id.log_list_view);
 
-        getDataFromDB();
 
-        Collections.sort(logEntries);
 
         logAdapter = new EntryAdapter(getActivity(), logEntries);
         listView.setAdapter(logAdapter);
@@ -57,14 +55,15 @@ public class LoggerFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Used Later to quickly add logs", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(v, "Used Later to quickly add logs", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
 
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 NewLogFragment newFragment = NewLogFragment.newInstance();
                 newFragment.show(ft, "newLog");
             }
         });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,8 +80,8 @@ public class LoggerFragment extends Fragment {
         return rootView;
     }
 
-    public void getDataFromDB(){
-        SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
+    public static void getDataFromDB(Activity activity){
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
         Cursor logCursor = db.query(
                 LoggerContract.LogEntry.TABLE_NAME,  // Table to Query
                 null, // leaving "columns" null just returns all the columns.
@@ -121,10 +120,20 @@ public class LoggerFragment extends Fragment {
         }
         logCursor.close();
         db.close();
-
-
+        Collections.sort(logEntries);
     }
 
+
+    public static void deleteEntryFromDB(LogEntryObject log, Activity activity){
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
+
+        if(db.delete(LoggerContract.LogEntry.TABLE_NAME, LoggerContract.LogEntry._ID + "=" + log.getId(), null) > 0)
+            Toast.makeText(activity,"Log successfully removed !", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(activity,"Error removing Log", Toast.LENGTH_SHORT).show();
+        LoggerFragment.logEntries.remove(log);
+        LoggerFragment.logAdapter.notifyDataSetChanged();
+    }
 }
 
 class LogEntryObject implements Comparable<LogEntryObject>{
@@ -194,8 +203,6 @@ class LogEntryObject implements Comparable<LogEntryObject>{
 
     @Override
     public int compareTo(@NonNull LogEntryObject a2) {
-        this.printLog();
-        a2.printLog();
         if (this.getYear() < a2.getYear())
             return -1;
         else if (this.getYear() > a2.getYear())

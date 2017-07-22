@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.32"
+                android:layout_weight="0.4"
                 android:text="Date:"/>
             <TextView
                 android:id="@+id/log_date_text_view"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.32"
+                android:layout_weight="0.4"
                 android:text="Location:"/>
             <TextView
                 android:id="@+id/log_location_text_view"
@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.32"
+                android:layout_weight="0.4"
                 android:text="Description:"/>
             <TextView
                 android:id="@+id/log_description_text_view"
@@ -68,12 +68,22 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:scaleType="fitXY"/>
-
-    <Button
-        android:id="@+id/log_delete_button"
-        android:layout_gravity="center"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_weight="0.07"
-        android:background="@drawable/ic_close_light"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.07">
+        <Button
+            android:id="@+id/log_delete_button"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_close_light"/>
+        <TextView
+            android:text="Edit"
+            android:id="@+id/log_edit"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

@@ -28,6 +28,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class NewLogFragment extends DialogFragment {
@@ -44,6 +45,7 @@ public class NewLogFragment extends DialogFragment {
     private Button locationPickerButton;
     public static EditText locationField;
     private Button submit;
+    public static LogEntryObject currentLog;
 
     static NewLogFragment newInstance() {
         NewLogFragment f = new NewLogFragment();
@@ -75,9 +77,19 @@ public class NewLogFragment extends DialogFragment {
         month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
         year.setText(Integer.toString(c.get(Calendar.YEAR)));
 
+        GalleryFragment.photos.clear();
 
+        NewLogFragment fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editLog");
+        if (fragment != null) {
+            highlightText.setText(currentLog.getHighlights());
+            day.setText(Integer.toString(currentLog.getDay()));
+            month.setText(Integer.toString(currentLog.getMonth()));
+            year.setText(Integer.toString(currentLog.getYear()));
+            locationField.setText(currentLog.getLocation());
+            GalleryFragment.photos = currentLog.getPhotos();
+        }
 
-        //Loading Gallarey Fragment for selected Images
+        //Loading Gallery Fragment for selected Images
         FragmentManager fm = getChildFragmentManager();
         galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
         if (galleryFragment == null) {
@@ -90,7 +102,6 @@ public class NewLogFragment extends DialogFragment {
         GalleryFragment.checkBox = false;
         GalleryFragment.phArray = true;
         GalleryFragment.imagesPerRow = 2;
-        GalleryFragment.photos.clear();
 
 
         imageSelectButton.setOnClickListener(new View.OnClickListener() {
@@ -133,20 +144,35 @@ public class NewLogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
+
+                LogEntryObject newEntry = new LogEntryObject(0,
+                        highlightText.getText().toString().trim(),locationField.getText().toString().trim(),
+                        Integer.parseInt(day.getText().toString().trim()),
+                        Integer.parseInt(month.getText().toString().trim()),
+                        Integer.parseInt(year.getText().toString().trim()), GalleryFragment.photos);
+
                 NewLogFragment fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newLog");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                } else {
+                    fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editLog");
+                    if (fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                        LoggerFragment.deleteEntryFromDB(currentLog,getActivity());
+                        LoggerFragment.logEntries.remove(currentLog);
+                    }
                 }
 
-                LogEntryObject newEntry = new LogEntryObject(0,highlightText.getText().toString(),locationField.getText().toString(),
-                        Integer.parseInt(day.getText().toString()), Integer.parseInt(month.getText().toString())
-                       ,Integer.parseInt(year.getText().toString()), GalleryFragment.photos);
+
+
                 newEntry.setId(insertInDB(newEntry));
                 LoggerFragment.logEntries.add(newEntry);
                 LoggerFragment.logAdapter.notifyDataSetChanged();
 
             }
         });
+
+
 
         return rootView;
     }
@@ -182,13 +208,12 @@ public class NewLogFragment extends DialogFragment {
         else
             Toast.makeText(getActivity(),"Error adding Log", Toast.LENGTH_SHORT).show();
         db.close();
+        Collections.sort(LoggerFragment.logEntries);
         return movieID;
     }
 
     static ContentValues createMovieValues(String highlights, String location, int day,
     int month, int year, ArrayList<String> photos) {
-
-
         Gson gson = new Gson();
         String inputString= gson.toJson(photos);
         ContentValues logValues = new ContentValues();
@@ -198,8 +223,6 @@ public class NewLogFragment extends DialogFragment {
         logValues.put(LoggerContract.LogEntry.COLUMN_MONTH, month);
         logValues.put(LoggerContract.LogEntry.COLUMN_YEAR, year);
         logValues.put(LoggerContract.LogEntry.COLUMN_PHOTOS, inputString);
-
-
         return logValues;
     }
 

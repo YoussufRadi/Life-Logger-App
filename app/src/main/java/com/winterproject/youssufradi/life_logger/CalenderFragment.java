@@ -45,7 +45,14 @@ public class CalenderFragment extends Fragment {
             //show the selected date as a toast
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+                month++;
                 Toast.makeText(getActivity(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                for(int i = 0; i< LoggerFragment.logEntries.size(); i++){
+                    if(LoggerFragment.logEntries.get(i).getDay() == day
+                            && LoggerFragment.logEntries.get(i).getMonth() == month
+                            && LoggerFragment.logEntries.get(i).getYear() == year)
+                        LoggerFragment.logEntries.get(i).printLog();
+                }
             }
         });
 

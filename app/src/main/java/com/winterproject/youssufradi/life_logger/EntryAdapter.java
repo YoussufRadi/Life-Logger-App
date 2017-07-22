@@ -1,10 +1,10 @@
 package com.winterproject.youssufradi.life_logger;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.winterproject.youssufradi.life_logger.data.LoggerContract;
-import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 
 import java.util.ArrayList;
 
@@ -29,9 +27,10 @@ public class EntryAdapter extends BaseAdapter {
 
     private ArrayList<LogEntryObject> logs;
     private Context context;
-    private Activity activity;
+    private FragmentActivity activity;
+    private TextView edit;
 
-    public EntryAdapter(Activity activity, ArrayList<LogEntryObject> logs) {
+    public EntryAdapter(FragmentActivity activity, ArrayList<LogEntryObject> logs) {
         this.logs = logs;
         this.context = activity.getApplicationContext();
         this.activity = activity;
@@ -73,7 +72,7 @@ public class EntryAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                deleteEntryFromDB(log);
+                                LoggerFragment.deleteEntryFromDB(log, activity);
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -89,6 +88,20 @@ public class EntryAdapter extends BaseAdapter {
 
             }
         });
+
+
+        edit = (TextView) rootView.findViewById(R.id.log_edit);
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewLogFragment.currentLog = log;
+                FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                NewLogFragment newFragment = NewLogFragment.newInstance();
+                newFragment.show(ft, "editLog");
+            }
+        });
+
         if(!logs.get(i).getPhotos().isEmpty())
             Glide.with(context).load(logs.get(i).getPhotos().get(0))
                     .thumbnail(0.5f)
@@ -102,14 +115,4 @@ public class EntryAdapter extends BaseAdapter {
     }
 
 
-    public void deleteEntryFromDB(LogEntryObject log){
-        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
-
-        if(db.delete(LoggerContract.LogEntry.TABLE_NAME, LoggerContract.LogEntry._ID + "=" + log.getId(), null) > 0)
-            Toast.makeText(activity,"Log successfully removed !", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(activity,"Error removing Log", Toast.LENGTH_SHORT).show();
-        LoggerFragment.logEntries.remove(log);
-        LoggerFragment.logAdapter.notifyDataSetChanged();
-    }
 }

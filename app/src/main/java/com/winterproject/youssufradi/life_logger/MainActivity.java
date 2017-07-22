@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+
+        LoggerFragment.getDataFromDB(this);
+
     }
 
     @Override
