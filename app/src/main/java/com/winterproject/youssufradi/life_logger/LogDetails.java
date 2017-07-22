@@ -56,7 +56,6 @@ public class LogDetails extends DialogFragment {
         GalleryFragment.checkBox = false;
         GalleryFragment.phArray = true;
         GalleryFragment.imagesPerRow = 3;
-        GalleryFragment.photos.clear();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +63,7 @@ public class LogDetails extends DialogFragment {
                 LogDetails fragment = (LogDetails) getActivity().getSupportFragmentManager().findFragmentByTag("logDetails");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    GalleryFragment.photos.clear();
                 }
             }
         });

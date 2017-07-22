@@ -69,8 +69,7 @@ public class LoggerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 logDisplay = logEntries.get(position);
-                GalleryFragment.selectedPhotos = logDisplay.getPhotos();
-                Toast.makeText(getActivity(),"Item Clicked", Toast.LENGTH_SHORT).show();
+                GalleryFragment.photos = logDisplay.getPhotos();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 LogDetails newFragment = LogDetails.newInstance();
                 newFragment.show(ft, "logDetails");
@@ -123,7 +122,6 @@ public class LoggerFragment extends Fragment {
         Collections.sort(logEntries);
     }
 
-
     public static void deleteEntryFromDB(LogEntryObject log, Activity activity){
         SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
 
@@ -134,6 +132,7 @@ public class LoggerFragment extends Fragment {
         LoggerFragment.logEntries.remove(log);
         LoggerFragment.logAdapter.notifyDataSetChanged();
     }
+
 }
 
 class LogEntryObject implements Comparable<LogEntryObject>{

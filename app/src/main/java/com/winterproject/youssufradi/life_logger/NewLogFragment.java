@@ -87,6 +87,7 @@ public class NewLogFragment extends DialogFragment {
             year.setText(Integer.toString(currentLog.getYear()));
             locationField.setText(currentLog.getLocation());
             GalleryFragment.photos = currentLog.getPhotos();
+            submit.setText("Edit");
         }
 
         //Loading Gallery Fragment for selected Images
@@ -143,14 +144,11 @@ public class NewLogFragment extends DialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 LogEntryObject newEntry = new LogEntryObject(0,
                         highlightText.getText().toString().trim(),locationField.getText().toString().trim(),
                         Integer.parseInt(day.getText().toString().trim()),
                         Integer.parseInt(month.getText().toString().trim()),
                         Integer.parseInt(year.getText().toString().trim()), GalleryFragment.photos);
-
                 NewLogFragment fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newLog");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -162,13 +160,9 @@ public class NewLogFragment extends DialogFragment {
                         LoggerFragment.logEntries.remove(currentLog);
                     }
                 }
-
-
-
                 newEntry.setId(insertInDB(newEntry));
                 LoggerFragment.logEntries.add(newEntry);
                 LoggerFragment.logAdapter.notifyDataSetChanged();
-
             }
         });
 
