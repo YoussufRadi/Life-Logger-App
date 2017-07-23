@@ -69,36 +69,21 @@
         android:layout_weight="0.3"
         android:scaleType="fitXY"/>
     <LinearLayout
-        android:id="@+id/log_options"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_weight="0.09">
+        android:layout_weight="0.07">
         <Button
             android:id="@+id/log_delete_button"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:gravity="center"
             android:layout_height="25dp"
             android:background="@drawable/ic_close_light"/>
         <TextView
             android:text="Edit"
             android:id="@+id/log_edit"
             android:textStyle="bold"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/log_selected"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        android:layout_weight="0.07"
-        android:focusable="false"
-        android:clickable="false"/>
-
 </LinearLayout>

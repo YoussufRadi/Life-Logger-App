@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class GalleryFragment extends DialogFragment {
 
     public static ArrayList<String> photos = new ArrayList<>();
-    public static ArrayList<String> selectedPhotos = new ArrayList<>();
+    public ArrayList<String> selectedPhotos = new ArrayList<>();
     public static Boolean checkBox = false;
     public static Boolean phArray = false;
     public static int imagesPerRow = 4;
@@ -72,7 +72,7 @@ public class GalleryFragment extends DialogFragment {
                     photos.clear();
                     for(int i = 0; i < selectedPhotos.size(); i++)
                         photos.add(selectedPhotos.get(i)+"");
-
+                    selectedPhotos.clear();
 
 
                     GalleryFragment fragment = (GalleryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("gallerySelector");

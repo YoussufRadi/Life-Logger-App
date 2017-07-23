@@ -14,7 +14,7 @@
         android:dividerHeight="2px"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_new"
+        android:id="@+id/log_add_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +31,13 @@ public class EntryAdapter extends BaseAdapter {
     private Context context;
     private FragmentActivity activity;
     private TextView edit;
+    private boolean checkbox;
 
-    public EntryAdapter(FragmentActivity activity, ArrayList<LogEntryObject> logs) {
+    public EntryAdapter(FragmentActivity activity, ArrayList<LogEntryObject> logs, boolean checkbox) {
         this.logs = logs;
         this.context = activity.getApplicationContext();
         this.activity = activity;
+        this.checkbox = checkbox;
     }
 
     @Override
@@ -61,7 +65,15 @@ public class EntryAdapter extends BaseAdapter {
         TextView date = (TextView) rootView.findViewById(R.id.log_date_text_view);
         TextView location = (TextView) rootView.findViewById(R.id.log_location_text_view);
         TextView highlights = (TextView) rootView.findViewById(R.id.log_description_text_view);
+        LinearLayout li = (LinearLayout) rootView.findViewById(R.id.log_options);
         Button remove = (Button) rootView.findViewById(R.id.log_delete_button);
+        CheckBox selected = (CheckBox) rootView.findViewById(R.id.log_selected);
+
+        if(checkbox){
+            li.setVisibility(View.GONE);
+        }
+        else
+            selected.setVisibility(View.GONE);
 
         remove.setOnClickListener(new View.OnClickListener() {
             @Override

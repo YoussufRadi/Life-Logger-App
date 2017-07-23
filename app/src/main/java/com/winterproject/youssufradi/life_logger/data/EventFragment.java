@@ -1,62 +1,57 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.data;
+
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.winterproject.youssufradi.life_logger.data.LoggerContract;
-import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.EntryAdapter;
+import com.winterproject.youssufradi.life_logger.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.LoggerFragment;
+import com.winterproject.youssufradi.life_logger.R;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class LoggerFragment extends Fragment {
-
+public class EventFragment extends Fragment {
 
     View rootView;
-    public static ArrayList<LogEntryObject> logEntries = new ArrayList<>();
+    public static ArrayList<EventEntryObject> eventEntries = new ArrayList<>();
     private FloatingActionButton add;
-    public static EntryAdapter logAdapter;
-    public static LogEntryObject logDisplay;
+    public static EntryAdapter eventAdapter;
+    public static EventEntryObject eventDisplay;
     private ListView listView;
-    public static boolean checkbox = false;
-    public static boolean hasArray = false;
-    public static ArrayList<LogEntryObject> selectedEntries = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        rootView = inflater.inflate(R.layout.fragment_logger, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
-        listView = (ListView) rootView.findViewById(R.id.log_list_view);
+        listView = (ListView) rootView.findViewById(R.id.event_list_view);
 
-        if(hasArray)
-            logEntries = selectedEntries;
-        else
-            getDataFromDB(getActivity());
 
-        logAdapter = new EntryAdapter(getActivity(), logEntries, checkbox);
-        listView.setAdapter(logAdapter);
 
-        add = (FloatingActionButton) rootView.findViewById(R.id.log_add_new);
+//        logAdapter = new EntryAdapter(getActivity(), logEntries);
+        listView.setAdapter(eventAdapter);
+
+
+        add = (FloatingActionButton) rootView.findViewById(R.id.event_add_new);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,38 +59,21 @@ public class LoggerFragment extends Fragment {
 //                Snackbar.make(v, "Used Later to quickly add logs", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                NewLogFragment newFragment = NewLogFragment.newInstance();
-                newFragment.show(ft, "newLog");
+//                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                NewLogFragment newFragment = NewLogFragment.newInstance();
+//                newFragment.show(ft, "newLog");
             }
         });
 
 
-        if(checkbox)
-            add.setVisibility(View.GONE);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if(checkbox){
-                CheckBox logCheckBox = (CheckBox) view.findViewById(R.id.log_selected);
-
-                if(logCheckBox.isChecked()) {
-                    logCheckBox.setChecked(false);
-                    selectedEntries.remove(logEntries.get(position));
-                }
-                else {
-                    logCheckBox.setChecked(true);
-                    selectedEntries.add(logEntries.get(position));
-                }
-            }
-            else {
-                logDisplay = logEntries.get(position);
-                GalleryFragment.photos = logDisplay.getPhotos();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                LogDetails newFragment = LogDetails.newInstance();
-                newFragment.show(ft, "logDetails");
-            }
+                eventDisplay = eventEntries.get(position);
+                GalleryFragment.photos = eventDisplay.getPhotos();
+//                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                LogDetails newFragment = LogDetails.newInstance();
+//                newFragment.show(ft, "logDetails");
             }
         });
 
@@ -103,7 +81,6 @@ public class LoggerFragment extends Fragment {
     }
 
     public static void getDataFromDB(Activity activity){
-        logEntries.clear();
         SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
         Cursor logCursor = db.query(
                 LoggerContract.LogEntry.TABLE_NAME,  // Table to Query
@@ -136,17 +113,17 @@ public class LoggerFragment extends Fragment {
                 Type listType = new TypeToken<ArrayList<String>>(){}.getType();
                 ArrayList<String>  finalOutputString = gson.fromJson(COLUMN_PHOTOS,  listType);
 
-                logEntries.add(new LogEntryObject(COLUMN_ID, COLUMN_HIGHLIGHT,COLUMN_LOCATION,COLUMN_DAY,
+                eventEntries.add(new EventEntryObject(COLUMN_ID, COLUMN_HIGHLIGHT,COLUMN_LOCATION,COLUMN_DAY,
                         COLUMN_MONTH,COLUMN_YEAR,finalOutputString));
 
             } while(logCursor.moveToNext());
         }
         logCursor.close();
         db.close();
-        Collections.sort(logEntries);
+        Collections.sort(eventEntries);
     }
 
-    public static void deleteEntryFromDB(LogEntryObject log, Activity activity){
+    public static void deleteEntryFromDB(EventEntryObject log, Activity activity){
         SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
 
         if(db.delete(LoggerContract.LogEntry.TABLE_NAME, LoggerContract.LogEntry._ID + "=" + log.getId(), null) > 0)
@@ -159,7 +136,7 @@ public class LoggerFragment extends Fragment {
 
 }
 
-class LogEntryObject implements Comparable<LogEntryObject>{
+class EventEntryObject implements Comparable<EventEntryObject>{
     private long id;
     private String highlights;
     private String location;
@@ -176,7 +153,7 @@ class LogEntryObject implements Comparable<LogEntryObject>{
         this.id = id;
     }
 
-    public LogEntryObject(long id, String highlights, String location, int day,
+    public EventEntryObject(long id, String highlights, String location, int day,
                           int month, int year, ArrayList<String> photos){
         this.id = id;
         this.highlights = highlights;
@@ -225,7 +202,7 @@ class LogEntryObject implements Comparable<LogEntryObject>{
     }
 
     @Override
-    public int compareTo(@NonNull LogEntryObject a2) {
+    public int compareTo(@NonNull EventEntryObject a2) {
         if (this.getYear() < a2.getYear())
             return -1;
         else if (this.getYear() > a2.getYear())

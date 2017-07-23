@@ -110,12 +110,10 @@ public class NewLogFragment extends DialogFragment {
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 GalleryFragment newFragment = GalleryFragment.newInstance();
-                GalleryFragment.selectedPhotos.clear();
                 GalleryFragment.getAllShownImagesPath(getActivity());
                 GalleryFragment.checkBox = true;
                 GalleryFragment.imagesPerRow = 2;
                 GalleryFragment.phArray = false;
-                GalleryFragment.selectedPhotos.clear();
                 GalleryFragment.photos.clear();
                 newFragment.show(ft, "gallerySelector");
             }

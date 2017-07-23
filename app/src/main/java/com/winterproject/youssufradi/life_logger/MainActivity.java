@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity
             GalleryFragment.imagesPerRow = 4;
             GalleryFragment.phArray = false;
             GalleryFragment.photos.clear();
-            GalleryFragment.selectedPhotos.clear();
             if(GalleryFragment.mAdapter != null)
                 GalleryFragment.getAllShownImagesPath(this);
             getSupportFragmentManager().beginTransaction()
