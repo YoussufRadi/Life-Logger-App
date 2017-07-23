@@ -22,7 +22,7 @@
                 android:layout_weight="0.4"
                 android:text="Date:"/>
             <TextView
-                android:id="@+id/log_date_text_view"
+                android:id="@+id/event_date_text_view"
                 android:layout_width="0dp"
                 android:layout_weight="0.68"
                 android:layout_height="wrap_content" />
@@ -38,7 +38,7 @@
                 android:layout_weight="0.4"
                 android:text="Location:"/>
             <TextView
-                android:id="@+id/log_location_text_view"
+                android:id="@+id/event_location_text_view"
                 android:layout_width="0dp"
                 android:layout_weight="0.68"
                 android:layout_height="wrap_content" />
@@ -54,7 +54,7 @@
                 android:layout_weight="0.4"
                 android:text="Description:"/>
             <TextView
-                android:id="@+id/log_description_text_view"
+                android:id="@+id/event_description_text_view"
                 android:layout_width="0dp"
                 android:layout_weight="0.68"
                 android:layout_height="wrap_content" />
@@ -63,27 +63,42 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/log_image_view"
+        android:id="@+id/event_image_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
         android:scaleType="fitXY"/>
     <LinearLayout
+        android:id="@+id/event_options"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_weight="0.07">
+        android:layout_weight="0.09">
         <Button
-            android:id="@+id/log_delete_button"
+            android:id="@+id/event_delete_button"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
+            android:gravity="center"
             android:layout_height="25dp"
             android:background="@drawable/ic_close_light"/>
         <TextView
             android:text="Edit"
-            android:id="@+id/log_edit"
+            android:id="@+id/event_edit"
             android:textStyle="bold"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/event_selected"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:layout_weight="0.07"
+        android:focusable="false"
+        android:clickable="false"/>
+
 </LinearLayout>

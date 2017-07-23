@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_photo) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.window_main, new PhotoFragment())
+                    .replace(R.id.window_main, new EventFragment())
                     .commit();
         } else if (id == R.id.nav_gallery) {
             GalleryFragment.checkBox = false;
