@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.gallery;
 
 import android.Manifest;
 import android.app.Activity;
@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
+import com.winterproject.youssufradi.life_logger.R;
+
 import java.util.ArrayList;
 
 
@@ -39,7 +42,7 @@ public class GalleryFragment extends DialogFragment {
     private CheckBox imageCheckBox;
 
 
-    static GalleryFragment newInstance() {
+    public static GalleryFragment newInstance() {
         GalleryFragment f = new GalleryFragment();
         return f;
     }

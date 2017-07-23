@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Log;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 

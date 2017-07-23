@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Event;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.winterproject.youssufradi.life_logger.R;
 
 import java.util.ArrayList;
 
@@ -25,16 +23,16 @@ import java.util.ArrayList;
  * Created by y_sam on 11/25/2016.
  */
 
-public class EntryAdapter extends BaseAdapter {
+public class EventAdapter extends BaseAdapter {
 
-    private ArrayList<LogEntryObject> logs;
+    private ArrayList<EventEntryObject> events;
     private Context context;
     private FragmentActivity activity;
     private TextView edit;
     private boolean checkbox;
 
-    public EntryAdapter(FragmentActivity activity, ArrayList<LogEntryObject> logs, boolean checkbox) {
-        this.logs = logs;
+    public EventAdapter(FragmentActivity activity, ArrayList<EventEntryObject> events, boolean checkbox) {
+        this.events = events;
         this.context = activity.getApplicationContext();
         this.activity = activity;
         this.checkbox = checkbox;
@@ -42,12 +40,12 @@ public class EntryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return logs.size();
+        return events.size();
     }
 
     @Override
-    public LogEntryObject getItem(int i) {
-        return logs.get(i);
+    public EventEntryObject getItem(int i) {
+        return events.get(i);
     }
 
     public long getItemId(int i) {
@@ -57,17 +55,16 @@ public class EntryAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View rootView = inflater.inflate(R.layout.log_entry, viewGroup, false);
+        View rootView = inflater.inflate(R.layout.event_entry, viewGroup, false);
 
-        final LogEntryObject log = logs.get(i);
+        final EventEntryObject event = events.get(i);
 
-        ImageView thumbnailView = (ImageView) rootView.findViewById(R.id.log_image_view);
-        TextView date = (TextView) rootView.findViewById(R.id.log_date_text_view);
-        TextView location = (TextView) rootView.findViewById(R.id.log_location_text_view);
-        TextView highlights = (TextView) rootView.findViewById(R.id.log_description_text_view);
-        LinearLayout li = (LinearLayout) rootView.findViewById(R.id.log_options);
-        Button remove = (Button) rootView.findViewById(R.id.log_delete_button);
-        CheckBox selected = (CheckBox) rootView.findViewById(R.id.log_selected);
+        TextView date = (TextView) rootView.findViewById(R.id.event_date_text_view);
+        TextView location = (TextView) rootView.findViewById(R.id.event_location_text_view);
+        TextView description = (TextView) rootView.findViewById(R.id.event_description_text_view);
+        LinearLayout li = (LinearLayout) rootView.findViewById(R.id.event_options);
+        Button remove = (Button) rootView.findViewById(R.id.event_delete_button);
+        CheckBox selected = (CheckBox) rootView.findViewById(R.id.event_selected);
 
         if(checkbox){
             li.setVisibility(View.GONE);
@@ -83,7 +80,7 @@ public class EntryAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                LoggerFragment.deleteEntryFromDB(log, activity);
+                                EventFragment.deleteEntryFromDB(event, activity);
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -101,27 +98,22 @@ public class EntryAdapter extends BaseAdapter {
         });
 
 
-        edit = (TextView) rootView.findViewById(R.id.log_edit);
+        edit = (TextView) rootView.findViewById(R.id.event_edit);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewLogFragment.currentLog = log;
+                NewEventFragment.currentEvent = event;
                 FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                NewLogFragment newFragment = NewLogFragment.newInstance();
-                newFragment.show(ft, "editLog");
+                NewEventFragment newFragment = NewEventFragment.newInstance();
+                newFragment.show(ft, "editEvent");
             }
         });
 
-        if(!logs.get(i).getPhotos().isEmpty())
-            Glide.with(context).load(logs.get(i).getPhotos().get(0))
-                    .thumbnail(0.5f)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(thumbnailView);
-        date.setText(log.getDay() + " / " + log.getMonth()  + " / " + log.getYear());
-        location.setText(log.getLocation());
-        highlights.setText(log.getHighlights());
+
+        date.setText(event.getDay() + " / " + event.getMonth()  + " / " + event.getYear());
+        location.setText(event.getLocation());
+        description.setText(event.getDescription());
         return rootView;
     }
 

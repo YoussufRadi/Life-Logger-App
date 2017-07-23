@@ -1,9 +1,7 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Log;
 
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +22,9 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
+import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 
@@ -47,7 +48,7 @@ public class NewLogFragment extends DialogFragment {
     private Button submit;
     public static LogEntryObject currentLog;
 
-    static NewLogFragment newInstance() {
+    public static NewLogFragment newInstance() {
         NewLogFragment f = new NewLogFragment();
         return f;
     }

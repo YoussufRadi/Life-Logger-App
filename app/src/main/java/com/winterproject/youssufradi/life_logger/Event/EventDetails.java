@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Event;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -11,17 +11,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class LogDetails extends DialogFragment {
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.R;
+
+
+public class EventDetails extends DialogFragment {
 
     View rootView;
     public GalleryFragment galleryFragment;
     private Button close;
-    private TextView highlight;
+    private TextView description;
     private TextView location;
     private TextView date;
 
-    static LogDetails newInstance() {
-        LogDetails f = new LogDetails();
+    public static EventDetails newInstance() {
+        EventDetails f = new EventDetails();
         return f;
     }
     @Override
@@ -30,18 +34,18 @@ public class LogDetails extends DialogFragment {
         // Inflate the layout for this fragment
 
 
-        rootView = inflater.inflate(R.layout.fragment_log_details, container, false);
+        rootView = inflater.inflate(R.layout.fragment_event_details, container, false);
         super.onViewCreated(rootView, savedInstanceState);
 
-        close = (Button) rootView .findViewById(R.id.log_close);
-        highlight = (TextView) rootView.findViewById(R.id.log_highlight_details);
-        location = (TextView) rootView.findViewById(R.id.log_location);
-        date = (TextView) rootView.findViewById(R.id.log_day);
+        close = (Button) rootView .findViewById(R.id.event_close);
+        description = (TextView) rootView.findViewById(R.id.event_highlight_details);
+        location = (TextView) rootView.findViewById(R.id.event_location);
+        date = (TextView) rootView.findViewById(R.id.event_day);
 
-        highlight.setText(LoggerFragment.logDisplay.getHighlights());
-        location.setText(LoggerFragment.logDisplay.getLocation());
-        date.setText(LoggerFragment.logDisplay.getDay() + "/" + LoggerFragment.logDisplay.getMonth()
-                + "/" + LoggerFragment.logDisplay.getYear());
+        description.setText(EventFragment.eventDisplay.getDescription());
+        location.setText(EventFragment.eventDisplay.getLocation());
+        date.setText(EventFragment.eventDisplay.getDay() + "/" + EventFragment.eventDisplay.getMonth()
+                + "/" + EventFragment.eventDisplay.getYear());
 
         //Loading Gallarey Fragment for selected Images
         FragmentManager fm = getChildFragmentManager();
@@ -49,7 +53,7 @@ public class LogDetails extends DialogFragment {
         if (galleryFragment == null) {
             galleryFragment = new GalleryFragment();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.log_gallery_fragment_container, galleryFragment, "galleryFragment");
+            ft.add(R.id.event_gallery_fragment_container, galleryFragment, "galleryFragment");
             ft.commit();
             fm.executePendingTransactions();
         }
@@ -60,7 +64,7 @@ public class LogDetails extends DialogFragment {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogDetails fragment = (LogDetails) getActivity().getSupportFragmentManager().findFragmentByTag("logDetails");
+                EventDetails fragment = (EventDetails) getActivity().getSupportFragmentManager().findFragmentByTag("eventDetails");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     GalleryFragment.photos.clear();

@@ -17,6 +17,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.winterproject.youssufradi.life_logger.Event.EventFragment;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
+import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
+import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

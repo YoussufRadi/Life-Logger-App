@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -9,7 +9,7 @@ import android.support.v4.app.DialogFragment;
 /**
 * Created by GUC on 24.07.17.
 */
-class DatePickerFragment extends DialogFragment {
+public class DatePickerFragment extends DialogFragment {
    DatePickerDialog.OnDateSetListener ondateSet;
    private int year, month, day;
 

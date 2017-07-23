@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Log;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by GUC on 24.07.17.
  */
-class LogEntryObject implements Comparable<LogEntryObject>{
+public class LogEntryObject implements Comparable<LogEntryObject>{
     private long id;
     private String highlights;
     private String location;

@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.gallery;
 
 import android.annotation.TargetApi;
 import android.content.Context;

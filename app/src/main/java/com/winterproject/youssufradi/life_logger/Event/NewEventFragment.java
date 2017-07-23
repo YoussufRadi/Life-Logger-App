@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Event;
 
 
 import android.app.DatePickerDialog;
@@ -23,6 +23,9 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
+import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 
@@ -49,7 +52,7 @@ public class NewEventFragment extends DialogFragment {
     private Button submit;
     public static EventEntryObject currentEvent;
 
-    static NewEventFragment newInstance() {
+    public static NewEventFragment newInstance() {
         NewEventFragment f = new NewEventFragment();
         return f;
     }

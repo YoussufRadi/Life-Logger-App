@@ -1,4 +1,4 @@
-package com.winterproject.youssufradi.life_logger;
+package com.winterproject.youssufradi.life_logger.Event;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by GUC on 24.07.17.
  */
-class EventEntryObject implements Comparable<EventEntryObject>{
+public class EventEntryObject implements Comparable<EventEntryObject>{
     private long id;
     private String description;
     private String location;

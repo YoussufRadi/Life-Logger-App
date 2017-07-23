@@ -9,6 +9,8 @@ import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
+
 public class CalenderFragment extends Fragment {
 
     private View rootView;
