@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.winterproject.youssufradi.life_logger.Event.EventFragment;
+import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
@@ -98,14 +99,20 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new CalenderFragment())
                     .commit();
+
         } else if (id == R.id.nav_log) {
+            LoggerFragment.getDataFromDB(this);
+            LoggerFragment.checkbox = false;
+            LoggerFragment.hasArray = false;
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new LoggerFragment())
                     .commit();
+
         } else if (id == R.id.nav_photo) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new EventFragment())
                     .commit();
+
         } else if (id == R.id.nav_gallery) {
             GalleryFragment.checkBox = false;
             GalleryFragment.imagesPerRow = 4;
@@ -116,14 +123,17 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new GalleryFragment())
                     .commit();
+
         } else if (id == R.id.nav_voice) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new VoiceFragment())
                     .commit();
+
         } else if (id == R.id.nav_info) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new SettingFragment())
                     .commit();
+
         } else if (id == R.id.nav_review) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new ReviewFragment())
@@ -163,6 +173,20 @@ public class MainActivity extends AppCompatActivity
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 NewLogFragment.locationField.setText(place.getName());
                 NewLogFragment.locationField.setVisibility(View.VISIBLE);
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                // TODO: Handle the error.
+                Toast.makeText(this,"Following Error: "+ status.getStatusMessage(),Toast.LENGTH_SHORT).show();
+
+
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this,"You Cancelled Location Selection",Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == NewEventFragment.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                NewEventFragment.locationField.setText(place.getName());
+                NewEventFragment.locationField.setVisibility(View.VISIBLE);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.

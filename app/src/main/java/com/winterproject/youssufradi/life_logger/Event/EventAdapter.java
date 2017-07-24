@@ -111,7 +111,7 @@ public class EventAdapter extends BaseAdapter {
         });
 
 
-        date.setText(event.getDay() + " / " + event.getMonth()  + " / " + event.getYear());
+        date.setText(event.getStartDay() + " / " + event.getStartMonth()  + " / " + event.getStartYear());
         location.setText(event.getLocation());
         description.setText(event.getDescription());
         return rootView;

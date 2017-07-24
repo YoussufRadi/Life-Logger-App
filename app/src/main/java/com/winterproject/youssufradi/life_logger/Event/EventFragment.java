@@ -115,21 +115,37 @@ public class EventFragment extends Fragment {
         boolean cursor = eventCursor.moveToFirst();
         if(cursor){
             int eventID = eventCursor.getColumnIndex(LoggerContract.EventEntry._ID);
+            int eventTitle = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_TITLE);
             int eventDescription = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_DESCRIPTION);
             int eventLocation = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_LOCATION);
-            int eventDay = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_DAY);
-            int eventMonth = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_MONTH);
-            int eventYear = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_YEAR);
+            int eventStartDay = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_START_DAY);
+            int eventStartMonth = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_START_MONTH);
+            int eventStartYear = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_START_YEAR);
+            int eventStartHour = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_START_HOUR);
+            int eventStartMinute = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_START_MINUTE);
+            int eventEndDay = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_DAY);
+            int eventEndMonth = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_MONTH);
+            int eventEndYear = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_YEAR);
+            int eventEndHour = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_HOUR);
+            int eventEndMinute = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_MINUTE);
             int eventPeople = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_PEOPLE);
             int eventLogs = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_LOGS);
             Gson gson = new Gson();
             do {
                 long COLUMN_ID = eventCursor.getLong(eventID);
+                String COLUMN_TITLE = eventCursor.getString(eventTitle);
                 String COLUMN_DESCRIPTION = eventCursor.getString(eventDescription);
                 String COLUMN_LOCATION = eventCursor.getString(eventLocation);
-                int COLUMN_DAY = eventCursor.getInt(eventDay);
-                int COLUMN_MONTH = eventCursor.getInt(eventMonth);
-                int COLUMN_YEAR = eventCursor.getInt(eventYear);
+                int COLUMN_START_DAY = eventCursor.getInt(eventStartDay);
+                int COLUMN_START_MONTH = eventCursor.getInt(eventStartMonth);
+                int COLUMN_START_YEAR = eventCursor.getInt(eventStartYear);
+                int COLUMN_START_HOUR = eventCursor.getInt(eventStartHour);
+                int COLUMN_START_MINUTE = eventCursor.getInt(eventStartMinute);
+                int COLUMN_END_DAY = eventCursor.getInt(eventEndDay);
+                int COLUMN_END_MONTH = eventCursor.getInt(eventEndMonth);
+                int COLUMN_END_YEAR = eventCursor.getInt(eventEndYear);
+                int COLUMN_END_HOUR = eventCursor.getInt(eventEndHour);
+                int COLUMN_END_MINUTE = eventCursor.getInt(eventEndMinute);
                 String COLUMN_PEOPLE = eventCursor.getString(eventPeople);
                 String COLUMN_LOGS = eventCursor.getString(eventLogs);
 
@@ -137,8 +153,11 @@ public class EventFragment extends Fragment {
                 ArrayList<String>  finalOutputStringPeople = gson.fromJson(COLUMN_PEOPLE,  listType);
                 ArrayList<String>  finalOutputStringLogs = gson.fromJson(COLUMN_LOGS,  listType);
 
-                eventEntries.add(new EventEntryObject(COLUMN_ID, COLUMN_DESCRIPTION,COLUMN_LOCATION,COLUMN_DAY,
-                        COLUMN_MONTH,COLUMN_YEAR,finalOutputStringPeople, finalOutputStringLogs));
+                eventEntries.add(new EventEntryObject(COLUMN_ID, COLUMN_TITLE, COLUMN_DESCRIPTION,
+                        COLUMN_LOCATION,COLUMN_START_DAY, COLUMN_START_MONTH,COLUMN_START_YEAR,
+                        COLUMN_START_HOUR, COLUMN_START_MINUTE, COLUMN_END_DAY, COLUMN_END_MONTH,
+                        COLUMN_END_YEAR, COLUMN_END_HOUR, COLUMN_END_MINUTE, finalOutputStringLogs,
+                        finalOutputStringPeople));
 
             } while(eventCursor.moveToNext());
         }

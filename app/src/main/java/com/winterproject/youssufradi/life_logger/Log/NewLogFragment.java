@@ -195,14 +195,14 @@ public class NewLogFragment extends DialogFragment {
         SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
         ContentValues movie = createMovieValues(newEntry.getHighlights(), newEntry.getLocation(),
                 newEntry.getDay(), newEntry.getMonth(), newEntry.getYear(), newEntry.getPhotos());
-        long movieID = db.insert(LoggerContract.LogEntry.TABLE_NAME, null, movie);
-        if(movieID != -1)
+        long logID = db.insert(LoggerContract.LogEntry.TABLE_NAME, null, movie);
+        if(logID != -1)
             Toast.makeText(getActivity(),"Congrats on your new Log!", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(getActivity(),"Error adding Log", Toast.LENGTH_SHORT).show();
         db.close();
         Collections.sort(LoggerFragment.logEntries);
-        return movieID;
+        return logID;
     }
 
     static ContentValues createMovieValues(String highlights, String location, int day,

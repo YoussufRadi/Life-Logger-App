@@ -11,7 +11,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
 
 public class LoggerDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     static final String DATABASE_NAME = "movie.db";
 
@@ -32,11 +32,19 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " + EventEntry.TABLE_NAME + " (" +
                 EventEntry._ID + " INTEGER PRIMARY KEY," +
+                EventEntry.COLUMN_TITLE + " TEXT, " +
                 EventEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 EventEntry.COLUMN_LOCATION + " TEXT, " +
-                EventEntry.COLUMN_DAY + " INTEGER NOT NULL, " +
-                EventEntry.COLUMN_MONTH + " INTEGER NOT NULL, " +
-                EventEntry.COLUMN_YEAR + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_START_DAY + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_START_MONTH + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_START_YEAR + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_START_HOUR + " INTEGER, " +
+                EventEntry.COLUMN_START_MINUTE + " INTEGER, " +
+                EventEntry.COLUMN_END_DAY + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_END_MONTH + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_END_YEAR + " INTEGER NOT NULL, " +
+                EventEntry.COLUMN_END_HOUR + " INTEGER, " +
+                EventEntry.COLUMN_END_MINUTE + " INTEGER, " +
                 EventEntry.COLUMN_LOGS + " TEXT, " +
                 EventEntry.COLUMN_PEOPLE + " TEXT " + " );";
 

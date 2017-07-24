@@ -2,6 +2,7 @@ package com.winterproject.youssufradi.life_logger.Event;
 
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,11 +24,12 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
-import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
-import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,18 +41,28 @@ import java.util.Collections;
 public class NewEventFragment extends DialogFragment {
 
     View rootView;
-    private Button datePickerButton;
-    private EditText day;
-    private EditText month;
-    private EditText year;
-    private Button imageSelectButton;
-    public GalleryFragment galleryFragment;
-    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 26123;
+    private Button startDatePickerButton;
+    private EditText startDay;
+    private EditText startMonth;
+    private EditText startYear;
+    private Button logSelectButton;
+    public LoggerFragment logFragment;
+    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 36123;
     private EditText descriptionText;
     private Button locationPickerButton;
     public static EditText locationField;
     private Button submit;
     public static EventEntryObject currentEvent;
+    private EditText endDay;
+    private EditText endMonth;
+    private EditText endYear;
+    private Button endDatePickerButton;
+    private EditText startMinute;
+    private EditText startHour;
+    private EditText endHour;
+    private EditText endMinute;
+    private boolean end = false;
+    private EditText eventName;
 
     public static NewEventFragment newInstance() {
         NewEventFragment f = new NewEventFragment();
@@ -64,62 +76,89 @@ public class NewEventFragment extends DialogFragment {
         rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
         super.onViewCreated(rootView, savedInstanceState);
 
-        datePickerButton = (Button) rootView.findViewById(R.id.date_picker);
-        imageSelectButton = (Button) rootView.findViewById(R.id.image_select_fragment_opener);
-        day = (EditText) rootView.findViewById(R.id.day_picked);
-        month = (EditText) rootView.findViewById(R.id.month_picked);
-        year = (EditText) rootView.findViewById(R.id.year_picked);
 
-        descriptionText = (EditText) rootView.findViewById(R.id.highlight_details);
-        locationPickerButton = (Button) rootView.findViewById(R.id.location_select_intent_opener);
-        locationField = (EditText) rootView.findViewById(R.id.location_auto_complete_field);
+        logSelectButton = (Button) rootView.findViewById(R.id.event_log_select_fragment_opener);
+
+        eventName = (EditText) rootView.findViewById(R.id.event_name);
+        descriptionText = (EditText) rootView.findViewById(R.id.event_details);
+        locationPickerButton = (Button) rootView.findViewById(R.id.event_location_select_intent_opener);
+        locationField = (EditText) rootView.findViewById(R.id.event_location_auto_complete_field);
+
+        startDatePickerButton = (Button) rootView.findViewById(R.id.event_start_date_picker);
+        startDay = (EditText) rootView.findViewById(R.id.event_start_day_picked);
+        startMonth = (EditText) rootView.findViewById(R.id.event_start_month_picked);
+        startYear = (EditText) rootView.findViewById(R.id.event_start_year_picked);
+        startHour = (EditText) rootView.findViewById(R.id.event_start_hour_picked);
+        startMinute = (EditText) rootView.findViewById(R.id.event_start_minutes_picked);
+
+        endDatePickerButton = (Button) rootView.findViewById(R.id.event_end_date_picker);
+        endDay = (EditText) rootView.findViewById(R.id.event_end_day_picked);
+        endMonth = (EditText) rootView.findViewById(R.id.event_end_month_picked);
+        endYear = (EditText) rootView.findViewById(R.id.event_end_year_picked);
+        endHour = (EditText) rootView.findViewById(R.id.event_end_hour_picked);
+        endMinute = (EditText) rootView.findViewById(R.id.event_end_minutes_picked);
+
+
         submit = (Button) rootView.findViewById(R.id.add_new_event);
 
 
         Calendar c = Calendar.getInstance();
-        day.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
-        month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
-        year.setText(Integer.toString(c.get(Calendar.YEAR)));
+        startDay.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
+        startMonth.setText(Integer.toString(c.get(Calendar.MONTH)+1));
+        startYear.setText(Integer.toString(c.get(Calendar.YEAR)));
+        startHour.setText(Integer.toString(c.get(Calendar.HOUR_OF_DAY)));
+        startMinute.setText(Integer.toString(c.get(Calendar.MINUTE)));
 
-        GalleryFragment.photos.clear();
+        endDay.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
+        endMonth.setText(Integer.toString(c.get(Calendar.MONTH)+1));
+        endYear.setText(Integer.toString(c.get(Calendar.YEAR)));
+        endHour.setText(Integer.toString(c.get(Calendar.HOUR_OF_DAY)+1));
+        endMinute.setText(Integer.toString(c.get(Calendar.MINUTE)));
+
+
 
         NewEventFragment fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editEvent");
         if (fragment != null) {
+            eventName.setText(currentEvent.getDescription());
             descriptionText.setText(currentEvent.getDescription());
-            day.setText(Integer.toString(currentEvent.getDay()));
-            month.setText(Integer.toString(currentEvent.getMonth()));
-            year.setText(Integer.toString(currentEvent.getYear()));
+            startDay.setText(Integer.toString(currentEvent.getStartDay()));
+            startMonth.setText(Integer.toString(currentEvent.getStartMonth()));
+            startYear.setText(Integer.toString(currentEvent.getStartYear()));
+            startHour.setText(Integer.toString(currentEvent.getStartHour()));
+            startMinute.setText(Integer.toString(currentEvent.getStartMinute()));
+            endDay.setText(Integer.toString(currentEvent.getEndDay()));
+            endMonth.setText(Integer.toString(currentEvent.getEndMonth()));
+            endYear.setText(Integer.toString(currentEvent.getEndYear()));
+            endHour.setText(Integer.toString(currentEvent.getEndHour()));
+            endMinute.setText(Integer.toString(currentEvent.getEndMinute()));
             locationField.setText(currentEvent.getLocation());
-//            GalleryFragment.photos = currentEvent.getPhotos();
+            LoggerFragment.passedEntries = currentEvent.getLogs();
             submit.setText("Edit");
         }
 
-        //Loading Gallery Fragment for selected Images
+        //Loading Log Fragment for selected Images
         FragmentManager fm = getChildFragmentManager();
-        galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
-        if (galleryFragment == null) {
-            galleryFragment = new GalleryFragment();
+        logFragment = (LoggerFragment) fm.findFragmentByTag("logFragment");
+        if (logFragment == null) {
+            LoggerFragment.logEntries.clear();
+            LoggerFragment.checkbox = false;
+            LoggerFragment.hasArray = true;
+            logFragment = new LoggerFragment();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+            ft.add(R.id.event_log_fragment_container, logFragment, "logFragment");
             ft.commit();
             fm.executePendingTransactions();
         }
-        GalleryFragment.checkBox = false;
-        GalleryFragment.phArray = true;
-        GalleryFragment.imagesPerRow = 2;
 
 
-        imageSelectButton.setOnClickListener(new View.OnClickListener() {
+        logSelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                GalleryFragment newFragment = GalleryFragment.newInstance();
-                GalleryFragment.getAllShownImagesPath(getActivity());
-                GalleryFragment.checkBox = true;
-                GalleryFragment.imagesPerRow = 2;
-                GalleryFragment.phArray = false;
-                GalleryFragment.photos.clear();
-                newFragment.show(ft, "gallerySelector");
+                LoggerFragment newFragment = LoggerFragment.newInstance();
+                LoggerFragment.checkbox = true;
+                LoggerFragment.hasArray = false;
+                newFragment.show(ft, "logSelector");
             }
         });
 
@@ -146,11 +185,24 @@ public class NewEventFragment extends DialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventEntryObject newEntry = new EventEntryObject(0,
+
+                ArrayList<String> temp = new ArrayList<>();
+                for(int i = 0; i< LoggerFragment.logEntries.size(); i++)
+                    temp.add(Long.toString(LoggerFragment.logEntries.get(i).getId()));
+
+                EventEntryObject newEntry = new EventEntryObject(0, eventName.getText().toString().trim(),
                         descriptionText.getText().toString().trim(),locationField.getText().toString().trim(),
-                        Integer.parseInt(day.getText().toString().trim()),
-                        Integer.parseInt(month.getText().toString().trim()),
-                        Integer.parseInt(year.getText().toString().trim()), GalleryFragment.photos, GalleryFragment.photos);
+                        Integer.parseInt(startDay.getText().toString().trim()),
+                        Integer.parseInt(startMonth.getText().toString().trim()),
+                        Integer.parseInt(startYear.getText().toString().trim()),
+                        Integer.parseInt(startHour.getText().toString().trim()),
+                        Integer.parseInt(startMinute.getText().toString().trim()),
+                        Integer.parseInt(endDay.getText().toString().trim()),
+                        Integer.parseInt(endMonth.getText().toString().trim()),
+                        Integer.parseInt(endYear.getText().toString().trim()),
+                        Integer.parseInt(endHour.getText().toString().trim()),
+                        Integer.parseInt(endMinute.getText().toString().trim()),
+                        temp, GalleryFragment.photos);
 
                 NewEventFragment fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newEvent");
                 if (fragment != null) {
@@ -179,50 +231,65 @@ public class NewEventFragment extends DialogFragment {
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        ft.remove(galleryFragment);
-        galleryFragment = (GalleryFragment) fm.findFragmentByTag("galleryFragment");
-        galleryFragment.checkBox = false;
-        galleryFragment.phArray = true;
-        galleryFragment.imagesPerRow = 2;
-        galleryFragment = new GalleryFragment();
-        ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+        ft.remove(logFragment);
+        logFragment = (LoggerFragment) fm.findFragmentByTag("logFragment");
+        logFragment.checkbox = false;
+        logFragment.hasArray = true;
+        logFragment.passedEntries = new ArrayList<>();
+        logFragment = new LoggerFragment();
+        ft.add(R.id.event_log_fragment_container, logFragment, "logFragment");
         ft.commit();
         fm.executePendingTransactions();
 
-        galleryFragment.mAdapter.notifyDataSetChanged();
-        galleryFragment.recyclerView.invalidate();
+        logFragment.logAdapter.notifyDataSetChanged();
+//        ((LinearLayout)rootView.findViewById(R.id.event_log_fragment_container));
 
 
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     public long insertInDB(EventEntryObject newEntry){
         SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
-        ContentValues movie = createMovieValues(newEntry.getDescription(), newEntry.getLocation(),
-                newEntry.getDay(), newEntry.getMonth(), newEntry.getYear(),
+        ContentValues movie = createMovieValues(newEntry.getTitle(),newEntry.getDescription(), newEntry.getLocation(),
+                newEntry.getStartDay(), newEntry.getStartMonth(), newEntry.getStartYear(), newEntry.getStartHour(),
+                newEntry.getStartMinute(), newEntry.getEndDay(), newEntry.getEndMonth(),
+                newEntry.getEndYear(), newEntry.getEndHour(), newEntry.getEndMinute(),
                 newEntry.getPeople(), newEntry.getLogs());
 
-        long movieID = db.insert(LoggerContract.EventEntry.TABLE_NAME, null, movie);
-        if(movieID != -1)
+        long eventID = db.insert(LoggerContract.EventEntry.TABLE_NAME, null, movie);
+        if(eventID != -1)
             Toast.makeText(getActivity(),"Congrats on your new Event!", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(getActivity(),"Error adding Event", Toast.LENGTH_SHORT).show();
         db.close();
         Collections.sort(EventFragment.eventEntries);
-        return movieID;
+        return eventID;
     }
 
-    static ContentValues createMovieValues(String description, String location, int day,
-                                           int month, int year, ArrayList<String> people,
-                                           ArrayList<String> logs) {
+    static ContentValues createMovieValues(String title, String description, String location, int startDay,
+                                           int startMonth, int startYear, int startHour, int startMinute,
+                                           int endDay, int endMonth, int endYear, int endHour,
+                                           int endMinute, ArrayList<String> people, ArrayList<String> logs) {
         Gson gson = new Gson();
         String inputStringPeople= gson.toJson(people);
         String inputStringLogs= gson.toJson(logs);
         ContentValues eventValues = new ContentValues();
+        eventValues.put(LoggerContract.EventEntry.COLUMN_TITLE, title);
         eventValues.put(LoggerContract.EventEntry.COLUMN_DESCRIPTION, description);
         eventValues.put(LoggerContract.EventEntry.COLUMN_LOCATION, location);
-        eventValues.put(LoggerContract.EventEntry.COLUMN_DAY, day);
-        eventValues.put(LoggerContract.EventEntry.COLUMN_MONTH, month);
-        eventValues.put(LoggerContract.EventEntry.COLUMN_YEAR, year);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_START_DAY, startDay);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_START_MONTH, startMonth);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_START_YEAR, startYear);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_START_HOUR, startHour);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_START_MINUTE, startMinute);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_END_DAY, endDay);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_END_MONTH, endMonth);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_END_YEAR, endYear);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_END_HOUR, endHour);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_END_MINUTE, endMinute);
         eventValues.put(LoggerContract.EventEntry.COLUMN_PEOPLE, inputStringPeople);
         eventValues.put(LoggerContract.EventEntry.COLUMN_LOGS, inputStringLogs);
         return eventValues;
@@ -231,10 +298,19 @@ public class NewEventFragment extends DialogFragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        datePickerButton.setOnClickListener(new View.OnClickListener() {
+        startDatePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                end = false;
+                showDatePicker();
+            }
+        });
+        endDatePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                end = true;
                 showDatePicker();
             }
         });
@@ -254,17 +330,24 @@ public class NewEventFragment extends DialogFragment {
         /**
          * Set Call back to capture selected date
          */
-        date.setCallBack(ondate);
+        date.setCallBack(onDate);
         date.show(getFragmentManager(), "Date Picker");
     }
 
-    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+    DatePickerDialog.OnDateSetListener onDate = new DatePickerDialog.OnDateSetListener() {
 
         public void onDateSet(DatePicker view, int yearR, int monthOfYear,
                               int dayOfMonth) {
-            day.setText(String.valueOf(dayOfMonth));
-            month.setText(String.valueOf(monthOfYear+1));
-            year.setText(String.valueOf(yearR));
+            if(end){
+                endDay.setText(String.valueOf(dayOfMonth));
+                endMonth.setText(String.valueOf(monthOfYear+1));
+                endYear.setText(String.valueOf(yearR));
+            }
+            else {
+                startDay.setText(String.valueOf(dayOfMonth));
+                startMonth.setText(String.valueOf(monthOfYear+1));
+                startYear.setText(String.valueOf(yearR));
+            }
         }
     };
 

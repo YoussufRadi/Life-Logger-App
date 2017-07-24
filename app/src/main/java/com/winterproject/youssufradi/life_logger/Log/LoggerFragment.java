@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +17,17 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class LoggerFragment extends Fragment {
+public class LoggerFragment extends DialogFragment {
 
 
     View rootView;
@@ -38,6 +39,14 @@ public class LoggerFragment extends Fragment {
     public static boolean checkbox = false;
     public static boolean hasArray = false;
     public static ArrayList<LogEntryObject> selectedEntries = new ArrayList<>();
+    public static ArrayList<String> passedEntries = new ArrayList<>();
+    private FloatingActionButton log;
+
+
+    public static LoggerFragment newInstance() {
+        LoggerFragment f = new LoggerFragment();
+        return f;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +56,20 @@ public class LoggerFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_logger, container, false);
 
         listView = (ListView) rootView.findViewById(R.id.log_list_view);
-
-        if(hasArray)
-            logEntries = selectedEntries;
+        if(hasArray){
+            if(!passedEntries.isEmpty()) {
+                getDataFromDB(getActivity());
+                ArrayList<LogEntryObject> temp = new ArrayList<>();
+                for (int i = 0; i < logEntries.size(); i++) {
+                    for (int j = 0; j < passedEntries.size(); j++)
+                        if (logEntries.get(i).getId() == Long.parseLong(passedEntries.get(j)))
+                            temp.add(logEntries.get(i));
+                }
+                logEntries = temp;
+            } else
+                for (int i = 0; i < logEntries.size(); i++)
+                    passedEntries.add(Long.toString(logEntries.get(i).getId()));
+        }
         else
             getDataFromDB(getActivity());
 
@@ -57,6 +77,7 @@ public class LoggerFragment extends Fragment {
         listView.setAdapter(logAdapter);
 
         add = (FloatingActionButton) rootView.findViewById(R.id.log_add_new);
+        log = (FloatingActionButton) rootView.findViewById(R.id.log_event_select_button);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +92,39 @@ public class LoggerFragment extends Fragment {
         });
 
 
-        if(checkbox)
+        if(hasArray) {
             add.setVisibility(View.GONE);
+        }
+
+        if(checkbox) {
+            add.setVisibility(View.GONE);
+            log.setVisibility(View.VISIBLE);
+            log.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    logEntries.clear();
+                    for(int i = 0; i < selectedEntries.size(); i++)
+                        logEntries.add(selectedEntries.get(i));
+                    selectedEntries.clear();
+
+
+                    LoggerFragment fragment = (LoggerFragment) getActivity().getSupportFragmentManager().findFragmentByTag("logSelector");
+                    if (fragment != null) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    NewEventFragment eventFragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newEvent");
+                    if(eventFragment != null)
+                        eventFragment.reset();
+                    else {
+                        eventFragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editEvent");
+                        if(eventFragment != null)
+                            eventFragment.reset();
+                    }
+
+                }
+            });
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

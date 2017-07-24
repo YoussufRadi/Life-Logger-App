@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,13 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/input_register_hint"
-            android:text="Add your newest Highlights"
+            android:text="Add your Event Details"
             android:textSize="14dp"
             android:textAlignment="center"
             android:padding="14dp"
             android:textColor="@color/btn_login_bg"/>
 
-        <!--Highlight Insertion-->
+        <!--Name Insertion-->
         <TextView
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
@@ -30,15 +31,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-            android:text="Enter Your Day Highlights"
+            android:text="Event Name"
             android:textStyle="bold"
             android:textSize="18dp"/>
         <EditText
-            android:id="@+id/highlight_details"
+            android:id="@+id/event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Highlight Details :D"
+            android:hint="Event Name :D"
+            android:inputType="textMultiLine" />
+
+        <!--Description Insertion-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Event Description"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <EditText
+            android:id="@+id/event_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Event Description :D"
             android:inputType="textMultiLine" />
 
         <!--Location Selection-->
@@ -56,7 +76,7 @@
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <Button
-                android:id="@+id/location_select_intent_opener"
+                android:id="@+id/event_location_select_intent_opener"
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -64,27 +84,26 @@
                 android:background="@drawable/common_google_signin_btn_icon_dark_pressed" />
         </RelativeLayout>
         <EditText
-            android:id="@+id/location_auto_complete_field"
+            android:id="@+id/event_location_auto_complete_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cairo Governorate"
             android:focusable="false"
             android:visibility="gone" />
 
-        <!--Date Selection-->
+        <!--Starting Date Selection-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/place_autocomplete_fragment"
                 android:paddingTop="20dp"
                 android:paddingLeft="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-                android:text="Please Choose a Day"
+                android:text="Please Choose Starting time"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
 
@@ -92,7 +111,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/date_picker"
+                android:id="@+id/event_start_date_picker"
                 android:background="@drawable/ic_date_picker"/>
         </RelativeLayout>
 
@@ -129,6 +148,22 @@
                     android:text="YY"
                     android:layout_weight="1"
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAlignment="textEnd"
-                    android:id="@+id/day_picked"
+                    android:id="@+id/event_start_day_picked"
                     android:text="DD"
                     android:layout_weight="1"
                     android:ems="10"
@@ -155,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:id="@+id/month_picked"
+                    android:id="@+id/event_start_month_picked"
                     android:text="MM"
                     android:layout_weight="1"
                     android:ems="10"
@@ -166,8 +201,176 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/year_picked"
+                    android:id="@+id/event_start_year_picked"
                     android:text="YY"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_start_hour_picked"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_start_minutes_picked"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--Ending Date Selection-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+                android:text="Please Choose Ending time"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+
+            <Button
+                android:layout_alignParentRight="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/event_end_date_picker"
+                android:background="@drawable/ic_date_picker"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:paddingStart="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:id="@+id/event_end_day_picked"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:id="@+id/event_end_month_picked"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_end_year_picked"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_end_hour_picked"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_end_minutes_picked"
+                    android:textAlignment="center"
+                    android:text="MM"
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
@@ -188,24 +391,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-                android:text="Choose images to add"
+                android:text="Choose logs to link"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <Button
-                android:id="@+id/image_select_fragment_opener"
+                android:id="@+id/event_log_select_fragment_opener"
                 android:layout_alignParentRight="true"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/ic_menu_gallery" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_speaker_group_light" />
 
         </RelativeLayout>
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/gallery_fragment_container"
+            android:id="@+id/event_log_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="true"
+            android:layout_weight="1"/>
 
         <Button
             android:layout_marginTop="10dp"

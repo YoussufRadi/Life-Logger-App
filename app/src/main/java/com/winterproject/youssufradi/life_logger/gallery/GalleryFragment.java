@@ -84,7 +84,13 @@ public class GalleryFragment extends DialogFragment {
                     }
 
                     NewLogFragment galleryFragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newLog");
-                    galleryFragment.reset();
+                    if(galleryFragment != null)
+                        galleryFragment.reset();
+                    else{
+                        galleryFragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editLog");
+                        if(galleryFragment != null)
+                            galleryFragment.reset();
+                    }
 
                 }
             });

@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.R;
 
 import java.util.ArrayList;
@@ -71,6 +70,9 @@ public class EntryAdapter extends BaseAdapter {
         Button remove = (Button) rootView.findViewById(R.id.log_delete_button);
         CheckBox selected = (CheckBox) rootView.findViewById(R.id.log_selected);
 
+        if(LoggerFragment.hasArray)
+            li.setVisibility(View.GONE);
+
         if(checkbox){
             li.setVisibility(View.GONE);
         }
@@ -110,7 +112,7 @@ public class EntryAdapter extends BaseAdapter {
             public void onClick(View v) {
                 NewLogFragment.currentLog = log;
                 FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                NewEventFragment newFragment = NewEventFragment.newInstance();
+                NewLogFragment newFragment = NewLogFragment.newInstance();
                 newFragment.show(ft, "editLog");
             }
         });

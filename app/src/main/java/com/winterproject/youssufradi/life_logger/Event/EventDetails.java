@@ -44,8 +44,8 @@ public class EventDetails extends DialogFragment {
 
         description.setText(EventFragment.eventDisplay.getDescription());
         location.setText(EventFragment.eventDisplay.getLocation());
-        date.setText(EventFragment.eventDisplay.getDay() + "/" + EventFragment.eventDisplay.getMonth()
-                + "/" + EventFragment.eventDisplay.getYear());
+        date.setText(EventFragment.eventDisplay.getStartDay() + "/" + EventFragment.eventDisplay.getStartMonth()
+                + "/" + EventFragment.eventDisplay.getStartYear());
 
         //Loading Gallarey Fragment for selected Images
         FragmentManager fm = getChildFragmentManager();
