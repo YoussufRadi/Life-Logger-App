@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -48,6 +49,7 @@ public class NewEventFragment extends DialogFragment {
     private Button logSelectButton;
     public LoggerFragment logFragment;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 36123;
+    public static int PICK_CONTACT = 35111;
     private EditText descriptionText;
     private Button locationPickerButton;
     public static EditText locationField;
@@ -218,6 +220,18 @@ public class NewEventFragment extends DialogFragment {
                 newEntry.setId(insertInDB(newEntry));
                 EventFragment.eventEntries.add(newEntry);
                 EventFragment.eventAdapter.notifyDataSetChanged();
+            }
+        });
+
+        Button contact = (Button) rootView.findViewById(R.id.event_contact_select_fragment_opener);
+
+        contact.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                getActivity().startActivityForResult(intent, PICK_CONTACT);
             }
         });
 

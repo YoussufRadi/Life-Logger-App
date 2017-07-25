@@ -111,6 +111,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/bg_main"
                 android:id="@+id/event_start_date_picker"
                 android:background="@drawable/ic_date_picker"/>
         </RelativeLayout>
@@ -255,6 +256,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/bg_main"
                 android:id="@+id/event_end_date_picker"
                 android:background="@drawable/ic_date_picker"/>
         </RelativeLayout>
@@ -398,6 +400,7 @@
                 android:id="@+id/event_log_select_fragment_opener"
                 android:layout_alignParentRight="true"
                 android:layout_width="40dp"
+                android:backgroundTint="@color/bg_main"
                 android:layout_height="40dp"
                 android:background="@drawable/ic_speaker_group_light" />
 
@@ -410,6 +413,34 @@
             android:orientation="vertical"
             android:nestedScrollingEnabled="true"
             android:layout_weight="1"/>
+
+        <RelativeLayout
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+                android:text="Choose logs to link"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+            <Button
+                android:id="@+id/event_contact_select_fragment_opener"
+                android:layout_alignParentRight="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/bg_main"
+                android:background="@drawable/ic_collapse_00011" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_contact_list"/>
 
         <Button
             android:layout_marginTop="10dp"

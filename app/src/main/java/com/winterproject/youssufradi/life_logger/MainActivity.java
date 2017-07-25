@@ -2,14 +2,18 @@ package com.winterproject.youssufradi.life_logger;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -19,10 +23,10 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.winterproject.youssufradi.life_logger.Event.EventFragment;
 import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
-import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
 import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -195,6 +199,29 @@ public class MainActivity extends AppCompatActivity
 
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"You Cancelled Location Selection",Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode ==  NewEventFragment.PICK_CONTACT)
+        if (resultCode == RESULT_OK)
+        {
+
+            Uri contactData = data.getData();
+            Cursor c = managedQuery(contactData, null, null, null, null);
+            if (c.moveToFirst())
+            {
+                String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                String hasPhone =
+                        c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+//                if (hasPhone.equalsIgnoreCase("1"))
+//                {
+                    Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,null, null);
+                    phones.moveToFirst();
+                Log.e("Contact", phones.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)));
+
+                String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                     Toast.makeText(getApplicationContext(), cNumber, Toast.LENGTH_SHORT).show();
+//                }
             }
         }
 
