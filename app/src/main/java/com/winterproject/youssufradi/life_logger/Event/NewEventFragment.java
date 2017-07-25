@@ -143,6 +143,9 @@ public class NewEventFragment extends DialogFragment {
             endHour.setText(Integer.toString(currentEvent.getEndHour()));
             endMinute.setText(Integer.toString(currentEvent.getEndMinute()));
             locationField.setText(currentEvent.getLocation());
+            contacts = currentEvent.getPeople();
+            contactAdapter = new ContactAdapter(getActivity(),contacts);
+            liContact.setAdapter(contactAdapter);
             LoggerFragment.passedEntries = currentEvent.getLogs();
             submit.setText("Edit");
         }

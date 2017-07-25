@@ -17,10 +17,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -90,7 +90,6 @@ public class EventFragment extends Fragment {
                 }
                 else {
                     eventDisplay = eventEntries.get(position);
-                    GalleryFragment.photos = eventDisplay.getPeople();
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     EventDetails newFragment = EventDetails.newInstance();
                     newFragment.show(ft, "eventDetails");
@@ -128,7 +127,8 @@ public class EventFragment extends Fragment {
             int eventEndYear = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_YEAR);
             int eventEndHour = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_HOUR);
             int eventEndMinute = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_END_MINUTE);
-            int eventPeople = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_PEOPLE);
+            int eventPeopleName = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_PEOPLE_NAME);
+            int eventPeopleNumber = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_PEOPLE_NUMBER);
             int eventLogs = eventCursor.getColumnIndex(LoggerContract.EventEntry.COLUMN_LOGS);
             Gson gson = new Gson();
             do {
@@ -146,18 +146,24 @@ public class EventFragment extends Fragment {
                 int COLUMN_END_YEAR = eventCursor.getInt(eventEndYear);
                 int COLUMN_END_HOUR = eventCursor.getInt(eventEndHour);
                 int COLUMN_END_MINUTE = eventCursor.getInt(eventEndMinute);
-                String COLUMN_PEOPLE = eventCursor.getString(eventPeople);
+                String COLUMN_PEOPLE_NAME = eventCursor.getString(eventPeopleName);
+                String COLUMN_PEOPLE_NUMBER = eventCursor.getString(eventPeopleNumber);
                 String COLUMN_LOGS = eventCursor.getString(eventLogs);
 
                 Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-                ArrayList<String>  finalOutputStringPeople = gson.fromJson(COLUMN_PEOPLE,  listType);
+                ArrayList<String>  finalOutputStringPeopleName = gson.fromJson(COLUMN_PEOPLE_NAME,  listType);
+                ArrayList<String>  finalOutputStringPeopleNumber = gson.fromJson(COLUMN_PEOPLE_NUMBER,  listType);
                 ArrayList<String>  finalOutputStringLogs = gson.fromJson(COLUMN_LOGS,  listType);
 
+                ArrayList<Contact> array = new ArrayList<>();
+                for(int i = 0; i < finalOutputStringPeopleName.size(); i++)
+                    array.add(new Contact(finalOutputStringPeopleName.get(i),
+                            finalOutputStringPeopleNumber.get(i)));
                 eventEntries.add(new EventEntryObject(COLUMN_ID, COLUMN_TITLE, COLUMN_DESCRIPTION,
                         COLUMN_LOCATION,COLUMN_START_DAY, COLUMN_START_MONTH,COLUMN_START_YEAR,
                         COLUMN_START_HOUR, COLUMN_START_MINUTE, COLUMN_END_DAY, COLUMN_END_MONTH,
                         COLUMN_END_YEAR, COLUMN_END_HOUR, COLUMN_END_MINUTE, finalOutputStringLogs,
-                        finalOutputStringPeople));
+                        array));
 
             } while(eventCursor.moveToNext());
         }
