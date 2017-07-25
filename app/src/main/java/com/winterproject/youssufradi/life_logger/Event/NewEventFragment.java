@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -30,6 +31,8 @@ import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.helpers.Contact;
+import com.winterproject.youssufradi.life_logger.helpers.ContactAdapter;
 import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
 
 import java.util.ArrayList;
@@ -65,6 +68,9 @@ public class NewEventFragment extends DialogFragment {
     private EditText endMinute;
     private boolean end = false;
     private EditText eventName;
+    private ListView liContact;
+    public static ArrayList<Contact> contacts = new ArrayList<>();
+    public static ContactAdapter contactAdapter;
 
     public static NewEventFragment newInstance() {
         NewEventFragment f = new NewEventFragment();
@@ -103,6 +109,10 @@ public class NewEventFragment extends DialogFragment {
 
         submit = (Button) rootView.findViewById(R.id.add_new_event);
 
+        liContact = (ListView) rootView.findViewById(R.id.event_contact_list);
+        contactAdapter = new ContactAdapter(getActivity(),contacts);
+        liContact.setAdapter(contactAdapter);
+        contactAdapter.notifyDataSetChanged();
 
         Calendar c = Calendar.getInstance();
         startDay.setText(Integer.toString(c.get(Calendar.DAY_OF_MONTH)));
@@ -230,7 +240,8 @@ public class NewEventFragment extends DialogFragment {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 getActivity().startActivityForResult(intent, PICK_CONTACT);
             }
         });

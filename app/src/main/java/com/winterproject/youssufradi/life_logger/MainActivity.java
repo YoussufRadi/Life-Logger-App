@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -27,6 +26,7 @@ import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
 import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
+import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -158,9 +158,7 @@ public class MainActivity extends AppCompatActivity
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted and now can proceed
                     GalleryFragment.getAllShownImagesPath(this);
-
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
@@ -172,6 +170,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == NewLogFragment.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
@@ -203,28 +203,17 @@ public class MainActivity extends AppCompatActivity
         } else if (requestCode ==  NewEventFragment.PICK_CONTACT)
         if (resultCode == RESULT_OK)
         {
-
             Uri contactData = data.getData();
-            Cursor c = managedQuery(contactData, null, null, null, null);
-            if (c.moveToFirst())
-            {
-                String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-                String hasPhone =
-                        c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+            Cursor cursor =  managedQuery(contactData, null, null, null, null);
+            cursor.moveToFirst();
 
-//                if (hasPhone.equalsIgnoreCase("1"))
-//                {
-                    Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,null, null);
-                    phones.moveToFirst();
-                Log.e("Contact", phones.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                     Toast.makeText(getApplicationContext(), cNumber, Toast.LENGTH_SHORT).show();
-//                }
-            }
+            Contact current = new Contact(name,number);
+            NewEventFragment.contacts.add(current);
+            NewEventFragment.contactAdapter.notifyDataSetChanged();
         }
-
     }
 
 }
