@@ -30,7 +30,6 @@ import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
-import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
 import com.winterproject.youssufradi.life_logger.helpers.ContactAdapter;
 import com.winterproject.youssufradi.life_logger.helpers.DatePickerFragment;
@@ -214,7 +213,7 @@ public class NewEventFragment extends DialogFragment {
                         Integer.parseInt(endYear.getText().toString().trim()),
                         Integer.parseInt(endHour.getText().toString().trim()),
                         Integer.parseInt(endMinute.getText().toString().trim()),
-                        temp, GalleryFragment.photos);
+                        temp, contacts);
 
                 NewEventFragment fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newEvent");
                 if (fragment != null) {
@@ -267,8 +266,6 @@ public class NewEventFragment extends DialogFragment {
         fm.executePendingTransactions();
 
         logFragment.logAdapter.notifyDataSetChanged();
-//        ((LinearLayout)rootView.findViewById(R.id.event_log_fragment_container));
-
 
         Dialog dialog = getDialog();
         if (dialog != null) {
@@ -297,10 +294,23 @@ public class NewEventFragment extends DialogFragment {
     static ContentValues createMovieValues(String title, String description, String location, int startDay,
                                            int startMonth, int startYear, int startHour, int startMinute,
                                            int endDay, int endMonth, int endYear, int endHour,
-                                           int endMinute, ArrayList<String> people, ArrayList<String> logs) {
+                                           int endMinute, ArrayList<Contact> people, ArrayList<String> logs) {
         Gson gson = new Gson();
-        String inputStringPeople= gson.toJson(people);
+
+        ArrayList<String> temp = new ArrayList<>();
+
+        for(int i = 0; i < people.size(); i++) {
+            temp.add(people.get(i).getName());
+        }
+        String inputStringPeopleName= gson.toJson(temp);
+
+        for(int i = 0; i < people.size(); i++) {
+            temp.add(people.get(i).getNumber());
+        }
+        String inputStringPeopleNumber= gson.toJson(temp);
+
         String inputStringLogs= gson.toJson(logs);
+
         ContentValues eventValues = new ContentValues();
         eventValues.put(LoggerContract.EventEntry.COLUMN_TITLE, title);
         eventValues.put(LoggerContract.EventEntry.COLUMN_DESCRIPTION, description);
@@ -315,7 +325,8 @@ public class NewEventFragment extends DialogFragment {
         eventValues.put(LoggerContract.EventEntry.COLUMN_END_YEAR, endYear);
         eventValues.put(LoggerContract.EventEntry.COLUMN_END_HOUR, endHour);
         eventValues.put(LoggerContract.EventEntry.COLUMN_END_MINUTE, endMinute);
-        eventValues.put(LoggerContract.EventEntry.COLUMN_PEOPLE, inputStringPeople);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_PEOPLE_NAME, inputStringPeopleName);
+        eventValues.put(LoggerContract.EventEntry.COLUMN_PEOPLE_NUMBER, inputStringPeopleNumber);
         eventValues.put(LoggerContract.EventEntry.COLUMN_LOGS, inputStringLogs);
         return eventValues;
     }
@@ -326,7 +337,6 @@ public class NewEventFragment extends DialogFragment {
         startDatePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 end = false;
                 showDatePicker();
             }
@@ -334,7 +344,6 @@ public class NewEventFragment extends DialogFragment {
         endDatePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 end = true;
                 showDatePicker();
             }

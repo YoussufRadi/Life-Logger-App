@@ -3,6 +3,8 @@ package com.winterproject.youssufradi.life_logger.Event;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.winterproject.youssufradi.life_logger.helpers.Contact;
+
 import java.util.ArrayList;
 
 /**
@@ -61,7 +63,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
         return endMinute;
     }
 
-    public ArrayList<String> getPeople() {
+    public ArrayList<Contact> getPeople() {
         return people;
     }
 
@@ -83,7 +85,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
     private int endYear;
     private int endHour;
     private int endMinute;
-    private ArrayList<String> people = new ArrayList<>();
+    private ArrayList<Contact> people = new ArrayList<>();
     private ArrayList<String> logs = new ArrayList<>();
 
     public long getId() {
@@ -97,7 +99,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
     public EventEntryObject(long id, String title, String description, String location, int startDay,
                           int startMonth, int startYear, int startHour, int startMinute,
                           int endDay, int endMonth, int endYear, int endHour,
-                          int endMinute, ArrayList<String> logs, ArrayList<String> people){
+                          int endMinute, ArrayList<String> logs, ArrayList<Contact> people){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -113,7 +115,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
         this.endHour = endHour;
         this.endMinute = endMinute;
         for(int i = 0; i < people.size(); i++)
-            this.people.add(people.get(i)+"");
+            this.people.add(people.get(i));
         for(int i = 0; i < logs.size(); i++)
             this.logs.add(logs.get(i)+"");
 
@@ -123,7 +125,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
 
         String k = "";
         for(int i = 0; i < this.getPeople().size(); i++) {
-            k = k + "   " + this.getPeople().get(i);
+            k = k + "   " + this.getPeople().get(i).getName();
         }
         String k1 = "";
         for(int i = 0; i < this.getLogs().size(); i++) {

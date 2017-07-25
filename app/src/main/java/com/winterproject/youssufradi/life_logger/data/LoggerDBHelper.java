@@ -11,7 +11,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
 
 public class LoggerDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     static final String DATABASE_NAME = "movie.db";
 
@@ -46,7 +46,8 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
                 EventEntry.COLUMN_END_HOUR + " INTEGER, " +
                 EventEntry.COLUMN_END_MINUTE + " INTEGER, " +
                 EventEntry.COLUMN_LOGS + " TEXT, " +
-                EventEntry.COLUMN_PEOPLE + " TEXT " + " );";
+                EventEntry.COLUMN_PEOPLE_NAME + " TEXT, " +
+                EventEntry.COLUMN_PEOPLE_NUMBER + " TEXT" + " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_LOGS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_EVENTS_TABLE);

@@ -33,7 +33,8 @@ public class LoggerContract {
         public static final String COLUMN_END_YEAR = "endYear";
         public static final String COLUMN_END_HOUR = "endHour";
         public static final String COLUMN_END_MINUTE = "endMinute";
-        public static final String COLUMN_LOGS = "people";
-        public static final String COLUMN_PEOPLE = "logs";
+        public static final String COLUMN_LOGS = "logs";
+        public static final String COLUMN_PEOPLE_NAME = "peopleName";
+        public static final String COLUMN_PEOPLE_NUMBER = "peopleNumber";
     }
 }
