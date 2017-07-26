@@ -29,6 +29,7 @@ import java.util.Collections;
 
 public class LoggerFragment extends DialogFragment {
 
+    //TODO Link with Events Fragment and update Events if a Log is deleted
 
     View rootView;
     public static ArrayList<LogEntryObject> logEntries = new ArrayList<>();
@@ -41,7 +42,7 @@ public class LoggerFragment extends DialogFragment {
     public static ArrayList<LogEntryObject> selectedEntries = new ArrayList<>();
     public static ArrayList<String> passedEntries = new ArrayList<>();
     private FloatingActionButton log;
-
+    public static boolean displaymood = false;
 
     public static LoggerFragment newInstance() {
         LoggerFragment f = new LoggerFragment();
@@ -92,7 +93,7 @@ public class LoggerFragment extends DialogFragment {
         });
 
 
-        if(hasArray) {
+        if(hasArray || displaymood) {
             add.setVisibility(View.GONE);
         }
 

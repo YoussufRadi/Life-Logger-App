@@ -66,6 +66,9 @@ public class EventAdapter extends BaseAdapter {
         Button remove = (Button) rootView.findViewById(R.id.event_delete_button);
         CheckBox selected = (CheckBox) rootView.findViewById(R.id.event_selected);
 
+        if(EventFragment.displaymood)
+            li.setVisibility(View.GONE);
+
         if(checkbox){
             li.setVisibility(View.GONE);
         }

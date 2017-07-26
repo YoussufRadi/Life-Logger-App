@@ -157,6 +157,7 @@ public class NewEventFragment extends DialogFragment {
             LoggerFragment.logEntries.clear();
             LoggerFragment.checkbox = false;
             LoggerFragment.hasArray = true;
+            LoggerFragment.displaymood = false;
             logFragment = new LoggerFragment();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.event_log_fragment_container, logFragment, "logFragment");
@@ -297,6 +298,7 @@ public class NewEventFragment extends DialogFragment {
         logFragment = (LoggerFragment) fm.findFragmentByTag("logFragment");
         logFragment.checkbox = false;
         logFragment.hasArray = true;
+        LoggerFragment.displaymood = false;
         logFragment.passedEntries = new ArrayList<>();
         logFragment = new LoggerFragment();
         ft.add(R.id.event_log_fragment_container, logFragment, "logFragment");

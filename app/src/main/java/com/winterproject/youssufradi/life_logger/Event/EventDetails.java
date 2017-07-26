@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +84,7 @@ public class EventDetails extends DialogFragment {
             LoggerFragment.logEntries.clear();
             LoggerFragment.checkbox = false;
             LoggerFragment.hasArray = true;
+            LoggerFragment.displaymood = false;
             logFragment = new LoggerFragment();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.event_details_log_fragment_container, logFragment, "logFragment");

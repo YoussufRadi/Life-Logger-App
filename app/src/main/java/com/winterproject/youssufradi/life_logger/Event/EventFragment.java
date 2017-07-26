@@ -36,6 +36,7 @@ public class EventFragment extends Fragment {
     private ListView listView;
     public static boolean checkbox = false;
     public static boolean hasArray = false;
+    public static boolean displaymood = false;
     public ArrayList<EventEntryObject> selectedEntries = new ArrayList<>();
 
     @Override
@@ -70,7 +71,7 @@ public class EventFragment extends Fragment {
         });
 
 
-        if(checkbox)
+        if(checkbox || displaymood)
             add.setVisibility(View.GONE);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

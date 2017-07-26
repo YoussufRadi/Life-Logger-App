@@ -108,11 +108,13 @@ public class MainActivity extends AppCompatActivity
             LoggerFragment.getDataFromDB(this);
             LoggerFragment.checkbox = false;
             LoggerFragment.hasArray = false;
+            LoggerFragment.displaymood = false;
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new LoggerFragment())
                     .commit();
 
         } else if (id == R.id.nav_photo) {
+            EventFragment.displaymood = false;
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new EventFragment())
                     .commit();

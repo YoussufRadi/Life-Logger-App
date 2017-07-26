@@ -73,6 +73,9 @@ public class EntryAdapter extends BaseAdapter {
         if(LoggerFragment.hasArray)
             li.setVisibility(View.GONE);
 
+        if(LoggerFragment.displaymood)
+            li.setVisibility(View.GONE);
+
         if(checkbox){
             li.setVisibility(View.GONE);
         }
