@@ -109,7 +109,7 @@ public class NewEventFragment extends DialogFragment {
         submit = (Button) rootView.findViewById(R.id.add_new_event);
 
         liContact = (ListView) rootView.findViewById(R.id.event_contact_list);
-        contactAdapter = new ContactAdapter(getActivity(),contacts);
+        contactAdapter = new ContactAdapter(getActivity(),contacts,false);
         liContact.setAdapter(contactAdapter);
         contactAdapter.notifyDataSetChanged();
 
@@ -144,7 +144,7 @@ public class NewEventFragment extends DialogFragment {
             endMinute.setText(Integer.toString(currentEvent.getEndMinute()));
             locationField.setText(currentEvent.getLocation());
             contacts = currentEvent.getPeople();
-            contactAdapter = new ContactAdapter(getActivity(),contacts);
+            contactAdapter = new ContactAdapter(getActivity(),contacts,false);
             liContact.setAdapter(contactAdapter);
             LoggerFragment.passedEntries = currentEvent.getLogs();
             submit.setText("Edit");
@@ -199,7 +199,42 @@ public class NewEventFragment extends DialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int sH = Integer.parseInt(startHour.getText().toString().trim());
+                int sM = Integer.parseInt(startMinute.getText().toString().trim());
+                int eH = Integer.parseInt(endHour.getText().toString().trim());
+                int eM = Integer.parseInt(endMinute.getText().toString().trim());
+                if(sH < 0){
+                    Toast.makeText(getActivity(),"Starting hour is less than 0",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(sH > 23){
+                    Toast.makeText(getActivity(),"Starting hour is greater than 23",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(sM < 0){
+                    Toast.makeText(getActivity(),"Starting minute is less than 0",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(sM > 59){
+                    Toast.makeText(getActivity(),"Starting minute is greater than 59",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eH < 0){
+                    Toast.makeText(getActivity(),"Ending hour is less than 0",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eH > 23){
+                    Toast.makeText(getActivity(),"Ending hour is greater than 23",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eM < 0){
+                    Toast.makeText(getActivity(),"Ending minute is less than 0",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eM > 59){
+                    Toast.makeText(getActivity(),"Ending minute is greater than 59",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ArrayList<String> temp = new ArrayList<>();
                 for(int i = 0; i< LoggerFragment.logEntries.size(); i++)
                     temp.add(Long.toString(LoggerFragment.logEntries.get(i).getId()));
@@ -307,6 +342,7 @@ public class NewEventFragment extends DialogFragment {
         }
         String inputStringPeopleName= gson.toJson(temp);
 
+        temp.clear();
         for(int i = 0; i < people.size(); i++) {
             temp.add(people.get(i).getNumber());
         }

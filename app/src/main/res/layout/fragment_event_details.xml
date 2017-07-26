@@ -3,28 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.winterproject.youssufradi.life_logger.Event.EventDetails">
+        tools:context="com.winterproject.youssufradi.life_logger.Log.NewLogFragment">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/input_register_hint"
-            android:text="Highlight View"
+            android:text="Event Details"
             android:textSize="14dp"
             android:textAlignment="center"
             android:padding="14dp"
             android:textColor="@color/btn_login_bg"/>
 
-        <!--Highlight Insertion-->
+        <!--Name Insertion-->
         <TextView
             android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
@@ -32,67 +31,322 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-            android:text="Description"
+            android:text="Event Name"
             android:textStyle="bold"
             android:textSize="18dp"/>
         <TextView
-            android:id="@+id/event_highlight_details"
+            android:id="@+id/event_details_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Description Details :D"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:hint="Event Name :D"
+            android:inputType="textMultiLine" />
+
+        <!--Description Insertion-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Event Description"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/event_details_highlight_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:hint="Event Description :D"
             android:inputType="textMultiLine" />
 
         <!--Location Selection-->
+        <TextView
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Event Location"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/event_details_location_auto_complete_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="Cairo Governorate"
+            android:focusable="false"
+            android:visibility="visible" />
+
+        <!--Starting Date Selection-->
+        <TextView
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Starting time"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:paddingTop="20dp"
-                android:paddingLeft="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-                android:text="Location"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
-            <TextView
-                android:id="@+id/event_location"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Highlight Details :D"
-                android:inputType="textMultiLine" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:paddingStart="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:id="@+id/event_details_start_day_picked"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:id="@+id/event_details_start_month_picked"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_start_year_picked"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_start_hour_picked"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_start_minutes_picked"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
-        <!--Date Selection-->
+        <!--Ending Date Selection-->
+        <TextView
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Event Ending time"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:paddingTop="20dp"
-                android:paddingLeft="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-                android:text="Date of Event"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
-            <TextView
-                android:id="@+id/event_day"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Highlight Details :D"
-                android:inputType="textMultiLine" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:paddingStart="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textEnd"
+                    android:id="@+id/event_details_end_day_picked"
+                    android:text="DD"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:id="@+id/event_details_end_month_picked"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_end_year_picked"
+                    android:text="YY"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_end_hour_picked"
+                    android:textAlignment="center"
+                    android:text="HH"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_details_end_minutes_picked"
+                    android:textAlignment="center"
+                    android:text="MM"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:focusable="false"
+                    />
+            </LinearLayout>
         </LinearLayout>
+
 
         <!--Images Selection-->
         <TextView
@@ -101,21 +355,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
-            android:text="Images Added"
+            android:text="Logs linked"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/event_details_log_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="true"/>
+
+        <TextView
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Contackts Link"
             android:textStyle="bold"
             android:textSize="18dp"/>
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/event_gallery_fragment_container"
+        <ListView
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_width="match_parent"
+            android:nestedScrollingEnabled="true"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:id="@+id/event_details_contact_list"/>
 
         <Button
             android:layout_marginTop="10dp"
-            android:id="@+id/event_close"
+            android:id="@+id/event_details_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg_main"

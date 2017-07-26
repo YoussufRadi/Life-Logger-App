@@ -159,6 +159,7 @@ public class EventFragment extends Fragment {
                 for(int i = 0; i < finalOutputStringPeopleName.size(); i++)
                     array.add(new Contact(finalOutputStringPeopleName.get(i),
                             finalOutputStringPeopleNumber.get(i)));
+
                 eventEntries.add(new EventEntryObject(COLUMN_ID, COLUMN_TITLE, COLUMN_DESCRIPTION,
                         COLUMN_LOCATION,COLUMN_START_DAY, COLUMN_START_MONTH,COLUMN_START_YEAR,
                         COLUMN_START_HOUR, COLUMN_START_MINUTE, COLUMN_END_DAY, COLUMN_END_MONTH,

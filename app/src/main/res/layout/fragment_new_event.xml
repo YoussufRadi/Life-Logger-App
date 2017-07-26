@@ -219,7 +219,6 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
-                    android:focusable="false"
                     />
 
                 <EditText
@@ -231,7 +230,6 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
-                    android:focusable="false"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -364,7 +362,6 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
-                    android:focusable="false"
                     />
 
                 <EditText
@@ -376,7 +373,6 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="number"
-                    android:focusable="false"
                     />
             </LinearLayout>
         </LinearLayout>

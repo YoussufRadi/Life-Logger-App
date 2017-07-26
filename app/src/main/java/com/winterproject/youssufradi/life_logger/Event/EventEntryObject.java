@@ -125,7 +125,7 @@ public class EventEntryObject implements Comparable<EventEntryObject>{
 
         String k = "";
         for(int i = 0; i < this.getPeople().size(); i++) {
-            k = k + "   " + this.getPeople().get(i).getName();
+            k = k + "   " + this.getPeople().get(i).getNumber();
         }
         String k1 = "";
         for(int i = 0; i < this.getLogs().size(); i++) {

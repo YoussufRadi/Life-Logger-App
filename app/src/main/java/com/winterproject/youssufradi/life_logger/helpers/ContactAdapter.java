@@ -19,13 +19,15 @@ import java.util.ArrayList;
 
 public class ContactAdapter extends BaseAdapter {
 
+    private final boolean flag;
     private ArrayList<Contact> contacts;
     private Context context;
     Contact cur;
 
-    public ContactAdapter(Context context, ArrayList<Contact> contacts) {
+    public ContactAdapter(Context context, ArrayList<Contact> contacts, boolean flag) {
         this.contacts = contacts;
         this.context = context;
+        this.flag = flag;
     }
 
     @Override
@@ -57,6 +59,8 @@ public class ContactAdapter extends BaseAdapter {
         name.setText(cur.getName());
         number.setText(cur.getNumber());
 
+        if(flag)
+            remove.setVisibility(View.GONE);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

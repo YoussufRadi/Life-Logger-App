@@ -200,19 +200,19 @@ public class MainActivity extends AppCompatActivity
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"You Cancelled Location Selection",Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode ==  NewEventFragment.PICK_CONTACT)
-        if (resultCode == RESULT_OK)
-        {
-            Uri contactData = data.getData();
-            Cursor cursor =  managedQuery(contactData, null, null, null, null);
-            cursor.moveToFirst();
+        } else if (requestCode ==  NewEventFragment.PICK_CONTACT) {
+            if (resultCode == RESULT_OK) {
+                Uri contactData = data.getData();
+                Cursor cursor = managedQuery(contactData, null, null, null, null);
+                cursor.moveToFirst();
 
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            Contact current = new Contact(name,number);
-            NewEventFragment.contacts.add(current);
-            NewEventFragment.contactAdapter.notifyDataSetChanged();
+                Contact current = new Contact(name, number);
+                NewEventFragment.contacts.add(current);
+                NewEventFragment.contactAdapter.notifyDataSetChanged();
+            }
         }
     }
 
