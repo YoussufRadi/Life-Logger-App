@@ -37,7 +37,7 @@ public class EventFragment extends Fragment {
     public static boolean checkbox = false;
     public static boolean hasArray = false;
     public static boolean displaymood = false;
-    public ArrayList<EventEntryObject> selectedEntries = new ArrayList<>();
+    public static ArrayList<EventEntryObject> selectedEntries = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -16,24 +16,35 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    public static EventFragment tab1;
+    public static LoggerFragment tab2;
+    @Override
     public Fragment getItem(int position) {
 
         switch (position) {
             case 0:
                 EventFragment.displaymood = true;
-                EventFragment tab1 = new EventFragment();
+                tab1 = new EventFragment();
                 return tab1;
             case 1:
                 LoggerFragment.displaymood = true;
-                LoggerFragment tab2 = new LoggerFragment();
+                tab2 = new LoggerFragment();
                 return tab2;
-            default:
-                return null;
+            case 2:
+                LoggerFragment.displaymood = true;
+                LoggerFragment tab3 = new LoggerFragment();
+            return tab3;
+        default:
+          return null;
         }
     }
-
     @Override
     public int getCount() {
         return mNumOfTabs;
     }
+
 }

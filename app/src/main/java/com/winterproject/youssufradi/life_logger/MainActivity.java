@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_photo) {
             EventFragment.displaymood = false;
+            EventFragment.checkbox = false;
+            EventFragment.hasArray = false;
+            EventFragment.displaymood = false;
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new EventFragment())
                     .commit();
