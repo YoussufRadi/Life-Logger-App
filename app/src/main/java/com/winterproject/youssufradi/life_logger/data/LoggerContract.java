@@ -37,4 +37,12 @@ public class LoggerContract {
         public static final String COLUMN_PEOPLE_NAME = "peopleName";
         public static final String COLUMN_PEOPLE_NUMBER = "peopleNumber";
     }
+
+
+    public static final class PhotoEntry implements BaseColumns{
+        public static final String TABLE_NAME = "photoEntries";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_PHOTOS = "date";
+    }
 }

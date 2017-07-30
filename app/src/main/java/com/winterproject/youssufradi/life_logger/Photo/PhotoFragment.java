@@ -38,7 +38,7 @@ public class PhotoFragment extends Fragment {
 
         customView.setAdapter(customAdaptor);
         generatedView.setAdapter(generatedAdaptor);
-        
+
         return rootView;
     }
 }

@@ -3,17 +3,21 @@ package com.winterproject.youssufradi.life_logger.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.winterproject.youssufradi.life_logger.data.LoggerContract.PhotoEntry;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract.LogEntry;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
+
+
 /**
  * Created by y_sam on 12/1/2016.
  */
 
 public class LoggerDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "movie.db";
+    static final String DATABASE_NAME = "log.db";
 
     public LoggerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,8 +53,15 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
                 EventEntry.COLUMN_PEOPLE_NAME + " TEXT, " +
                 EventEntry.COLUMN_PEOPLE_NUMBER + " TEXT" + " );";
 
+        final String SQL_CREATE_PHOTOS_TABLE = "CREATE TABLE " + PhotoEntry.TABLE_NAME + " (" +
+                PhotoEntry._ID + " INTEGER PRIMARY KEY," +
+                PhotoEntry.COLUMN_NAME + " TEXT, " +
+                PhotoEntry.COLUMN_DESCRIPTION + " TEXT, " +
+                PhotoEntry.COLUMN_PHOTOS + " TEXT" + " );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_LOGS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_EVENTS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_PHOTOS_TABLE);
 
     }
 
@@ -58,6 +69,7 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + LogEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EventEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PhotoEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
