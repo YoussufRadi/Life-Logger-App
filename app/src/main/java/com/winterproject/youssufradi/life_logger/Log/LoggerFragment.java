@@ -205,8 +205,8 @@ public class LoggerFragment extends DialogFragment {
             Toast.makeText(activity,"Log successfully removed !", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(activity,"Error removing Log", Toast.LENGTH_SHORT).show();
-        LoggerFragment.logEntries.remove(log);
-        LoggerFragment.logAdapter.notifyDataSetChanged();
+        logEntries.remove(log);
+        logAdapter.notifyDataSetChanged();
 
 //        String query = "SELECT * FROM " + LoggerContract.EventEntry.TABLE_NAME + " WHERE id='" + log.getId();
 //        Cursor  cursor = db.rawQuery(query,null);

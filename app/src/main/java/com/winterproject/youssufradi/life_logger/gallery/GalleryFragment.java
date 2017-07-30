@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
+import com.winterproject.youssufradi.life_logger.Photo.NewPhotoFragment;
 import com.winterproject.youssufradi.life_logger.R;
 
 import java.util.ArrayList;
@@ -90,6 +91,15 @@ public class GalleryFragment extends DialogFragment {
                         galleryFragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editLog");
                         if(galleryFragment != null)
                             galleryFragment.reset();
+                    }
+
+                    NewPhotoFragment galleryFragmentAgain = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newPhoto");
+                    if(galleryFragmentAgain != null)
+                        galleryFragmentAgain.reset();
+                    else{
+                        galleryFragmentAgain = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editPhoto");
+                        if(galleryFragmentAgain != null)
+                            galleryFragmentAgain.reset();
                     }
 
                 }

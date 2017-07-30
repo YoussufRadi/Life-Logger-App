@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class PhotoEntryObject {
 
+    private final int type;
     private long id;
     private final String name;
     private final String description;
@@ -41,9 +42,11 @@ public class PhotoEntryObject {
         return contacts;
     }
 
-    public PhotoEntryObject(long id, String name, String description, ArrayList<String> photos, ArrayList<Contact> contacts) {
+    public PhotoEntryObject(long id, String name, String description, int type,
+                            ArrayList<String> photos, ArrayList<Contact> contacts) {
         this.id = id;
         this.name = name;
+        this.type = type;
         this.description = description;
         this.photos = photos;
         this.contacts = contacts;

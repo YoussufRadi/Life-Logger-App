@@ -24,6 +24,7 @@ import com.winterproject.youssufradi.life_logger.Event.EventFragment;
 import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
+import com.winterproject.youssufradi.life_logger.Photo.NewPhotoFragment;
 import com.winterproject.youssufradi.life_logger.Photo.PhotoFragment;
 import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
@@ -223,6 +224,19 @@ public class MainActivity extends AppCompatActivity
                 Contact current = new Contact(name, number);
                 NewEventFragment.contacts.add(current);
                 NewEventFragment.contactAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode ==  NewPhotoFragment.PICK_CONTACT) {
+            if (resultCode == RESULT_OK) {
+                Uri contactData = data.getData();
+                Cursor cursor = managedQuery(contactData, null, null, null, null);
+                cursor.moveToFirst();
+
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                Contact current = new Contact(name, number);
+                NewPhotoFragment.contacts.add(current);
+                NewPhotoFragment.contactAdapter.notifyDataSetChanged();
             }
         }
     }

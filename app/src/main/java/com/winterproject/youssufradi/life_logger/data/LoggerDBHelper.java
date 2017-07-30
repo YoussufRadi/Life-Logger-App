@@ -57,6 +57,7 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
                 PhotoEntry._ID + " INTEGER PRIMARY KEY," +
                 PhotoEntry.COLUMN_NAME + " TEXT, " +
                 PhotoEntry.COLUMN_DESCRIPTION + " TEXT, " +
+                PhotoEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
                 PhotoEntry.COLUMN_PHOTOS + " TEXT, " +
                 PhotoEntry.COLUMN_PEOPLE_NAME + " TEXT, " +
                 PhotoEntry.COLUMN_PEOPLE_NUMBER + " TEXT" + " );";

@@ -11,8 +11,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="465dp"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
@@ -25,10 +26,14 @@
             android:textSize="18dp"
             />
 
-        <ListView
+        <GridView
             android:id="@+id/photo_custom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="187dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
+            android:layout_weight="0.86" />
 
         <TextView
             android:layout_width="match_parent"
@@ -42,10 +47,11 @@
             android:textSize="18dp"
             />
 
-        <ListView
+        <GridView
             android:id="@+id/photo_generated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="200dp"
+            android:numColumns="2"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

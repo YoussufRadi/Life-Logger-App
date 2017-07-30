@@ -45,7 +45,7 @@ public class PhotoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View rootView = inflater.inflate(R.layout.contact_layout, viewGroup, false);
+        View rootView = inflater.inflate(R.layout.gallery_folder, viewGroup, false);
 
         ImageView imageOne = (ImageView) rootView.findViewById(R.id.gallery_image_1);
         ImageView imageTow = (ImageView) rootView.findViewById(R.id.gallery_image_2);

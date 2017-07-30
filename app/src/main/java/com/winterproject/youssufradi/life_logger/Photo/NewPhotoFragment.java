@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 
 public class NewPhotoFragment extends DialogFragment {
 
-    public final static int PICK_CONTACT = 100344;
+    public final static int PICK_CONTACT = 10344;
 
     View rootView;
     private EditText photoName;
@@ -43,8 +42,8 @@ public class NewPhotoFragment extends DialogFragment {
 
     public static PhotoEntryObject currentPhotos;
     private ListView liContact;
-    private ContactAdapter contactAdapter;
-    private ArrayList<Contact> contacts;
+    public static ContactAdapter contactAdapter;
+    public static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static NewPhotoFragment newInstance() {
         NewPhotoFragment f = new NewPhotoFragment();
@@ -71,7 +70,7 @@ public class NewPhotoFragment extends DialogFragment {
         submit = (Button) rootView.findViewById(R.id.add_new_photo);
 
 
-        NewEventFragment fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editEvent");
+        NewPhotoFragment fragment = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editPhoto");
         if (fragment != null) {
             photoName.setText(currentPhotos.getDescription());
             descriptionText.setText(currentPhotos.getDescription());
@@ -88,7 +87,7 @@ public class NewPhotoFragment extends DialogFragment {
         if (galleryFragment == null) {
             galleryFragment = new GalleryFragment();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+            ft.add(R.id.photo_gallery_fragment_container, galleryFragment, "galleryFragment");
             ft.commit();
             fm.executePendingTransactions();
         }
@@ -117,17 +116,17 @@ public class NewPhotoFragment extends DialogFragment {
             public void onClick(View v) {
 
                 PhotoEntryObject newEntry = new PhotoEntryObject( 0, photoName.getText().toString().trim(),
-                        descriptionText.getText().toString().trim(), GalleryFragment.photos, contacts);
+                        descriptionText.getText().toString().trim(), 0, GalleryFragment.photos, contacts);
 
-                NewEventFragment fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newPhoto");
+                NewPhotoFragment fragment = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("newPhoto");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                 } else {
-                    fragment = (NewEventFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editPhoto");
+                    fragment = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editPhoto");
                     if (fragment != null) {
                         getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-//                        EventFragment.deleteEntryFromDB(currentPhotos,getActivity());
-//                        EventFragment.eventEntries.remove(currentPhotos);
+                        PhotoFragment.deleteEntryFromDB(currentPhotos,getActivity(),true);
+                        PhotoFragment.customEntries.remove(currentPhotos);
                     }
                 }
                 newEntry.setId(insertInDB(newEntry));
@@ -165,7 +164,7 @@ public class NewPhotoFragment extends DialogFragment {
         galleryFragment.phArray = true;
         galleryFragment.imagesPerRow = 2;
         galleryFragment = new GalleryFragment();
-        ft.add(R.id.gallery_fragment_container, galleryFragment, "galleryFragment");
+        ft.add(R.id.photo_gallery_fragment_container, galleryFragment, "galleryFragment");
         ft.commit();
         fm.executePendingTransactions();
 
@@ -180,7 +179,7 @@ public class NewPhotoFragment extends DialogFragment {
 
     public long insertInDB(PhotoEntryObject newEntry){
         SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
-        ContentValues movie = createMovieValues(newEntry.getName(),newEntry.getDescription(),
+        ContentValues movie = createMovieValues(newEntry.getName(),newEntry.getDescription(), 0,
                 newEntry.getContacts(), newEntry.getPhotos());
 
         long photoID = db.insert(LoggerContract.PhotoEntry.TABLE_NAME, null, movie);
@@ -192,7 +191,7 @@ public class NewPhotoFragment extends DialogFragment {
         return photoID;
     }
 
-    static ContentValues createMovieValues(String title, String description,
+    static ContentValues createMovieValues(String title, String description, int type,
                                            ArrayList<Contact> people, ArrayList<String> photos) {
         Gson gson = new Gson();
 
@@ -215,6 +214,7 @@ public class NewPhotoFragment extends DialogFragment {
         photoValues.put(LoggerContract.PhotoEntry.COLUMN_NAME, title);
         photoValues.put(LoggerContract.PhotoEntry.COLUMN_DESCRIPTION, description);
         photoValues.put(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NAME, inputStringPeopleName);
+        photoValues.put(LoggerContract.PhotoEntry.COLUMN_TYPE, type);
         photoValues.put(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NUMBER, inputStringPeopleNumber);
         photoValues.put(LoggerContract.PhotoEntry.COLUMN_PHOTOS, inputStringPhotos);
         return photoValues;
