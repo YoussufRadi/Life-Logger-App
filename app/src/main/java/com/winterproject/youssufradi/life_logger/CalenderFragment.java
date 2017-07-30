@@ -161,10 +161,8 @@ public class CalenderFragment extends Fragment {
                     for (int i = 0; i < LoggerFragment.logEntries.size(); i++) {
                         if (LoggerFragment.logEntries.get(i).getDay() == day
                                 && LoggerFragment.logEntries.get(i).getMonth() == month
-                                && LoggerFragment.logEntries.get(i).getYear() == year) {
+                                && LoggerFragment.logEntries.get(i).getYear() == year)
                             log.add(LoggerFragment.logEntries.get(i));
-                            LoggerFragment.logEntries.get(i).printLog();
-                        }
                     }
                     LoggerFragment.selectedEntries = log;
                     LoggerFragment.passedEntries.clear();

@@ -24,6 +24,7 @@ import com.winterproject.youssufradi.life_logger.Event.EventFragment;
 import com.winterproject.youssufradi.life_logger.Event.NewEventFragment;
 import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
 import com.winterproject.youssufradi.life_logger.Log.NewLogFragment;
+import com.winterproject.youssufradi.life_logger.Photo.PhotoFragment;
 import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
@@ -113,13 +114,18 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.window_main, new LoggerFragment())
                     .commit();
 
-        } else if (id == R.id.nav_photo) {
+        } else if (id == R.id.nav_event) {
             EventFragment.displaymood = false;
             EventFragment.checkbox = false;
             EventFragment.hasArray = false;
             EventFragment.displaymood = false;
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.window_main, new EventFragment())
+                    .commit();
+
+        } else if (id == R.id.nav_photos) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.window_main, new PhotoFragment())
                     .commit();
 
         } else if (id == R.id.nav_gallery) {
