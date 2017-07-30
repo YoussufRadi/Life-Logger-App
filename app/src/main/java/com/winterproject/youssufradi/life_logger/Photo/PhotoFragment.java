@@ -17,9 +17,9 @@ public class PhotoFragment extends Fragment {
     View rootView;
     private ListView customView;
     private ListView generatedView;
-    private ArrayList<PhotoEntry> customEntries = new ArrayList<>();
-    private ArrayList<PhotoEntry> generatedEntries = new ArrayList<>();
-    private PhotoAdapter customAdaptor;
+    public static ArrayList<PhotoEntryObject> customEntries = new ArrayList<>();
+    private ArrayList<PhotoEntryObject> generatedEntries = new ArrayList<>();
+    public static PhotoAdapter customAdaptor;
     private PhotoAdapter generatedAdaptor;
 
     @Override

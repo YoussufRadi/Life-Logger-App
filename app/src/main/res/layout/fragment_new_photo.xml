@@ -1,0 +1,133 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.winterproject.youssufradi.life_logger.Log.NewPhotoFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/input_register_hint"
+            android:text="Add your newest Highlights"
+            android:textSize="14dp"
+            android:textAlignment="center"
+            android:padding="14dp"
+            android:textColor="@color/btn_login_bg"/>
+
+        <!--Name Insertion-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Gallery Name"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <EditText
+            android:id="@+id/photo_new_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Highlight Details :D"
+            android:inputType="textMultiLine" />
+
+        <!--Highlight Insertion-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Enter Gallery Description"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <EditText
+            android:id="@+id/photo_new_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textMultiLine" />
+
+
+        <!--Images Selection-->
+        <RelativeLayout
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+                android:text="Choose images to add"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+            <Button
+                android:id="@+id/photo_new_gallery_selector"
+                android:layout_alignParentRight="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_menu_gallery" />
+
+        </RelativeLayout>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/photo_gallery_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <RelativeLayout
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+                android:text="Choose Contacts to link"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
+            <Button
+                android:id="@+id/photo_contact_select_fragment_opener"
+                android:layout_alignParentRight="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/bg_main"
+                android:background="@drawable/ic_collapse_00011" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="true"
+            android:id="@+id/photo_contact_list"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/add_new_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_main"
+            android:text="Add"
+            android:textColor="@color/btn_login_bg"/>
+    </LinearLayout>
+</ScrollView>

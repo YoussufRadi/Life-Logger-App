@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * Created by GUC on 30.07.17.
  */
 
-public class PhotoEntry {
+public class PhotoEntryObject {
 
-    private Long id;
+    private long id;
     private final String name;
     private final String description;
     private final ArrayList<String> photos;
@@ -41,7 +41,7 @@ public class PhotoEntry {
         return contacts;
     }
 
-    public PhotoEntry(Long id, String name, String description, ArrayList<String> photos, ArrayList<Contact> contacts) {
+    public PhotoEntryObject(long id, String name, String description, ArrayList<String> photos, ArrayList<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.description = description;

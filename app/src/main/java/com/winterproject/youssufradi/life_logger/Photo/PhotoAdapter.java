@@ -19,10 +19,10 @@ import java.util.ArrayList;
 
 public class PhotoAdapter extends BaseAdapter {
 
-    private ArrayList<PhotoEntry> entries;
+    private ArrayList<PhotoEntryObject> entries;
     private Context context;
 
-    public PhotoAdapter(Context context, ArrayList<PhotoEntry> entries) {
+    public PhotoAdapter(Context context, ArrayList<PhotoEntryObject> entries) {
         this.entries = entries;
         this.context = context;
     }
@@ -33,7 +33,7 @@ public class PhotoAdapter extends BaseAdapter {
     }
 
     @Override
-    public PhotoEntry getItem(int i) {
+    public PhotoEntryObject getItem(int i) {
         return entries.get(i);
     }
 
