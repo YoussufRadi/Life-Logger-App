@@ -104,9 +104,9 @@ public class CalenderFragment extends Fragment {
                     PageAdapter.tab1.checkbox = false;
                     PageAdapter.tab1.hasArray = true;
                     adapter.notifyDataSetChanged();
-                    for (int i = 0; i < PageAdapter.tab1.eventEntries.size(); i++) {
-                        PageAdapter.tab1.eventEntries.get(i).printEvent();
-                    }
+//                    for (int i = 0; i < PageAdapter.tab1.eventEntries.size(); i++) {
+//                        PageAdapter.tab1.eventEntries.get(i).printEvent();
+//                    }
                 } else if(lastTab == 1) {
 
                     PageAdapter.tab2.getDataFromDB(getActivity());
@@ -123,9 +123,9 @@ public class CalenderFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     PageAdapter.tab2 = new LoggerFragment();
                     PageAdapter.tab2.logEntries.add(log.get(0));
-                    for (int i = 0; i < PageAdapter.tab2.logEntries.size(); i++) {
-                        PageAdapter.tab2.logEntries.get(i).printLog();
-                    }
+//                    for (int i = 0; i < PageAdapter.tab2.logEntries.size(); i++) {
+//                        PageAdapter.tab2.logEntries.get(i).printLog();
+//                    }
 //                    PageAdapter.tab2.logEntries.add(log.get(0));
 //                    LoggerFragment.getDataFromDB(getActivity());
 //                    adapter.notifyDataSetChanged();
