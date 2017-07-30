@@ -93,7 +93,7 @@ public class EventAdapter extends BaseAdapter {
                     }
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Are you sure you want to delete this log?")
+                builder.setMessage("Are you sure you want to delete this Event?")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
 

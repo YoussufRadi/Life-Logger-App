@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.winterproject.youssufradi.life_logger.R;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract;
 import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
 import java.lang.reflect.Type;
@@ -33,6 +35,7 @@ public class PhotoFragment extends Fragment {
     public static ArrayList<PhotoEntryObject> generatedEntries = new ArrayList<>();
     public static PhotoAdapter customAdaptor;
     public static PhotoAdapter generatedAdaptor;
+    public static PhotoEntryObject photoDisplay;
     private FloatingActionButton add;
 
     @Override
@@ -68,6 +71,18 @@ public class PhotoFragment extends Fragment {
                 newFragment.show(ft, "newPhoto");
             }
         });
+
+        generatedView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                photoDisplay = generatedEntries.get(position);
+                GalleryFragment.photos = photoDisplay.getPhotos();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                PhotoDetails newFragment = PhotoDetails.newInstance();
+                newFragment.show(ft, "photoDetails");
+            }
+        });
+
 
 
         return rootView;
