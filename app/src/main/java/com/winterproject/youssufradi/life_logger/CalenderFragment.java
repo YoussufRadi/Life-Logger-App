@@ -3,19 +3,21 @@ package com.winterproject.youssufradi.life_logger;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
 
 import com.winterproject.youssufradi.life_logger.Event.EventEntryObject;
 import com.winterproject.youssufradi.life_logger.Event.EventFragment;
 import com.winterproject.youssufradi.life_logger.Log.LogEntryObject;
 import com.winterproject.youssufradi.life_logger.Log.LoggerFragment;
-import com.winterproject.youssufradi.life_logger.helpers.PageAdapter;
 
 import java.util.ArrayList;
 
@@ -24,9 +26,11 @@ public class CalenderFragment extends Fragment {
     private View rootView;
     CalendarView calendar;
     private int lastTab;
-    ViewPager viewPager;
-    private PageAdapter adapter;
+    LinearLayout viewPager;
     TabLayout tabLayout;
+    private EventFragment eventFragment;
+    private LoggerFragment loggerFragment;
+
     //TODO Allow Calender to change data of the logs or events view
 
     @Override
@@ -45,15 +49,16 @@ public class CalenderFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Logs"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        viewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        adapter = new PageAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager = (LinearLayout) rootView.findViewById(R.id.calendar_details);
+
+        switchTab();
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
                 lastTab = tab.getPosition();
+                Log.e("TAB : ", lastTab + "");
+                switchTab();
             }
 
             @Override
@@ -67,6 +72,41 @@ public class CalenderFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void switchTab() {
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if(lastTab == 0) {
+            if(loggerFragment != null)
+                ft.remove(loggerFragment);
+            eventFragment = (EventFragment) fm.findFragmentByTag("calenderEventFragment");
+            if (eventFragment == null) {
+                eventFragment = new EventFragment();
+                EventFragment.checkbox = false;
+                EventFragment.hasArray = false;
+                EventFragment.displaymood = true;
+                ft.add(R.id.calendar_details, eventFragment, "calenderEventFragment");
+                ft.commit();
+                fm.executePendingTransactions();
+            }
+
+        } else if(lastTab == 1) {
+            if(eventFragment != null)
+                ft.remove(eventFragment);
+            loggerFragment = (LoggerFragment) fm.findFragmentByTag("calenderLogFragment");
+            if (loggerFragment == null) {
+                LoggerFragment.checkbox = false;
+                LoggerFragment.hasArray = false;
+                LoggerFragment.displaymood = true;
+                LoggerFragment.getDataFromDB(getActivity());
+                loggerFragment = new LoggerFragment();
+                ft.add(R.id.calendar_details, loggerFragment, "calenderLogFragment");
+                ft.commit();
+                fm.executePendingTransactions();
+            }
+        }
     }
 
 
@@ -92,7 +132,7 @@ public class CalenderFragment extends Fragment {
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
                 month++;
                 if(lastTab == 0) {
-                    PageAdapter.tab1.getDataFromDB(getActivity());
+                    EventFragment.getDataFromDB(getActivity());
                     ArrayList<EventEntryObject> event = new ArrayList<>();
                     for (int i = 0; i < EventFragment.eventEntries.size(); i++) {
                         if (EventFragment.eventEntries.get(i).getStartDay() == day
@@ -100,36 +140,46 @@ public class CalenderFragment extends Fragment {
                                 && EventFragment.eventEntries.get(i).getStartYear() == year)
                             event.add(EventFragment.eventEntries.get(i));
                     }
-                    PageAdapter.tab1.selectedEntries = event;
-                    PageAdapter.tab1.checkbox = false;
-                    PageAdapter.tab1.hasArray = true;
-                    adapter.notifyDataSetChanged();
-//                    for (int i = 0; i < PageAdapter.tab1.eventEntries.size(); i++) {
-//                        PageAdapter.tab1.eventEntries.get(i).printEvent();
-//                    }
+                    EventFragment.selectedEntries = event;
+                    EventFragment.checkbox = false;
+                    EventFragment.hasArray = true;
+
+                    FragmentManager fm = getChildFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.remove(eventFragment);
+                    eventFragment = (EventFragment) fm.findFragmentByTag("calenderEventFragment");
+                    eventFragment = new EventFragment();
+                    ft.add(R.id.calendar_details, eventFragment, "calenderEventFragment");
+                    ft.commit();
+                    fm.executePendingTransactions();
+                    eventFragment.eventAdapter.notifyDataSetChanged();
+
                 } else if(lastTab == 1) {
 
-                    PageAdapter.tab2.getDataFromDB(getActivity());
+                    LoggerFragment.getDataFromDB(getActivity());
                     ArrayList<LogEntryObject> log = new ArrayList<>();
                     for (int i = 0; i < LoggerFragment.logEntries.size(); i++) {
                         if (LoggerFragment.logEntries.get(i).getDay() == day
                                 && LoggerFragment.logEntries.get(i).getMonth() == month
-                                && LoggerFragment.logEntries.get(i).getYear() == year)
+                                && LoggerFragment.logEntries.get(i).getYear() == year) {
                             log.add(LoggerFragment.logEntries.get(i));
+                            LoggerFragment.logEntries.get(i).printLog();
+                        }
                     }
-                    PageAdapter.tab2.logEntries = log;
-                    PageAdapter.tab2.checkbox = false;
-                    PageAdapter.tab2.hasArray = true;
-                    adapter.notifyDataSetChanged();
-                    PageAdapter.tab2 = new LoggerFragment();
-                    PageAdapter.tab2.logEntries.add(log.get(0));
-//                    for (int i = 0; i < PageAdapter.tab2.logEntries.size(); i++) {
-//                        PageAdapter.tab2.logEntries.get(i).printLog();
-//                    }
-//                    PageAdapter.tab2.logEntries.add(log.get(0));
-//                    LoggerFragment.getDataFromDB(getActivity());
-//                    adapter.notifyDataSetChanged();
+                    LoggerFragment.selectedEntries = log;
+                    LoggerFragment.passedEntries.clear();
+                    LoggerFragment.checkbox = false;
+                    LoggerFragment.hasArray = true;
 
+                    FragmentManager fm = getChildFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.remove(loggerFragment);
+                    loggerFragment = (LoggerFragment) fm.findFragmentByTag("calenderLogFragment");
+                    loggerFragment = new LoggerFragment();
+                    ft.add(R.id.calendar_details, loggerFragment, "calenderLogFragment");
+                    ft.commit();
+                    fm.executePendingTransactions();
+                    loggerFragment.logAdapter.notifyDataSetChanged();
                 }
             }
         });

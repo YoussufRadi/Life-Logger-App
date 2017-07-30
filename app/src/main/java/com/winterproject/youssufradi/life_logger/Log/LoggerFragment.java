@@ -68,8 +68,7 @@ public class LoggerFragment extends DialogFragment {
                 }
                 logEntries = temp;
             } else
-                for (int i = 0; i < logEntries.size(); i++)
-                    passedEntries.add(Long.toString(logEntries.get(i).getId()));
+                logEntries = selectedEntries;
         }
         else
             getDataFromDB(getActivity());
