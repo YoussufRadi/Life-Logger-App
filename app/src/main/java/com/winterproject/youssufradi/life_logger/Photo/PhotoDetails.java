@@ -28,7 +28,6 @@ public class PhotoDetails extends DialogFragment {
     public GalleryFragment galleryFragment;
     private Button close;
 
-    public static PhotoEntryObject currentPhotos;
     private ListView liContact;
     public ContactAdapter contactAdapter;
     public static ArrayList<Contact> contacts = new ArrayList<>();

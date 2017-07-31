@@ -34,7 +34,6 @@ public class GalleryFragment extends DialogFragment {
     public static Boolean checkBox = false;
     public static Boolean phArray = false;
     public static int imagesPerRow = 4;
-    private ProgressDialog pDialog;
     public static GalleryAdapter mAdapter;
     public RecyclerView recyclerView;
     private FloatingActionButton selectButton;
@@ -60,7 +59,6 @@ public class GalleryFragment extends DialogFragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         selectButton = (FloatingActionButton) rootView.findViewById(R.id.image_select_button);
 
-        pDialog = new ProgressDialog(getActivity());
         mAdapter = new GalleryAdapter(getActivity().getApplicationContext(), photos, checkBox);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), imagesPerRow);
