@@ -48,4 +48,9 @@ public class LoggerContract {
         public static final String COLUMN_PEOPLE_NAME = "peopleName";
         public static final String COLUMN_PEOPLE_NUMBER = "peopleNumber";
     }
+
+    public static final class VoiceEntry implements BaseColumns{
+        public static final String TABLE_NAME = "voiceEntries";
+        public static final String COLUMN_DESCRIPTION = "description";
+    }
 }

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.winterproject.youssufradi.life_logger.data.LoggerContract.PhotoEntry;
+import com.winterproject.youssufradi.life_logger.data.LoggerContract.VoiceEntry;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract.LogEntry;
 import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
 
@@ -15,7 +16,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
 
 public class LoggerDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "log.db";
 
@@ -62,9 +63,14 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
                 PhotoEntry.COLUMN_PEOPLE_NAME + " TEXT, " +
                 PhotoEntry.COLUMN_PEOPLE_NUMBER + " TEXT" + " );";
 
+        final String SQL_CREATE_VOICE_TABLE = "CREATE TABLE " + VoiceEntry.TABLE_NAME + " (" +
+                VoiceEntry._ID + " INTEGER PRIMARY KEY," +
+                VoiceEntry.COLUMN_DESCRIPTION + " TEXT" +" );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_LOGS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_EVENTS_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_PHOTOS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_VOICE_TABLE);
 
     }
 
@@ -73,6 +79,7 @@ public class LoggerDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + LogEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EventEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PhotoEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VoiceEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

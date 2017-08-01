@@ -1,20 +1,30 @@
 package com.winterproject.youssufradi.life_logger;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.winterproject.youssufradi.life_logger.data.LoggerContract;
+import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
+import com.winterproject.youssufradi.life_logger.helpers.VoiceAdapter;
 
 import java.util.ArrayList;
 
@@ -24,7 +34,7 @@ import static android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY;
 public class VoiceFragment extends Fragment {
 
     private FloatingActionButton mic;
-    private EditText input;
+    private ListView inputList;
 
     String TAG = "VOICE FRAGMENT :";
 
@@ -32,6 +42,10 @@ public class VoiceFragment extends Fragment {
     private SpeechRecognizer recognizer;
     private boolean mIsListening = false;
     private ProgressDialog pDialoge;
+    private Snackbar snakBar;
+    private static ArrayList<String> logs = new ArrayList<>();
+    private static ArrayList<Long> ids = new ArrayList<>();
+    public static VoiceAdapter vAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,11 +53,14 @@ public class VoiceFragment extends Fragment {
 
         rootView =  inflater.inflate(R.layout.fragment_voice, container, false);
 
-        input = (EditText) rootView.findViewById(R.id.input);
-
+        inputList = (ListView) rootView.findViewById(R.id.voice_log);
+        vAdapter = new VoiceAdapter(getActivity(), logs);
+        inputList.setAdapter(vAdapter);
 
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.RECORD_AUDIO},2);
+
+        getDataFromDB(getActivity());
 
         mic = (FloatingActionButton) rootView.findViewById(R.id.mic);
 
@@ -73,6 +90,9 @@ public class VoiceFragment extends Fragment {
                             for (String match : voiceResults) {
                                 Log.e(TAG, match);
                             }
+                            logs.add(voiceResults.get(0));
+                            insertInDB(voiceResults.get(0),getActivity());
+                            vAdapter.notifyDataSetChanged();
                         }
                         pDialoge.hide();
                     }
@@ -136,10 +156,13 @@ public class VoiceFragment extends Fragment {
                 {
                     mIsListening = true;
                     recognizer.startListening(intent);
+                    snakBar = Snackbar.make(rootView,"Recording",Snackbar.LENGTH_INDEFINITE);
+                    snakBar.setAction("Action", null).show();
                 }
                 else {
                     pDialoge = new ProgressDialog(getActivity());
                     pDialoge.setMessage("Converting text");
+                    snakBar.dismiss();
                     pDialoge.show();
                     recognizer.stopListening();
                     Log.e("Tag", "Stop");
@@ -149,6 +172,71 @@ public class VoiceFragment extends Fragment {
 
 
         return rootView;
+    }
+
+
+    public static void getDataFromDB(Activity activity){
+        logs.clear();
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
+        Cursor voiceCursor = db.query(
+                LoggerContract.VoiceEntry.TABLE_NAME,  // Table to Query
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null, // columns to group by
+                null, // columns to filter by row groups
+                null  // sort order
+        );
+        boolean cursor = voiceCursor.moveToFirst();
+        if(cursor){
+            int voiceID = voiceCursor.getColumnIndex(LoggerContract.VoiceEntry._ID);
+            int voiceDescription = voiceCursor.getColumnIndex(LoggerContract.VoiceEntry.COLUMN_DESCRIPTION);
+            do {
+                long COLUMN_ID = voiceCursor.getLong(voiceID);
+                String COLUMN_DESCRIPTION = voiceCursor.getString(voiceDescription);
+
+                logs.add(COLUMN_DESCRIPTION);
+                ids.add(COLUMN_ID);
+
+            } while(voiceCursor.moveToNext());
+        }
+        voiceCursor.close();
+        db.close();
+    }
+
+    public static void deleteEntryFromDB(int position, Activity activity){
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
+
+        if(db.delete(LoggerContract.VoiceEntry.TABLE_NAME, LoggerContract.VoiceEntry._ID + "=" + Long.toString(ids.get(position)), null) > 0)
+            Toast.makeText(activity,"Voice Log successfully removed !", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(activity,"Error removing Voice Log", Toast.LENGTH_SHORT).show();
+        logs.remove(position);
+        ids.remove(position);
+        vAdapter.notifyDataSetChanged();
+    }
+
+    public static void insertInDB(String note, Activity activity){
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
+        ContentValues movie = createMovieValues(note);
+
+        long noteID = db.insert(LoggerContract.VoiceEntry.TABLE_NAME, null, movie);
+        if(noteID != -1)
+            Toast.makeText(activity,"Congrats on your new Voice Note!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(activity,"Error adding Voice Note", Toast.LENGTH_SHORT).show();
+        db.close();
+
+        logs.add(note);
+        ids.add(noteID);
+        vAdapter.notifyDataSetChanged();
+
+    }
+
+    static ContentValues createMovieValues(String description) {
+        ContentValues note = new ContentValues();
+        note.put(LoggerContract.VoiceEntry.COLUMN_DESCRIPTION, description);
+        return note;
     }
 
 
