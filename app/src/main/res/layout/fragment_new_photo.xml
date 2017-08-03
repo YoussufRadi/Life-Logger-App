@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:hint="Highlight Details :D"
             android:inputType="textMultiLine" />
 
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:hint="Description"
             android:inputType="textMultiLine" />
 
@@ -77,6 +79,7 @@
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <Button
+                android:backgroundTint="@color/bg_main"
                 android:id="@+id/photo_new_gallery_selector"
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"

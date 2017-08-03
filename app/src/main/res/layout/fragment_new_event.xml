@@ -36,6 +36,7 @@
             android:textSize="18dp"/>
         <EditText
             android:id="@+id/event_name"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -54,6 +55,7 @@
             android:textStyle="bold"
             android:textSize="18dp"/>
         <EditText
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:id="@+id/event_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -407,6 +409,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:nestedScrollingEnabled="true"
             android:layout_weight="1"/>
 

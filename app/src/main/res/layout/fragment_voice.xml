@@ -42,6 +42,7 @@ tools:context="com.winterproject.youssufradi.life_logger.VoiceFragment">
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/bg_main"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
 

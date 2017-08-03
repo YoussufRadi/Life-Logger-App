@@ -60,7 +60,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/bg_main"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/photo_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="65dp"
+        android:backgroundTint="@color/bg_main"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
 
 </FrameLayout>
 
