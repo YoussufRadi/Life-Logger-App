@@ -1,5 +1,6 @@
 package com.winterproject.youssufradi.life_logger.Photo;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -142,7 +143,7 @@ public class NewPhotoFragment extends DialogFragment {
                         PhotoFragment.customEntries.remove(currentPhotos);
                     }
                 }
-                newEntry.setId(insertInDB(newEntry));
+                newEntry.setId(insertInDB(newEntry, getActivity()));
                 PhotoFragment.customEntries.add(newEntry);
                 PhotoFragment.customAdaptor.notifyDataSetChanged();
             }
@@ -190,16 +191,16 @@ public class NewPhotoFragment extends DialogFragment {
         }
     }
 
-    public long insertInDB(PhotoEntryObject newEntry){
-        SQLiteDatabase db = new LoggerDBHelper(getActivity()).getWritableDatabase();
+    public static long insertInDB(PhotoEntryObject newEntry, Activity activity){
+        SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
         ContentValues movie = createMovieValues(newEntry.getName(),newEntry.getDescription(), 0,
                 newEntry.getContacts(), newEntry.getPhotos());
 
         long photoID = db.insert(LoggerContract.PhotoEntry.TABLE_NAME, null, movie);
         if(photoID != -1)
-            Toast.makeText(getActivity(),"Congrats on your new Gallery!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"Congrats on your new Gallery!", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(getActivity(),"Error adding Gallery", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"Error adding Gallery", Toast.LENGTH_SHORT).show();
         db.close();
         return photoID;
     }

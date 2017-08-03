@@ -44,8 +44,7 @@ public class PhotoFragment extends Fragment {
     public static PhotoAdapter generatedAdaptor;
     public static PhotoEntryObject photoDisplay;
     private FloatingActionButton add;
-    private ArrayList<Float> lat = new ArrayList<>();
-    private ArrayList<Float> lon = new ArrayList<>();
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,11 +134,20 @@ public class PhotoFragment extends Fragment {
                     boolean flag = true;
                     for(int j = 0; j < generatedEntries.size(); j++)
                         if(generatedEntries.get(j).getName().equals(country)){
-                            generatedEntries.get(j).addNewPhoto(filePath);
+                            PhotoEntryObject entry  = generatedEntries.get(j);
+                            if(entry.getPhotos().contains(filePath))
+                                break;
+                            entry.addNewPhoto(filePath);
+                            deleteEntryFromDB(entry,getActivity(),false);
+                            entry.setId(NewPhotoFragment.insertInDB(entry,getActivity()));
+                            generatedEntries.add(entry);
                             flag = false;
                         }
-                    if(flag)
-                        generatedEntries.add(new PhotoEntryObject(0,country,"",1,filePath));
+                    if(flag) {
+                        PhotoEntryObject entry = new PhotoEntryObject(0, country, "", 1, filePath);
+                        generatedEntries.add(entry);
+                        entry.setId(NewPhotoFragment.insertInDB(entry, getActivity()));
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("Photo Error", "Cannot Get Location");
@@ -156,7 +164,7 @@ public class PhotoFragment extends Fragment {
             generatedEntries.clear();
 
         SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
-        Cursor photocursor = db.query(
+        Cursor photoCursor = db.query(
                 LoggerContract.PhotoEntry.TABLE_NAME,  // Table to Query
                 null, // leaving "columns" null just returns all the columns.
                 null, // cols for "where" clause
@@ -165,24 +173,24 @@ public class PhotoFragment extends Fragment {
                 null, // columns to filter by row groups
                 null  // sort order
         );
-        boolean cursor = photocursor.moveToFirst();
+        boolean cursor = photoCursor.moveToFirst();
         if(cursor){
-            int photoID = photocursor.getColumnIndex(LoggerContract.PhotoEntry._ID);
-            int name = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_NAME);
-            int description = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_DESCRIPTION);
-            int type = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_TYPE);
-            int photoPhotos = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PHOTOS);
-            int photoPeopleName = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NAME);
-            int photoPeopleNumber = photocursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NUMBER);
+            int photoID = photoCursor.getColumnIndex(LoggerContract.PhotoEntry._ID);
+            int name = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_NAME);
+            int description = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_DESCRIPTION);
+            int type = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_TYPE);
+            int photoPhotos = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PHOTOS);
+            int photoPeopleName = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NAME);
+            int photoPeopleNumber = photoCursor.getColumnIndex(LoggerContract.PhotoEntry.COLUMN_PEOPLE_NUMBER);
             Gson gson = new Gson();
             do {
-                long COLUMN_ID = photocursor.getLong(photoID);
-                int COLUMN_TYPE = photocursor.getInt(type);
-                String COLUMN_NAME = photocursor.getString(name);
-                String COLUMN_DESCRIPTION = photocursor.getString(description);
-                String COLUMN_PHOTOS = photocursor.getString(photoPhotos);
-                String COLUMN_PEOPLE_NAME = photocursor.getString(photoPeopleName);
-                String COLUMN_PEOPLE_NUMBER = photocursor.getString(photoPeopleNumber);
+                long COLUMN_ID = photoCursor.getLong(photoID);
+                int COLUMN_TYPE = photoCursor.getInt(type);
+                String COLUMN_NAME = photoCursor.getString(name);
+                String COLUMN_DESCRIPTION = photoCursor.getString(description);
+                String COLUMN_PHOTOS = photoCursor.getString(photoPhotos);
+                String COLUMN_PEOPLE_NAME = photoCursor.getString(photoPeopleName);
+                String COLUMN_PEOPLE_NUMBER = photoCursor.getString(photoPeopleNumber);
 
                 Type listType = new TypeToken<ArrayList<String>>(){}.getType();
                 ArrayList<String>  finalOutputString = gson.fromJson(COLUMN_PHOTOS,  listType);
@@ -197,11 +205,11 @@ public class PhotoFragment extends Fragment {
                 if(custom && COLUMN_TYPE == 0)
                     customEntries.add(new PhotoEntryObject(COLUMN_ID, COLUMN_NAME,COLUMN_DESCRIPTION, 0, finalOutputString, array));
                 else if(!custom && COLUMN_TYPE == 1)
-                    customEntries.add(new PhotoEntryObject(COLUMN_ID, COLUMN_NAME,COLUMN_DESCRIPTION, 1, finalOutputString, array));
+                    generatedEntries.add(new PhotoEntryObject(COLUMN_ID, COLUMN_NAME,COLUMN_DESCRIPTION, 1, finalOutputString, array));
 
-            } while(photocursor.moveToNext());
+            } while(photoCursor.moveToNext());
         }
-        photocursor.close();
+        photoCursor.close();
         db.close();
     }
 
