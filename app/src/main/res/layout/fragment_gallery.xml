@@ -23,6 +23,7 @@
         android:background="@color/bg_main"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/recycler_view"
+        app:backgroundTint="@color/bg_main"
         app:srcCompat="@android:drawable/ic_menu_agenda"
         android:text="Select"
         android:textColor="@color/btn_login_bg"

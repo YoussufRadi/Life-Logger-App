@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/bg_main"
+        app:backgroundTint="@color/bg_main"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
@@ -31,7 +31,7 @@
         android:background="@color/bg_main"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@color/bg_main"
+        app:backgroundTint="@color/bg_main"
         app:srcCompat="@android:drawable/ic_menu_agenda"
         android:visibility="gone"/>
 
