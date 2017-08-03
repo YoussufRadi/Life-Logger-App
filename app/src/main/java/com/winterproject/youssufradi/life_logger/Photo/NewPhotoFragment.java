@@ -9,12 +9,15 @@ import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -72,13 +75,22 @@ public class NewPhotoFragment extends DialogFragment {
 
         NewPhotoFragment fragment = (NewPhotoFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editPhoto");
         if (fragment != null) {
-            photoName.setText(currentPhotos.getDescription());
+            photoName.setText(currentPhotos.getName());
             descriptionText.setText(currentPhotos.getDescription());
             contacts = currentPhotos.getContacts();
             contactAdapter = new ContactAdapter(getActivity(),contacts,false);
             liContact.setAdapter(contactAdapter);
             GalleryFragment.photos = currentPhotos.getPhotos();
+            Log.e("PHOTO SIZE : ", currentPhotos.getPhotos().size() + "");
             submit.setText("Edit");
+            if(currentPhotos.getType() == 1) {
+                RelativeLayout text = (RelativeLayout) rootView.findViewById(R.id.contact_layout);
+                text.setVisibility(View.GONE);
+                TextView text1 = (TextView) rootView.findViewById(R.id.description_text_view);
+                descriptionText.setVisibility(View.GONE);
+                text1.setVisibility(View.GONE);
+                liContact.setVisibility(View.GONE);
+            }
         }
 
         //Loading Gallery Fragment for selected Images
@@ -91,6 +103,7 @@ public class NewPhotoFragment extends DialogFragment {
             ft.commit();
             fm.executePendingTransactions();
         }
+
         GalleryFragment.checkBox = false;
         GalleryFragment.phArray = true;
         GalleryFragment.imagesPerRow = 2;
@@ -105,7 +118,7 @@ public class NewPhotoFragment extends DialogFragment {
                 GalleryFragment.checkBox = true;
                 GalleryFragment.imagesPerRow = 2;
                 GalleryFragment.phArray = false;
-                GalleryFragment.photos.clear();
+                GalleryFragment.photos = new ArrayList<>();
                 newFragment.show(ft, "gallerySelector");
             }
         });

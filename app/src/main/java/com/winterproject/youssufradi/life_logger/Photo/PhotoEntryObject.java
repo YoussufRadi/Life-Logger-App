@@ -18,6 +18,10 @@ public class PhotoEntryObject {
     private final ArrayList<String> photos;
     private final ArrayList<Contact> contacts;
 
+    public int getType() {
+        return type;
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,5 +54,19 @@ public class PhotoEntryObject {
         this.description = description;
         this.photos = photos;
         this.contacts = contacts;
+    }
+
+    public PhotoEntryObject(long id, String name, String description, int type, String filePath) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.photos = new ArrayList<>();
+        photos.add(filePath);
+        this.contacts = new ArrayList<>();
+    }
+
+    public void addNewPhoto(String photo){
+        this.photos.add(photo);
     }
 }

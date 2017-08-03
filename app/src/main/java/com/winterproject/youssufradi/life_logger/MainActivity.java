@@ -30,6 +30,8 @@ import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -132,8 +134,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             GalleryFragment.checkBox = false;
             GalleryFragment.imagesPerRow = 4;
+            GalleryFragment.photos = new ArrayList<>();
             GalleryFragment.phArray = false;
-            GalleryFragment.photos.clear();
             if(GalleryFragment.mAdapter != null)
                 GalleryFragment.getAllShownImagesPath(this);
             getSupportFragmentManager().beginTransaction()

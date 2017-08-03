@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.R;
 
+import java.util.ArrayList;
+
 public class LogDetails extends DialogFragment {
 
     View rootView;
@@ -66,7 +68,7 @@ public class LogDetails extends DialogFragment {
                 LogDetails fragment = (LogDetails) getActivity().getSupportFragmentManager().findFragmentByTag("logDetails");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    GalleryFragment.photos.clear();
+                    GalleryFragment.photos = new ArrayList<>();
                 }
             }
         });

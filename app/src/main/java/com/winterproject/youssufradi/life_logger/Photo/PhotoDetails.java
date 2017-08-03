@@ -55,11 +55,19 @@ public class PhotoDetails extends DialogFragment {
 
         close = (Button) rootView.findViewById(R.id.photo_close);
 
-        photoName.setText(PhotoFragment.photoDisplay.getDescription());
+        photoName.setText(PhotoFragment.photoDisplay.getName());
         descriptionText.setText(PhotoFragment.photoDisplay.getDescription());
         contacts = PhotoFragment.photoDisplay.getContacts();
         contactAdapter = new ContactAdapter(getActivity(),contacts,false);
         liContact.setAdapter(contactAdapter);
+        if(contacts.isEmpty()){
+            TextView text = (TextView) rootView.findViewById(R.id.contact_text_view);
+            text.setVisibility(View.GONE);
+            TextView text1 = (TextView) rootView.findViewById(R.id.description_text_view);
+            descriptionText.setVisibility(View.GONE);
+            text1.setVisibility(View.GONE);
+            liContact.setVisibility(View.GONE);
+        }
         GalleryFragment.photos = PhotoFragment.photoDisplay.getPhotos();
 
         //Loading Gallery Fragment for selected Images
@@ -83,7 +91,7 @@ public class PhotoDetails extends DialogFragment {
                 PhotoDetails fragment = (PhotoDetails) getActivity().getSupportFragmentManager().findFragmentByTag("photoDetails");
                 if (fragment != null) {
                     getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    GalleryFragment.photos.clear();
+                    GalleryFragment.photos = new ArrayList<>();
                 }
             }
         });

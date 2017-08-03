@@ -90,9 +90,7 @@ public class VoiceFragment extends Fragment {
                             for (String match : voiceResults) {
                                 Log.e(TAG, match);
                             }
-                            logs.add(voiceResults.get(0));
                             insertInDB(voiceResults.get(0),getActivity());
-                            vAdapter.notifyDataSetChanged();
                         }
                         pDialoge.hide();
                     }

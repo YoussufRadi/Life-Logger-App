@@ -3,10 +3,14 @@ package com.winterproject.youssufradi.life_logger.Photo;
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +26,11 @@ import com.winterproject.youssufradi.life_logger.data.LoggerDBHelper;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 public class PhotoFragment extends Fragment {
@@ -37,7 +44,8 @@ public class PhotoFragment extends Fragment {
     public static PhotoAdapter generatedAdaptor;
     public static PhotoEntryObject photoDisplay;
     private FloatingActionButton add;
-
+    private ArrayList<Float> lat = new ArrayList<>();
+    private ArrayList<Float> lon = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,11 +91,62 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-
+        getLocation();
 
         return rootView;
     }
 
+    public void getLocation(){
+        GalleryFragment.getAllShownImagesPath(getActivity());
+        for(int i = 0; i < GalleryFragment.photos.size(); i++){
+            String filePath = GalleryFragment.photos.get(i);
+            Log.e("Photo Path : ", filePath);
+            ExifInterface exif;
+            try {
+                exif = new ExifInterface(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(),"File Not found", Toast.LENGTH_SHORT);
+                return;
+            }
+
+            String lat_data;
+            String lon_data;
+
+            float[] LatLong = new float[2];
+            if(exif.getLatLong(LatLong)){
+                lat_data = Float.toString(LatLong[0]);
+                lon_data = Float.toString(LatLong[1]);
+            }else{
+                Log.e("Photo Error : ",  "No latitude and longitude");
+                continue;
+            }
+            Log.e("Lat and Log", lat_data + "   xxxxx  " + lon_data);
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            if(lat_data != null && lon_data != null)
+                try {
+                    addresses = geocoder.getFromLocation(Double.parseDouble(lat_data), Double.parseDouble(lon_data), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    String state = addresses.get(0).getAdminArea();
+                    String country = addresses.get(0).getCountryName();
+                    Log.e("Photo Location : ", state);
+                    Log.e("Photo Location : ", country);
+                    boolean flag = true;
+                    for(int j = 0; j < generatedEntries.size(); j++)
+                        if(generatedEntries.get(j).getName().equals(country)){
+                            generatedEntries.get(j).addNewPhoto(filePath);
+                            flag = false;
+                        }
+                    if(flag)
+                        generatedEntries.add(new PhotoEntryObject(0,country,"",1,filePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("Photo Error", "Cannot Get Location");
+                }
+        }
+        generatedAdaptor.notifyDataSetChanged();
+    }
 
     public static void getDataFromDB(Activity activity, boolean custom){
 

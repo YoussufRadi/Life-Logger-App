@@ -2,7 +2,6 @@ package com.winterproject.youssufradi.life_logger.gallery;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -166,7 +165,8 @@ public class GalleryFragment extends DialogFragment {
                 absolutePathOfImage = cursor.getString(column_index_data);
                 photos.add(absolutePathOfImage);
             }
-            mAdapter.notifyDataSetChanged();
+            if(mAdapter != null)
+              mAdapter.notifyDataSetChanged();
         }
     }
 

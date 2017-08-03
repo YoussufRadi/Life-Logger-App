@@ -78,7 +78,7 @@ public class NewLogFragment extends DialogFragment {
         month.setText(Integer.toString(c.get(Calendar.MONTH)+1));
         year.setText(Integer.toString(c.get(Calendar.YEAR)));
 
-        GalleryFragment.photos.clear();
+        GalleryFragment.photos = new ArrayList<>();
 
         NewLogFragment fragment = (NewLogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("editLog");
         if (fragment != null) {
@@ -115,7 +115,7 @@ public class NewLogFragment extends DialogFragment {
                 GalleryFragment.checkBox = true;
                 GalleryFragment.imagesPerRow = 2;
                 GalleryFragment.phArray = false;
-                GalleryFragment.photos.clear();
+                GalleryFragment.photos = new ArrayList<>();
                 newFragment.show(ft, "gallerySelector");
             }
         });
