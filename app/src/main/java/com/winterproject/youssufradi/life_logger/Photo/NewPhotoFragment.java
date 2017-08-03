@@ -193,8 +193,8 @@ public class NewPhotoFragment extends DialogFragment {
 
     public static long insertInDB(PhotoEntryObject newEntry, Activity activity){
         SQLiteDatabase db = new LoggerDBHelper(activity).getWritableDatabase();
-        ContentValues movie = createMovieValues(newEntry.getName(),newEntry.getDescription(), 0,
-                newEntry.getContacts(), newEntry.getPhotos());
+        ContentValues movie = createMovieValues(newEntry.getName(),newEntry.getDescription(),
+                newEntry.getType(), newEntry.getContacts(), newEntry.getPhotos());
 
         long photoID = db.insert(LoggerContract.PhotoEntry.TABLE_NAME, null, movie);
         if(photoID != -1)

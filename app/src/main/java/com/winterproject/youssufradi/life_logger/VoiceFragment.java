@@ -42,7 +42,7 @@ public class VoiceFragment extends Fragment {
     private SpeechRecognizer recognizer;
     private boolean mIsListening = false;
     private ProgressDialog pDialoge;
-    private Snackbar snakBar;
+    private Snackbar snackBar;
     private static ArrayList<String> logs = new ArrayList<>();
     private static ArrayList<Long> ids = new ArrayList<>();
     public static VoiceAdapter vAdapter;
@@ -154,13 +154,13 @@ public class VoiceFragment extends Fragment {
                 {
                     mIsListening = true;
                     recognizer.startListening(intent);
-                    snakBar = Snackbar.make(rootView,"Recording",Snackbar.LENGTH_INDEFINITE);
-                    snakBar.setAction("Action", null).show();
+                    snackBar = Snackbar.make(rootView,"Recording",Snackbar.LENGTH_INDEFINITE);
+                    snackBar.setAction("Action", null).show();
                 }
                 else {
                     pDialoge = new ProgressDialog(getActivity());
                     pDialoge.setMessage("Converting text");
-                    snakBar.dismiss();
+                    snackBar.dismiss();
                     pDialoge.show();
                     recognizer.stopListening();
                     Log.e("Tag", "Stop");

@@ -44,7 +44,7 @@ public class PhotoFragment extends Fragment {
     public static PhotoAdapter generatedAdaptor;
     public static PhotoEntryObject photoDisplay;
     private FloatingActionButton add;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,7 +90,14 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-        getLocation();
+
+        FloatingActionButton refresh  = (FloatingActionButton) rootView.findViewById(R.id.photo_refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocation();
+            }
+        });
 
         return rootView;
     }
@@ -135,8 +142,10 @@ public class PhotoFragment extends Fragment {
                     for(int j = 0; j < generatedEntries.size(); j++)
                         if(generatedEntries.get(j).getName().equals(country)){
                             PhotoEntryObject entry  = generatedEntries.get(j);
-                            if(entry.getPhotos().contains(filePath))
+                            if(entry.getPhotos().contains(filePath)){
+                                flag = false;
                                 break;
+                            }
                             entry.addNewPhoto(filePath);
                             deleteEntryFromDB(entry,getActivity(),false);
                             entry.setId(NewPhotoFragment.insertInDB(entry,getActivity()));
