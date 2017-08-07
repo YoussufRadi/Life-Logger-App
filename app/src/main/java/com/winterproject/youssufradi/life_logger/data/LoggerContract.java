@@ -15,7 +15,7 @@ public class LoggerContract {
         public static final String COLUMN_DAY = "day";
         public static final String COLUMN_MONTH = "month";
         public static final String COLUMN_YEAR = "year";
-        public static final String COLUMN_PHOTOS = "date";
+        public static final String COLUMN_PHOTOS = "photos";
     }
 
     public static final class EventEntry implements BaseColumns{

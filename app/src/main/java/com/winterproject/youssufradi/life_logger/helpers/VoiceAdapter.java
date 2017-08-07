@@ -79,7 +79,7 @@ public class VoiceAdapter extends BaseAdapter {
 //                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Title");
+                builder.setTitle("Enter new Text");
 
                 // Set up the input
                 final EditText input = new EditText(context);

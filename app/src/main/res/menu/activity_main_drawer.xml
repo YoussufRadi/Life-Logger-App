@@ -42,7 +42,7 @@
                 android:checkable="true"
                 android:id="@+id/nav_review"
                 android:icon="@android:drawable/ic_menu_slideshow"
-                android:title="Photos Review" />
+                android:title="Loci Method Review" />
         </menu>
     </item>
 

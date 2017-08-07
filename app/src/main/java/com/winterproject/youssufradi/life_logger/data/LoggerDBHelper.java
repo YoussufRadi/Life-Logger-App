@@ -16,7 +16,7 @@ import com.winterproject.youssufradi.life_logger.data.LoggerContract.EventEntry;
 
 public class LoggerDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     static final String DATABASE_NAME = "log.db";
 
