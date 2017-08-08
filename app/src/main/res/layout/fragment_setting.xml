@@ -12,7 +12,50 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.winterproject.youssufradi.life_logger.firebase.SettingFragment">
 
-<EditText
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+            android:text="Enter Your Name"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+        <EditText
+            android:id="@+id/event_name"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="User Name"
+            android:inputType="textMultiLine" />
+
+        <RelativeLayout
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <TextView
+                    android:paddingLeft="20dp"
+                    android:paddingTop="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.ThemeOverlay.AppCompat.Light"
+                    android:text="Choose Your Profile Photo"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+                <Button
+                    android:id="@+id/event_contact_select_fragment_opener"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/bg_main"
+                    android:background="@drawable/ic_collapse_00011" />
+
+        </RelativeLayout>
+
+        <EditText
             android:id="@+id/old_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

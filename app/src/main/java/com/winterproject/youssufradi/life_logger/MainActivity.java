@@ -3,6 +3,7 @@ package com.winterproject.youssufradi.life_logger;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,8 +14,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -30,6 +34,7 @@ import com.winterproject.youssufradi.life_logger.firebase.SettingFragment;
 import com.winterproject.youssufradi.life_logger.gallery.GalleryFragment;
 import com.winterproject.youssufradi.life_logger.helpers.Contact;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -44,6 +49,10 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.window_main, new CalenderFragment())
                     .commit();
         }
+
+//        View v = getLayoutInflater().inflate(R.layout.activity_main, null);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,6 +64,24 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        ImageView image = (ImageView) findViewById(R.id.imageView_user);
+
+//        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
+//        startActivityForResult( intent, 22 );
+
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
+        ImageView image = (ImageView) layout.findViewById(R.id.imageView_user);
+
+//        image.setImageResource(R.mipmap.user);
+//        Drawable d = Drawable.createFromPath("/storage/emulated/0/Download/IMG_3312.JPG");
+//        image.setImageDrawable(d);
+
+        File imageFile = new  File("/storage/emulated/0/Download/IMG_3312.JPG");
+        if(imageFile.exists()){
+            image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+        }
+
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

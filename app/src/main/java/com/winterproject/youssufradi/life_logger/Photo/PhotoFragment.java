@@ -162,8 +162,8 @@ public class PhotoFragment extends Fragment {
                     addresses = geocoder.getFromLocation(Double.parseDouble(lat_data), Double.parseDouble(lon_data), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                     String state = addresses.get(0).getAdminArea();
                     String country = addresses.get(0).getCountryName();
-                    Log.e("Photo Location : ", state);
-                    Log.e("Photo Location : ", country);
+//                    Log.e("Photo Location : ", state);
+//                    Log.e("Photo Location : ", country);
                     boolean flag = true;
                     for(int j = 0; j < generatedEntries.size(); j++)
                         if(generatedEntries.get(j).getName().equals(country)){

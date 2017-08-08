@@ -57,6 +57,8 @@ public class VoiceFragment extends Fragment {
         vAdapter = new VoiceAdapter(getActivity(), logs);
         inputList.setAdapter(vAdapter);
 
+        vAdapter.notifyDataSetChanged();
+
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.RECORD_AUDIO},2);
 
@@ -92,7 +94,7 @@ public class VoiceFragment extends Fragment {
                             }
                             insertInDB(voiceResults.get(0),getActivity());
                         }
-                        pDialoge.hide();
+                            pDialoge.hide();
                     }
 
                     @Override
